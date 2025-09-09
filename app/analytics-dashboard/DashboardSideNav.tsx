@@ -22,7 +22,7 @@ export default function DashboardSideNav() {
 
   return (
     <aside
-      className={`flex flex-col items-stretch bg-white shadow transition-all duration-200 ${
+      className={`flex flex-col items-stretch rounded-lg bg-white shadow transition-all duration-200 ${
         collapsed ? "w-12" : "w-32"
       }`}
     >

@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen flex bg-gray-50">
       <DashboardSideNav />
-      <main className="flex-1 p-6">
+      <main className="flex-1 px-6">
         {children}
         <Chat />
       </main>
