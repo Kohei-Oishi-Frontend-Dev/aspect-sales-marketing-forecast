@@ -109,7 +109,7 @@ export default function Chat() {
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && send()}
                 className="flex-1 bg-transparent outline-none text-sm min-w-0"
-                placeholder="Ask anything..."
+                placeholder="Hi stakeholders how can I help you today..."
               />
               <button
                 onClick={send}
