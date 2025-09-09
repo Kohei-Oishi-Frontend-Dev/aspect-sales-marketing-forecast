@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  MenuCollapseIcon,
+  SaleTag02Icon,
+  Target02Icon,
+  ArrowExpandIcon,
+} from "@hugeicons/core-free-icons";
 
 export default function DashboardSideNav() {
   const pathname = usePathname() || "/analytics-dashboard";
+  const [collapsed, setCollapsed] = useState(false);
 
   const linkClass = (path: string) =>
     pathname === path
@@ -12,25 +21,61 @@ export default function DashboardSideNav() {
       : "block text-gray-700";
 
   return (
-    <div className="w-64 p-4 bg-white border-r">
-      <ul className="space-y-2 text-sm">
-        <li>
-          <Link
-            href="/analytics-dashboard/sales"
-            className={linkClass("/analytics-dashboard/sales")}
-          >
-            Sales
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/analytics-dashboard/marketing"
-            className={linkClass("/analytics-dashboard/marketing")}
-          >
-            Marketing
-          </Link>
-        </li>
-      </ul>
-    </div>
+    <aside
+      className={`flex flex-col items-stretch bg-white shadow transition-all duration-200 ${
+        collapsed ? "w-12" : "w-32"
+      }`}
+    >
+      <div className="flex flex-row justify-end px-2 py-2">
+        <button
+          aria-label={collapsed ? "Expand side nav" : "Collapse side nav"}
+          onClick={() => setCollapsed((s) => !s)}
+          className="p-1 rounded hover:bg-gray-100"
+          title={collapsed ? "Expand" : "Collapse"}
+        >
+          {collapsed ? (
+            <HugeiconsIcon icon={ArrowExpandIcon} />
+          ) : (
+            <HugeiconsIcon icon={MenuCollapseIcon} />
+          )}
+        </button>
+      </div>
+
+      <nav className="px-1 py-2">
+        <ul className="space-y-2 text-sm">
+          <li>
+            <Link
+              href="/analytics-dashboard/sales"
+              className={`${linkClass(
+                "/analytics-dashboard/sales"
+              )} flex items-center gap-2 px-2 py-1 ${
+                collapsed ? "justify-center" : ""
+              }`}
+              title="Sales"
+            >
+              <HugeiconsIcon icon={SaleTag02Icon} />
+              <span className={`${collapsed ? "hidden" : "block"}`}>Sales</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              href="/analytics-dashboard/marketing"
+              className={`${linkClass(
+                "/analytics-dashboard/marketing"
+              )} flex items-center gap-2 px-2 py-1 ${
+                collapsed ? "justify-center" : ""
+              }`}
+              title="Marketing"
+            >
+              <HugeiconsIcon icon={Target02Icon} />
+              <span className={`${collapsed ? "hidden" : "block"}`}>
+                Marketing
+              </span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </aside>
   );
 }
