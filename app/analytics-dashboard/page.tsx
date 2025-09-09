@@ -1,4 +1,3 @@
-import DashboardPage from "./DashboardPage";
 import { redirect } from "next/navigation";
 
 export default function AnalyticsDashboardPage() {
