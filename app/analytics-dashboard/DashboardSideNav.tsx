@@ -1,10 +1,8 @@
-// ...existing code...
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// ...existing code...
 export default function DashboardSideNav() {
   const pathname = usePathname() || "/analytics-dashboard";
 
@@ -36,4 +34,3 @@ export default function DashboardSideNav() {
     </div>
   );
 }
-// ...existing code...
