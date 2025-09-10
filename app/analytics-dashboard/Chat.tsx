@@ -93,7 +93,7 @@ export default function Chat() {
         <button
           aria-label="Open chat"
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 bg-[var(--color-primary)]"
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 bg-aspect-blue"
         >
           <HugeiconsIcon icon={BubbleChatIcon} />
         </button>
@@ -112,7 +112,7 @@ export default function Chat() {
             <button
               aria-label="Close chat"
               onClick={() => setOpen(false)}
-              className="text-gray-600 hover:text-gray-900 p-2 rounded bg-white/80 backdrop-blur-sm"
+              className="text-gray-700 hover:text-gray-900 p-2 rounded hover:bg-white/70 backdrop-blur-sm"
             >
               <HugeiconsIcon icon={Cancel01Icon} />
             </button>
