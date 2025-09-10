@@ -20,6 +20,8 @@ body {
   --color-secondary: #7099DB;
   --color-accent: #F1FF24;
   --color-light-grey: #FFFFFF4D;
+  --color-aspect-blue: #27549D;
+  --color-aspect-yellow: #F1FF24;
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
