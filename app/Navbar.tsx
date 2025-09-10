@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
 
         {/* center: heading */}
         <h1 className="flex-1 text-center text-xl font-bold">
-          Aspect Business Management
+          aspect Business Management
         </h1>
 
         {/* right: spacer to balance logo width */}
