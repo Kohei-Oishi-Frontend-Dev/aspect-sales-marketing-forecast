@@ -1,7 +1,8 @@
 import { ChartAreaInteractive } from "@/components/ui/ChartAreaInteractive";
-// import { RadarCharts } form "@/components/ui/Radar"
 import SalesForecastNarrative from "./SalesForecastNarrative";
 import KpiList from "./KpiList";
+import { SalesPredictionAreaChart } from "@/components/ui/SalesPredictionAreaChart";
+
 
 export default function SalesForecast() {
   return (
@@ -9,9 +10,9 @@ export default function SalesForecast() {
       <KpiList />
       <SalesForecastNarrative />
       <div className="">
-        <ChartAreaInteractive />
-        {/* <RadarCharts /> */}
+        <SalesPredictionAreaChart />
       </div>
+      <ChartAreaInteractive />
     </div>
   );
 }
