@@ -9,7 +9,9 @@ import {
   SaleTag02Icon,
   Target02Icon,
   ArrowExpandIcon,
+  LogoutSquare01Icon,
 } from "@hugeicons/core-free-icons";
+import { logout } from "@/app/login/action";
 
 export default function DashboardSideNav() {
   const pathname = usePathname() || "/analytics-dashboard";
@@ -76,6 +78,22 @@ export default function DashboardSideNav() {
           </li>
         </ul>
       </nav>
+
+      {/* logout button pinned to bottom */}
+      <div className="mt-auto px-2 py-2">
+        <form action={logout}>
+          <button
+            type="submit"
+            aria-label="Logout"
+            className={`w-full rounded-md px-2 py-2 text-sm text-white bg-aspect-blue hover:opacity-90 transition flex flex-row items-center gap-2 ${
+              collapsed ? "px-0" : ""
+            }`}
+          >
+            <HugeiconsIcon icon={LogoutSquare01Icon} />
+            <span className={`${collapsed ? "hidden" : "inline"}`}>Logout</span>
+          </button>
+        </form>
+      </div>
     </aside>
   );
 }
