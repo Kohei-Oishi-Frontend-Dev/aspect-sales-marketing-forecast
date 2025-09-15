@@ -82,3 +82,9 @@ export async function createSession(
 export async function deleteSession(){
 cookies().delete("session");
 }
+
+export async function getCurrentSession(): Promise<SessionPayload | null> {
+  const token = cookies().get("session")?.value;
+  if (!token) return null;
+  return decrypt(token);
+}
