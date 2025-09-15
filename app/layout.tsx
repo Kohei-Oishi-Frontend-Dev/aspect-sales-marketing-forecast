@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        <SessionProvider>
+        <SessionProvider value={null}>
           <QueryProvider>{children}</QueryProvider>
         </SessionProvider>
       </body>
