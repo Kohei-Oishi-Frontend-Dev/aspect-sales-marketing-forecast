@@ -1,19 +1,19 @@
-import Link from "next/link";
 import MarketingForecast from "./MarketingForecast";
 
-async function makePostRequest(){
-  const res = await fetch(`${process.env.NEXT_URL}/api/todos`,{
-    method: "POST",
-    headers : {
-      "Content-Type" : "application/json",
-    },
-    body: JSON.stringify({name : "test"})
-  })
-  return res.json();
-}
+// async function makePostRequest(){
+//   const res = await fetch(`${process.env.NEXT_URL}/api/todos`,{
+//     method: "POST",
+//     headers : {
+//       "Content-Type" : "application/json",
+//     },
+//     body: JSON.stringify({name : "test"})
+//   })
+//   return res.json();
+// }
+
 export default async function MarketingPage() {
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos");
-    const todos = await response.json();
+    // const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+    // const todos = await response.json();
   return (
     <>
       <MarketingForecast />

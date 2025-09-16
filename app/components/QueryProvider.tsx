@@ -7,6 +7,6 @@ interface Props{
 }
 
 export default function QueryProvider({children} : Props){
-const [queryClient, SetQueryClient] = useState(()=> new QueryClient());
+const [queryClient] = useState(()=> new QueryClient());
 return <QueryClientProvider client= {queryClient}> {children} </QueryClientProvider>
 }

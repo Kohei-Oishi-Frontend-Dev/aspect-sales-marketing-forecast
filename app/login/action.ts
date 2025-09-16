@@ -1,5 +1,7 @@
 "use server";
-import { createSession }from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
+import { redirect } from "next/navigation";
+
 
 export async function login(formData: FormData) {
   const email = String(formData.get("email") ?? "");
