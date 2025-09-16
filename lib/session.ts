@@ -14,6 +14,7 @@ const EXPIRY_DATE = 60 * 60 * 24 * 7;
 function getSecret(): Uint8Array {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
+    console.error("JWT secret not found in process.env (JWT_SECRET | NEXTAUTH_SECRET | SECRET)");
     throw new Error("Missing JWT secret. Set JWT_SECRET in your .env");
   }
   return new TextEncoder().encode(secret);
