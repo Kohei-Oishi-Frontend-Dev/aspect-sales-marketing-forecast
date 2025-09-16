@@ -67,7 +67,7 @@ export async function createSession(
 
   const token = await encrypt({ user_id, account_id }, maxAge);
 
-  cookies().set(name, token, {
+  (await cookies()).set(name, token, {
     httpOnly: true,
         secure: true,
     sameSite: opts?.sameSite ?? "lax",
@@ -80,11 +80,11 @@ export async function createSession(
 }
 
 export async function deleteSession(){
-cookies().delete("session");
+  (await cookies()).delete("session");
 }
 
 export async function getCurrentSession(): Promise<SessionPayload | null> {
-  const token = cookies().get("session")?.value;
+  const token = (await cookies()).get("session")?.value;
   if (!token) return null;
   return decrypt(token);
 }
