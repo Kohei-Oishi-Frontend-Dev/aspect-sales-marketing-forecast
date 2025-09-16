@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
     <nav className="w-full h-18 bg-white shadow-sm mb-4 rounded-b-lg">
       <div className="flex flex-row justify-center items-center h-full px-4">
         {/* left: logo */}
-        <div className="hidden md:block md:absolute left-4 top-8">
+        <div className="hidden md:block md:absolute left-4 top-6">
           <Image
             src="/aspect-logo-primary.svg"
             alt="Aspect"
