@@ -35,18 +35,23 @@ const chartConfig = {
 export function SalesPredictionAreaChart() {
   const { data = [], isLoading, error } = useQuery<PredPoint[]>({
     queryKey: ["predicted-sales"],
-    queryFn: async () => {
+    // explicitly type the queryFn and map values to PredPoint to satisfy TS
+    queryFn: async (): Promise<PredPoint[]> => {
       const res = await fetch("/predicted_sales_data.json", { cache: "no-store" });
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+
       const json = (await res.json()) as Array<Record<string, unknown>>;
-      return json
+
+      const parsed: PredPoint[] = json
         .map((d) => ({
-          date: d.date,
-          pred_sale: d.pred_sale,
-          upper_bound: d.upper_bound,
-          lower_bound: d.lower_bound,
+          date: String(d["date"] ?? ""),
+          pred_sale: Number(d["pred_sale"] ?? 0),
+          upper_bound: Number(d["upper_bound"] ?? 0),
+          lower_bound: Number(d["lower_bound"] ?? 0),
         }))
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+      return parsed;
     },
     // staleTime: 5 * 60 * 1000,
   });
