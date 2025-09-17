@@ -1,0 +1,2360 @@
+{
+  "success": true,
+  "data": [
+    {
+      "date": "2025-01-17",
+      "actual_sales": 106590.96999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-18",
+      "actual_sales": 24708.109999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-19",
+      "actual_sales": 17526.760000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-20",
+      "actual_sales": 79677.87999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-21",
+      "actual_sales": 70973.19999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-22",
+      "actual_sales": 83015.4,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-23",
+      "actual_sales": 94220.94,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-24",
+      "actual_sales": 89038.06999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-25",
+      "actual_sales": 32853.55999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-26",
+      "actual_sales": 13512.22,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-27",
+      "actual_sales": 105219.79999999992,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-28",
+      "actual_sales": 85017.66999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-29",
+      "actual_sales": 86113.15999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-30",
+      "actual_sales": 99755.60999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-01-31",
+      "actual_sales": 103470.31999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-01",
+      "actual_sales": 28972.979999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-02",
+      "actual_sales": 19096.62,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-03",
+      "actual_sales": 64696.48999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-04",
+      "actual_sales": 81262.51,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-05",
+      "actual_sales": 81343.82999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-06",
+      "actual_sales": 85478.76999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-07",
+      "actual_sales": 84706.4,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-08",
+      "actual_sales": 34832.219999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-09",
+      "actual_sales": 28446.299999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-10",
+      "actual_sales": 98604.80999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-11",
+      "actual_sales": 82775.73999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-12",
+      "actual_sales": 110348.66999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-13",
+      "actual_sales": 144472.20000000004,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-14",
+      "actual_sales": 89480.27999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-15",
+      "actual_sales": 44551.43999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-16",
+      "actual_sales": 19780.729999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-17",
+      "actual_sales": 90592.72999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-18",
+      "actual_sales": 101595.09,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-19",
+      "actual_sales": 86789.15999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-20",
+      "actual_sales": 97033.23999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-21",
+      "actual_sales": 79503.09999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-22",
+      "actual_sales": 33201.899999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-23",
+      "actual_sales": 12998.23,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-24",
+      "actual_sales": 92725.48999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-25",
+      "actual_sales": 117753.81999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-26",
+      "actual_sales": 75642.51,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-27",
+      "actual_sales": 86154.25999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02-28",
+      "actual_sales": 123645.40999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-01",
+      "actual_sales": 25356.72999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-02",
+      "actual_sales": 11778.199999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-03",
+      "actual_sales": 59116.62999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-04",
+      "actual_sales": 79021.97999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-05",
+      "actual_sales": 80155.26999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-06",
+      "actual_sales": 80822.05,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-07",
+      "actual_sales": 82020.01999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-08",
+      "actual_sales": 15701.08,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-09",
+      "actual_sales": 9146.92,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-10",
+      "actual_sales": 76133.29999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-11",
+      "actual_sales": 118242.36999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-12",
+      "actual_sales": 86540.03999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-13",
+      "actual_sales": 95957.26999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-14",
+      "actual_sales": 108448.55999999992,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-15",
+      "actual_sales": 31293.429999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-16",
+      "actual_sales": 13057.880000000003,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-17",
+      "actual_sales": 68380.49999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-18",
+      "actual_sales": 80626.47,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-19",
+      "actual_sales": 75458.44,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-20",
+      "actual_sales": 84169.35999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-21",
+      "actual_sales": 110038.85999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-22",
+      "actual_sales": 26242.729999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-23",
+      "actual_sales": 7814.810000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-24",
+      "actual_sales": 87560.04999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-25",
+      "actual_sales": 70090.13999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-26",
+      "actual_sales": 80389.56,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-27",
+      "actual_sales": 84479.59,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-28",
+      "actual_sales": 112119.07999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-29",
+      "actual_sales": 37943.67,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-30",
+      "actual_sales": 9478.460000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03-31",
+      "actual_sales": 64241.93999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-01",
+      "actual_sales": 100420.76000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-02",
+      "actual_sales": 79343.72000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-03",
+      "actual_sales": 86961.84999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-04",
+      "actual_sales": 84398.51000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-05",
+      "actual_sales": 26590.93,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-06",
+      "actual_sales": 15129.739999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-07",
+      "actual_sales": 73473.77999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-08",
+      "actual_sales": 89981.89,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-09",
+      "actual_sales": 70922.28999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-10",
+      "actual_sales": 114628.97999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-11",
+      "actual_sales": 82776.27999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-12",
+      "actual_sales": 41168.529999999984,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-13",
+      "actual_sales": 12870.599999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-14",
+      "actual_sales": 88678.10999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-15",
+      "actual_sales": 103060.23000000003,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-16",
+      "actual_sales": 88729.01999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-17",
+      "actual_sales": 119881.64999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-18",
+      "actual_sales": 31444.789999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-19",
+      "actual_sales": 22398.859999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-20",
+      "actual_sales": 16617.97,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-21",
+      "actual_sales": 15588.93,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-22",
+      "actual_sales": 83633.34000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-23",
+      "actual_sales": 86126.54999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-24",
+      "actual_sales": 80214.78999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-25",
+      "actual_sales": 96672.51999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-26",
+      "actual_sales": 22903.41999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-27",
+      "actual_sales": 17295.46,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-28",
+      "actual_sales": 92372.08999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-29",
+      "actual_sales": 83741.68000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04-30",
+      "actual_sales": 127824.86999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-01",
+      "actual_sales": 87767.34999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-02",
+      "actual_sales": 86468.70999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-03",
+      "actual_sales": 23746.39,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-04",
+      "actual_sales": 24224.09,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-05",
+      "actual_sales": 11816.460000000003,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-06",
+      "actual_sales": 85935.34000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-07",
+      "actual_sales": 79024.43999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-08",
+      "actual_sales": 90268.44,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-09",
+      "actual_sales": 79144.80999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-10",
+      "actual_sales": 21377.879999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-11",
+      "actual_sales": 25369.119999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-12",
+      "actual_sales": 79826.89999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-13",
+      "actual_sales": 99119.82999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-14",
+      "actual_sales": 102462.88000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-15",
+      "actual_sales": 78680.36999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-16",
+      "actual_sales": 98946.48999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-17",
+      "actual_sales": 36585.42,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-18",
+      "actual_sales": 24585.609999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-19",
+      "actual_sales": 109285.18000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-20",
+      "actual_sales": 116925.04999999989,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-21",
+      "actual_sales": 91650.77999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-22",
+      "actual_sales": 88101.15999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-23",
+      "actual_sales": 196763.4100000003,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-24",
+      "actual_sales": 30174.559999999983,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-25",
+      "actual_sales": 13416.19,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-26",
+      "actual_sales": 25384.070000000003,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-27",
+      "actual_sales": 79081.86999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-28",
+      "actual_sales": 94075.34999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-29",
+      "actual_sales": 121023.45,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-30",
+      "actual_sales": 108212.72000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05-31",
+      "actual_sales": 50332.37999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-01",
+      "actual_sales": 12167.629999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-02",
+      "actual_sales": 72063.14999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-03",
+      "actual_sales": 74657.68999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-04",
+      "actual_sales": 78075.09,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-05",
+      "actual_sales": 87965.22,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-06",
+      "actual_sales": 102618.82999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-07",
+      "actual_sales": 23966.07,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-08",
+      "actual_sales": 27274.61,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-09",
+      "actual_sales": 91218.23999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-10",
+      "actual_sales": 90314.62999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-11",
+      "actual_sales": 125642.4,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-12",
+      "actual_sales": 80550.30999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-13",
+      "actual_sales": 84650.99,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-14",
+      "actual_sales": 44286.109999999986,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-15",
+      "actual_sales": 16411.1,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-16",
+      "actual_sales": 96544.58999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-17",
+      "actual_sales": 63748.19999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-18",
+      "actual_sales": 146614.96000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-19",
+      "actual_sales": 112092.76000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-20",
+      "actual_sales": 106298.59999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-21",
+      "actual_sales": 12256.150000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-22",
+      "actual_sales": 13087.650000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-23",
+      "actual_sales": 80850.08999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-24",
+      "actual_sales": 74214.60999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-25",
+      "actual_sales": 99142.39999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-26",
+      "actual_sales": 96303.04000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-27",
+      "actual_sales": 99820.35999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-28",
+      "actual_sales": 17216.489999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-29",
+      "actual_sales": 18604.129999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06-30",
+      "actual_sales": 96769.11999999992,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-01",
+      "actual_sales": 90009.30999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-02",
+      "actual_sales": 85936.76,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-03",
+      "actual_sales": 94967.67000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-04",
+      "actual_sales": 76511.04999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-05",
+      "actual_sales": 23203.870000000003,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-06",
+      "actual_sales": 13118.070000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-07",
+      "actual_sales": 115867.28000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-08",
+      "actual_sales": 91678.10000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-09",
+      "actual_sales": 86956.04999999993,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-10",
+      "actual_sales": 84461.20000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-11",
+      "actual_sales": 80732.47999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-12",
+      "actual_sales": 24334.399999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-13",
+      "actual_sales": 10560.210000000001,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-14",
+      "actual_sales": 78398.21999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-15",
+      "actual_sales": 108452.35999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-16",
+      "actual_sales": 86198.94999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-17",
+      "actual_sales": 62827.53999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-18",
+      "actual_sales": 112075.20000000007,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-19",
+      "actual_sales": 26013.939999999988,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-20",
+      "actual_sales": 18295.52,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-21",
+      "actual_sales": 109376.93999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-22",
+      "actual_sales": 84262.45999999993,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-23",
+      "actual_sales": 82586.70999999992,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-24",
+      "actual_sales": 75519.85999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-25",
+      "actual_sales": 90313.69999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-26",
+      "actual_sales": 20919.189999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-27",
+      "actual_sales": 10727.099999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-28",
+      "actual_sales": 124838.05999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-29",
+      "actual_sales": 112650.28999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-30",
+      "actual_sales": 94206.68,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07-31",
+      "actual_sales": 79478.78999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-01",
+      "actual_sales": 65946.29999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-02",
+      "actual_sales": 21120.289999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-03",
+      "actual_sales": 19227.23,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-04",
+      "actual_sales": 90077.03999999992,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-05",
+      "actual_sales": 104473.19,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-06",
+      "actual_sales": 104148.47,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-07",
+      "actual_sales": 81099.46000000004,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-08",
+      "actual_sales": 71305.25999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-09",
+      "actual_sales": 23915.179999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-10",
+      "actual_sales": 14343.42,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-11",
+      "actual_sales": 85510.35999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-12",
+      "actual_sales": 74417.54999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-13",
+      "actual_sales": 84401.13000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-14",
+      "actual_sales": 89042.82,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-15",
+      "actual_sales": 70939.15999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-16",
+      "actual_sales": 23785.01,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-17",
+      "actual_sales": 5919.370000000002,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-18",
+      "actual_sales": 99407.54999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-19",
+      "actual_sales": 76228.77999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-20",
+      "actual_sales": 97371.57999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-21",
+      "actual_sales": 96726.55999999995,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-22",
+      "actual_sales": 82004.78999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-23",
+      "actual_sales": 35118.719999999994,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-24",
+      "actual_sales": 11612.43,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-25",
+      "actual_sales": 16430.5,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-26",
+      "actual_sales": 93276.15999999996,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-27",
+      "actual_sales": 87765.60999999999,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-28",
+      "actual_sales": 85512.94999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-29",
+      "actual_sales": 143246.15,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-30",
+      "actual_sales": 20566.899999999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08-31",
+      "actual_sales": 14613.949999999997,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-09-01",
+      "actual_sales": null,
+      "predicted_sales": 57649.26489818682,
+      "upper_bound": 67128.30156518142,
+      "lower_bound": 48170.22823119222
+    },
+    {
+      "date": "2025-09-02",
+      "actual_sales": null,
+      "predicted_sales": 67207.07882477509,
+      "upper_bound": 76686.1154917697,
+      "lower_bound": 57728.04215778048
+    },
+    {
+      "date": "2025-09-03",
+      "actual_sales": null,
+      "predicted_sales": 70095.84819060838,
+      "upper_bound": 79574.88485760298,
+      "lower_bound": 60616.81152361377
+    },
+    {
+      "date": "2025-09-04",
+      "actual_sales": null,
+      "predicted_sales": 74106.34209422096,
+      "upper_bound": 83585.37876121557,
+      "lower_bound": 64627.305427226354
+    },
+    {
+      "date": "2025-09-05",
+      "actual_sales": null,
+      "predicted_sales": 77044.63443422761,
+      "upper_bound": 86523.67110122222,
+      "lower_bound": 67565.597767233
+    },
+    {
+      "date": "2025-09-06",
+      "actual_sales": null,
+      "predicted_sales": 27586.01109385599,
+      "upper_bound": 37065.04776085059,
+      "lower_bound": 18106.974426861383
+    },
+    {
+      "date": "2025-09-07",
+      "actual_sales": null,
+      "predicted_sales": 16391.33981374765,
+      "upper_bound": 25870.376480742256,
+      "lower_bound": 6912.303146753045
+    },
+    {
+      "date": "2025-09-08",
+      "actual_sales": null,
+      "predicted_sales": 67521.35274933351,
+      "upper_bound": 77000.38941632812,
+      "lower_bound": 58042.316082338904
+    },
+    {
+      "date": "2025-09-09",
+      "actual_sales": null,
+      "predicted_sales": 82417.31497157644,
+      "upper_bound": 91896.35163857105,
+      "lower_bound": 72938.27830458184
+    },
+    {
+      "date": "2025-09-10",
+      "actual_sales": null,
+      "predicted_sales": 86714.91699545625,
+      "upper_bound": 96193.95366245086,
+      "lower_bound": 77235.88032846164
+    },
+    {
+      "date": "2025-09-11",
+      "actual_sales": null,
+      "predicted_sales": 92532.93011744347,
+      "upper_bound": 102011.96678443807,
+      "lower_bound": 83053.89345044886
+    },
+    {
+      "date": "2025-09-12",
+      "actual_sales": null,
+      "predicted_sales": 95272.33773992113,
+      "upper_bound": 104751.37440691574,
+      "lower_bound": 85793.30107292652
+    },
+    {
+      "date": "2025-09-13",
+      "actual_sales": null,
+      "predicted_sales": 41335.38577281709,
+      "upper_bound": 50814.42243981169,
+      "lower_bound": 31856.349105822486
+    },
+    {
+      "date": "2025-09-14",
+      "actual_sales": null,
+      "predicted_sales": 26331.80367135221,
+      "upper_bound": 35810.84033834681,
+      "lower_bound": 16852.767004357604
+    },
+    {
+      "date": "2025-09-15",
+      "actual_sales": null,
+      "predicted_sales": 78454.9359485334,
+      "upper_bound": 87933.97261552801,
+      "lower_bound": 68975.89928153879
+    },
+    {
+      "date": "2025-09-16",
+      "actual_sales": null,
+      "predicted_sales": 95158.00625970517,
+      "upper_bound": 104637.04292669978,
+      "lower_bound": 85678.96959271056
+    },
+    {
+      "date": "2025-09-17",
+      "actual_sales": null,
+      "predicted_sales": 98294.92838668503,
+      "upper_bound": 107773.96505367964,
+      "lower_bound": 88815.89171969042
+    },
+    {
+      "date": "2025-09-18",
+      "actual_sales": null,
+      "predicted_sales": 104821.87681299906,
+      "upper_bound": 114300.91347999367,
+      "lower_bound": 95342.84014600446
+    },
+    {
+      "date": "2025-09-19",
+      "actual_sales": null,
+      "predicted_sales": 114304.74633081479,
+      "upper_bound": 123783.7829978094,
+      "lower_bound": 104825.70966382018
+    },
+    {
+      "date": "2025-09-20",
+      "actual_sales": null,
+      "predicted_sales": 53949.28237069676,
+      "upper_bound": 63428.31903769137,
+      "lower_bound": 44470.24570370215
+    },
+    {
+      "date": "2025-09-21",
+      "actual_sales": null,
+      "predicted_sales": 34886.65901621321,
+      "upper_bound": 44365.695683207814,
+      "lower_bound": 25407.622349218607
+    },
+    {
+      "date": "2025-09-22",
+      "actual_sales": null,
+      "predicted_sales": 91211.35834471135,
+      "upper_bound": 100690.39501170596,
+      "lower_bound": 81732.32167771674
+    },
+    {
+      "date": "2025-09-23",
+      "actual_sales": null,
+      "predicted_sales": 107973.33819632826,
+      "upper_bound": 117452.37486332287,
+      "lower_bound": 98494.30152933365
+    },
+    {
+      "date": "2025-09-24",
+      "actual_sales": null,
+      "predicted_sales": 112312.21758636038,
+      "upper_bound": 121791.25425335499,
+      "lower_bound": 102833.18091936577
+    },
+    {
+      "date": "2025-09-25",
+      "actual_sales": null,
+      "predicted_sales": 124078.15624841614,
+      "upper_bound": 133557.19291541073,
+      "lower_bound": 114599.11958142153
+    },
+    {
+      "date": "2025-09-26",
+      "actual_sales": null,
+      "predicted_sales": 128388.59221034813,
+      "upper_bound": 137867.62887734274,
+      "lower_bound": 118909.55554335352
+    },
+    {
+      "date": "2025-09-27",
+      "actual_sales": null,
+      "predicted_sales": 52999.52053568876,
+      "upper_bound": 62478.55720268337,
+      "lower_bound": 43520.48386869415
+    },
+    {
+      "date": "2025-09-28",
+      "actual_sales": null,
+      "predicted_sales": 33643.213509419504,
+      "upper_bound": 43122.250176414105,
+      "lower_bound": 24164.1768424249
+    },
+    {
+      "date": "2025-09-29",
+      "actual_sales": null,
+      "predicted_sales": 94870.33972913415,
+      "upper_bound": 104349.37639612876,
+      "lower_bound": 85391.30306213954
+    },
+    {
+      "date": "2025-09-30",
+      "actual_sales": null,
+      "predicted_sales": 113262.0217505855,
+      "upper_bound": 122741.0584175801,
+      "lower_bound": 103782.98508359089
+    },
+    {
+      "date": "2025-10-01",
+      "actual_sales": null,
+      "predicted_sales": 125456.8822745204,
+      "upper_bound": 134935.918941515,
+      "lower_bound": 115977.84560752579
+    },
+    {
+      "date": "2025-10-02",
+      "actual_sales": null,
+      "predicted_sales": 127254.90202621419,
+      "upper_bound": 136733.9386932088,
+      "lower_bound": 117775.86535921958
+    },
+    {
+      "date": "2025-10-03",
+      "actual_sales": null,
+      "predicted_sales": 128010.59722909986,
+      "upper_bound": 137489.63389609446,
+      "lower_bound": 118531.56056210525
+    },
+    {
+      "date": "2025-10-04",
+      "actual_sales": null,
+      "predicted_sales": 51129.538249009915,
+      "upper_bound": 60608.57491600452,
+      "lower_bound": 41650.501582015306
+    },
+    {
+      "date": "2025-10-05",
+      "actual_sales": null,
+      "predicted_sales": 30431.453211859367,
+      "upper_bound": 39910.48987885397,
+      "lower_bound": 20952.41654486476
+    },
+    {
+      "date": "2025-10-06",
+      "actual_sales": null,
+      "predicted_sales": 90579.69898763661,
+      "upper_bound": 100058.73565463122,
+      "lower_bound": 81100.662320642
+    },
+    {
+      "date": "2025-10-07",
+      "actual_sales": null,
+      "predicted_sales": 112240.49502269935,
+      "upper_bound": 121719.53168969396,
+      "lower_bound": 102761.45835570474
+    },
+    {
+      "date": "2025-10-08",
+      "actual_sales": null,
+      "predicted_sales": 124459.2658379928,
+      "upper_bound": 133938.3025049874,
+      "lower_bound": 114980.2291709982
+    },
+    {
+      "date": "2025-10-09",
+      "actual_sales": null,
+      "predicted_sales": 127870.81743404208,
+      "upper_bound": 137349.85410103668,
+      "lower_bound": 118391.78076704747
+    },
+    {
+      "date": "2025-10-10",
+      "actual_sales": null,
+      "predicted_sales": 130169.40854618442,
+      "upper_bound": 139648.44521317902,
+      "lower_bound": 120690.37187918981
+    },
+    {
+      "date": "2025-10-11",
+      "actual_sales": null,
+      "predicted_sales": 55877.75648636049,
+      "upper_bound": 65356.7931533551,
+      "lower_bound": 46398.719819365884
+    },
+    {
+      "date": "2025-10-12",
+      "actual_sales": null,
+      "predicted_sales": 30869.78263272823,
+      "upper_bound": 40348.81929972283,
+      "lower_bound": 21390.745965733626
+    },
+    {
+      "date": "2025-10-13",
+      "actual_sales": null,
+      "predicted_sales": 90892.42790590537,
+      "upper_bound": 100371.46457289997,
+      "lower_bound": 81413.39123891076
+    },
+    {
+      "date": "2025-10-14",
+      "actual_sales": null,
+      "predicted_sales": 112343.04542159442,
+      "upper_bound": 121822.08208858903,
+      "lower_bound": 102864.00875459981
+    },
+    {
+      "date": "2025-10-15",
+      "actual_sales": null,
+      "predicted_sales": 124589.73627001245,
+      "upper_bound": 134068.77293700704,
+      "lower_bound": 115110.69960301784
+    },
+    {
+      "date": "2025-10-16",
+      "actual_sales": null,
+      "predicted_sales": 127318.42281797981,
+      "upper_bound": 136797.45948497442,
+      "lower_bound": 117839.3861509852
+    },
+    {
+      "date": "2025-10-17",
+      "actual_sales": null,
+      "predicted_sales": 128330.64822024661,
+      "upper_bound": 137809.68488724122,
+      "lower_bound": 118851.611553252
+    },
+    {
+      "date": "2025-10-18",
+      "actual_sales": null,
+      "predicted_sales": 50504.92524144223,
+      "upper_bound": 59983.96190843683,
+      "lower_bound": 41025.88857444763
+    },
+    {
+      "date": "2025-10-19",
+      "actual_sales": null,
+      "predicted_sales": 28585.475512786747,
+      "upper_bound": 38064.51217978135,
+      "lower_bound": 19106.43884579214
+    },
+    {
+      "date": "2025-10-20",
+      "actual_sales": null,
+      "predicted_sales": 90146.9397669898,
+      "upper_bound": 99625.97643398441,
+      "lower_bound": 80667.9030999952
+    },
+    {
+      "date": "2025-10-21",
+      "actual_sales": null,
+      "predicted_sales": 113798.92414845744,
+      "upper_bound": 123277.96081545205,
+      "lower_bound": 104319.88748146284
+    },
+    {
+      "date": "2025-10-22",
+      "actual_sales": null,
+      "predicted_sales": 127020.00150030265,
+      "upper_bound": 136499.03816729726,
+      "lower_bound": 117540.96483330804
+    },
+    {
+      "date": "2025-10-23",
+      "actual_sales": null,
+      "predicted_sales": 129958.64239530597,
+      "upper_bound": 139437.67906230057,
+      "lower_bound": 120479.60572831136
+    },
+    {
+      "date": "2025-10-24",
+      "actual_sales": null,
+      "predicted_sales": 129844.66326498277,
+      "upper_bound": 139323.69993197737,
+      "lower_bound": 120365.62659798816
+    },
+    {
+      "date": "2025-10-25",
+      "actual_sales": null,
+      "predicted_sales": 49660.18570035773,
+      "upper_bound": 59139.22236735234,
+      "lower_bound": 40181.14903336312
+    },
+    {
+      "date": "2025-10-26",
+      "actual_sales": null,
+      "predicted_sales": 25053.369405795846,
+      "upper_bound": 34532.40607279045,
+      "lower_bound": 15574.33273880124
+    },
+    {
+      "date": "2025-10-27",
+      "actual_sales": null,
+      "predicted_sales": 85016.93469966808,
+      "upper_bound": 94495.97136666269,
+      "lower_bound": 75537.89803267347
+    },
+    {
+      "date": "2025-10-28",
+      "actual_sales": null,
+      "predicted_sales": 108620.33252077566,
+      "upper_bound": 118099.36918777027,
+      "lower_bound": 99141.29585378105
+    },
+    {
+      "date": "2025-10-29",
+      "actual_sales": null,
+      "predicted_sales": 118390.05198710493,
+      "upper_bound": 127869.08865409954,
+      "lower_bound": 108911.01532011032
+    },
+    {
+      "date": "2025-10-30",
+      "actual_sales": null,
+      "predicted_sales": 128871.16384645803,
+      "upper_bound": 138350.20051345264,
+      "lower_bound": 119392.12717946342
+    },
+    {
+      "date": "2025-10-31",
+      "actual_sales": null,
+      "predicted_sales": 129636.50324978978,
+      "upper_bound": 139115.5399167844,
+      "lower_bound": 120157.46658279517
+    },
+    {
+      "date": "2025-11-01",
+      "actual_sales": null,
+      "predicted_sales": 53603.386013571544,
+      "upper_bound": 63082.422680566146,
+      "lower_bound": 44124.34934657694
+    },
+    {
+      "date": "2025-11-02",
+      "actual_sales": null,
+      "predicted_sales": 28030.28539569333,
+      "upper_bound": 37509.322062687934,
+      "lower_bound": 18551.248728698723
+    },
+    {
+      "date": "2025-11-03",
+      "actual_sales": null,
+      "predicted_sales": 86643.52695164309,
+      "upper_bound": 96122.5636186377,
+      "lower_bound": 77164.49028464848
+    },
+    {
+      "date": "2025-11-04",
+      "actual_sales": null,
+      "predicted_sales": 107344.26178519306,
+      "upper_bound": 116823.29845218766,
+      "lower_bound": 97865.22511819845
+    },
+    {
+      "date": "2025-11-05",
+      "actual_sales": null,
+      "predicted_sales": 116923.8321311011,
+      "upper_bound": 126402.8687980957,
+      "lower_bound": 107444.79546410649
+    },
+    {
+      "date": "2025-11-06",
+      "actual_sales": null,
+      "predicted_sales": 127598.04559546598,
+      "upper_bound": 137077.08226246058,
+      "lower_bound": 118119.00892847138
+    },
+    {
+      "date": "2025-11-07",
+      "actual_sales": null,
+      "predicted_sales": 129725.07602160165,
+      "upper_bound": 139204.11268859624,
+      "lower_bound": 120246.03935460704
+    },
+    {
+      "date": "2025-11-08",
+      "actual_sales": null,
+      "predicted_sales": 57070.299223480804,
+      "upper_bound": 66549.33589047541,
+      "lower_bound": 47591.262556486196
+    },
+    {
+      "date": "2025-11-09",
+      "actual_sales": null,
+      "predicted_sales": 32629.92545766024,
+      "upper_bound": 42108.96212465485,
+      "lower_bound": 23150.888790665635
+    },
+    {
+      "date": "2025-11-10",
+      "actual_sales": null,
+      "predicted_sales": 92672.20066397982,
+      "upper_bound": 102151.23733097443,
+      "lower_bound": 83193.16399698521
+    },
+    {
+      "date": "2025-11-11",
+      "actual_sales": null,
+      "predicted_sales": 112288.04008625902,
+      "upper_bound": 121767.07675325363,
+      "lower_bound": 102809.00341926441
+    },
+    {
+      "date": "2025-11-12",
+      "actual_sales": null,
+      "predicted_sales": 127904.72208298376,
+      "upper_bound": 137383.75874997835,
+      "lower_bound": 118425.68541598915
+    },
+    {
+      "date": "2025-11-13",
+      "actual_sales": null,
+      "predicted_sales": 131660.7539783608,
+      "upper_bound": 141139.7906453554,
+      "lower_bound": 122181.71731136618
+    },
+    {
+      "date": "2025-11-14",
+      "actual_sales": null,
+      "predicted_sales": 136057.07249339542,
+      "upper_bound": 145536.10916039,
+      "lower_bound": 126578.03582640081
+    },
+    {
+      "date": "2025-11-15",
+      "actual_sales": null,
+      "predicted_sales": 59817.779301249844,
+      "upper_bound": 69296.81596824445,
+      "lower_bound": 50338.742634255235
+    },
+    {
+      "date": "2025-11-16",
+      "actual_sales": null,
+      "predicted_sales": 35102.19721051358,
+      "upper_bound": 44581.23387750819,
+      "lower_bound": 25623.160543518974
+    },
+    {
+      "date": "2025-11-17",
+      "actual_sales": null,
+      "predicted_sales": 94525.10329083007,
+      "upper_bound": 104004.13995782468,
+      "lower_bound": 85046.06662383546
+    },
+    {
+      "date": "2025-11-18",
+      "actual_sales": null,
+      "predicted_sales": 115343.88761559312,
+      "upper_bound": 124822.92428258773,
+      "lower_bound": 105864.85094859851
+    },
+    {
+      "date": "2025-11-19",
+      "actual_sales": null,
+      "predicted_sales": 128281.49158458435,
+      "upper_bound": 137760.52825157894,
+      "lower_bound": 118802.45491758974
+    },
+    {
+      "date": "2025-11-20",
+      "actual_sales": null,
+      "predicted_sales": 134148.63851427703,
+      "upper_bound": 143627.67518127162,
+      "lower_bound": 124669.60184728242
+    },
+    {
+      "date": "2025-11-21",
+      "actual_sales": null,
+      "predicted_sales": 138468.54547467182,
+      "upper_bound": 147947.5821416664,
+      "lower_bound": 128989.50880767721
+    },
+    {
+      "date": "2025-11-22",
+      "actual_sales": null,
+      "predicted_sales": 61637.66310200485,
+      "upper_bound": 71116.69976899946,
+      "lower_bound": 52158.62643501024
+    },
+    {
+      "date": "2025-11-23",
+      "actual_sales": null,
+      "predicted_sales": 37261.113688216516,
+      "upper_bound": 46740.150355211124,
+      "lower_bound": 27782.07702122191
+    },
+    {
+      "date": "2025-11-24",
+      "actual_sales": null,
+      "predicted_sales": 94329.55211682769,
+      "upper_bound": 103808.5887838223,
+      "lower_bound": 84850.51544983308
+    },
+    {
+      "date": "2025-11-25",
+      "actual_sales": null,
+      "predicted_sales": 112990.80773333593,
+      "upper_bound": 122469.84440033053,
+      "lower_bound": 103511.77106634132
+    },
+    {
+      "date": "2025-11-26",
+      "actual_sales": null,
+      "predicted_sales": 124626.22086748778,
+      "upper_bound": 134105.25753448237,
+      "lower_bound": 115147.18420049317
+    },
+    {
+      "date": "2025-11-27",
+      "actual_sales": null,
+      "predicted_sales": 129679.36156213406,
+      "upper_bound": 139158.39822912865,
+      "lower_bound": 120200.32489513945
+    },
+    {
+      "date": "2025-11-28",
+      "actual_sales": null,
+      "predicted_sales": 135520.52144069312,
+      "upper_bound": 144999.5581076877,
+      "lower_bound": 126041.48477369851
+    },
+    {
+      "date": "2025-11-29",
+      "actual_sales": null,
+      "predicted_sales": 59820.55396715989,
+      "upper_bound": 69299.59063415449,
+      "lower_bound": 50341.51730016529
+    },
+    {
+      "date": "2025-11-30",
+      "actual_sales": null,
+      "predicted_sales": 36927.04502139848,
+      "upper_bound": 46406.08168839308,
+      "lower_bound": 27448.008354403875
+    },
+    {
+      "date": "2025-12-01",
+      "actual_sales": null,
+      "predicted_sales": 94739.00479187342,
+      "upper_bound": 104218.04145886803,
+      "lower_bound": 85259.96812487881
+    },
+    {
+      "date": "2025-12-02",
+      "actual_sales": null,
+      "predicted_sales": 113130.00736410536,
+      "upper_bound": 122609.04403109997,
+      "lower_bound": 103650.97069711075
+    },
+    {
+      "date": "2025-12-03",
+      "actual_sales": null,
+      "predicted_sales": 124751.543773741,
+      "upper_bound": 134230.5804407356,
+      "lower_bound": 115272.50710674639
+    },
+    {
+      "date": "2025-12-04",
+      "actual_sales": null,
+      "predicted_sales": 127699.67066302658,
+      "upper_bound": 137178.7073300212,
+      "lower_bound": 118220.63399603197
+    },
+    {
+      "date": "2025-12-05",
+      "actual_sales": null,
+      "predicted_sales": 130326.96943740694,
+      "upper_bound": 139806.00610440155,
+      "lower_bound": 120847.93277041233
+    },
+    {
+      "date": "2025-12-06",
+      "actual_sales": null,
+      "predicted_sales": 57126.51400608481,
+      "upper_bound": 66605.55067307941,
+      "lower_bound": 47647.47733909021
+    },
+    {
+      "date": "2025-12-07",
+      "actual_sales": null,
+      "predicted_sales": 32553.974218627176,
+      "upper_bound": 42033.010885621785,
+      "lower_bound": 23074.93755163257
+    },
+    {
+      "date": "2025-12-08",
+      "actual_sales": null,
+      "predicted_sales": 92249.90414490146,
+      "upper_bound": 101728.94081189607,
+      "lower_bound": 82770.86747790685
+    },
+    {
+      "date": "2025-12-09",
+      "actual_sales": null,
+      "predicted_sales": 113395.62187666929,
+      "upper_bound": 122874.6585436639,
+      "lower_bound": 103916.58520967468
+    },
+    {
+      "date": "2025-12-10",
+      "actual_sales": null,
+      "predicted_sales": 125790.00556485633,
+      "upper_bound": 135269.04223185094,
+      "lower_bound": 116310.96889786172
+    },
+    {
+      "date": "2025-12-11",
+      "actual_sales": null,
+      "predicted_sales": 128185.00682251531,
+      "upper_bound": 137664.0434895099,
+      "lower_bound": 118705.9701555207
+    },
+    {
+      "date": "2025-12-12",
+      "actual_sales": null,
+      "predicted_sales": 129105.89269479993,
+      "upper_bound": 138584.92936179452,
+      "lower_bound": 119626.85602780532
+    },
+    {
+      "date": "2025-12-13",
+      "actual_sales": null,
+      "predicted_sales": 51940.352261368855,
+      "upper_bound": 61419.38892836346,
+      "lower_bound": 42461.315594374246
+    },
+    {
+      "date": "2025-12-14",
+      "actual_sales": null,
+      "predicted_sales": 29577.049891344417,
+      "upper_bound": 39056.086558339026,
+      "lower_bound": 20098.013224349812
+    },
+    {
+      "date": "2025-12-15",
+      "actual_sales": null,
+      "predicted_sales": 88439.81369320289,
+      "upper_bound": 97918.8503601975,
+      "lower_bound": 78960.77702620828
+    },
+    {
+      "date": "2025-12-16",
+      "actual_sales": null,
+      "predicted_sales": 108321.35256880891,
+      "upper_bound": 117800.38923580352,
+      "lower_bound": 98842.3159018143
+    },
+    {
+      "date": "2025-12-17",
+      "actual_sales": null,
+      "predicted_sales": 112985.42052719514,
+      "upper_bound": 122464.45719418974,
+      "lower_bound": 103506.38386020053
+    }
+  ],
+  "total_records": 335,
+  "date_range": {
+    "start": "2025-01-17",
+    "end": "2025-12-17"
+  },
+  "transition_date": "2025-09-01",
+  "filters": {
+    "sector": "string"
+  },
+  "execution_timestamp": "20250917141757"
+}

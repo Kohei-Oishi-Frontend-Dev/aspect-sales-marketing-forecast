@@ -1,0 +1,28 @@
+{
+  "success": true,
+  "metric": "sales",
+  "current_period": {
+    "value": 1989553.8699999826,
+    "period": "2025-08-01",
+    "direction": null,
+    "date": null,
+    "label": "August 2025"
+  },
+  "comparison_period": {
+    "value": 2255477.9599999813,
+    "period": "2025-07-01",
+    "direction": null,
+    "date": null,
+    "label": "July 2025"
+  },
+  "change": {
+    "absolute": -265924.0899999987,
+    "percentage": -11.79,
+    "direction": "decrease"
+  },
+  "trend": null,
+  "filters": {
+    "sector": "string"
+  },
+  "execution_timestamp": "20250917100029"
+}

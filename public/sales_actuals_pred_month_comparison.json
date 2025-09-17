@@ -1,0 +1,99 @@
+{
+  "success": true,
+  "data": [
+    {
+      "date": "2025-01",
+      "actual_sales": 1091693.6700000043,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-02",
+      "actual_sales": 2096484.9299999785,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-03",
+      "actual_sales": 1971825.38999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-04",
+      "actual_sales": 2055852.1399999852,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-05",
+      "actual_sales": 2259776.69999998,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-06",
+      "actual_sales": 2145425.219999978,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-07",
+      "actual_sales": 2255477.9599999813,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-08",
+      "actual_sales": 1989553.8699999826,
+      "predicted_sales": null,
+      "upper_bound": null,
+      "lower_bound": null
+    },
+    {
+      "date": "2025-09",
+      "actual_sales": null,
+      "predicted_sales": 2320815.754604162,
+      "upper_bound": 2605186.8546140003,
+      "lower_bound": 2036444.6545943243
+    },
+    {
+      "date": "2025-10",
+      "actual_sales": null,
+      "predicted_sales": 3032932.9918143037,
+      "upper_bound": 3326783.1284911367,
+      "lower_bound": 2739082.855137471
+    },
+    {
+      "date": "2025-11",
+      "actual_sales": null,
+      "predicted_sales": 2838631.9103713674,
+      "upper_bound": 3123003.010381206,
+      "lower_bound": 2554260.8103615292
+    },
+    {
+      "date": "2025-12",
+      "actual_sales": null,
+      "predicted_sales": 1660318.1043005278,
+      "upper_bound": 1821461.7276394365,
+      "lower_bound": 1499174.4809616194
+    }
+  ],
+  "total_records": 12,
+  "date_range": {
+    "start": "2025-01",
+    "end": "2025-12"
+  },
+  "transition_date": "2025-09",
+  "filters": {
+    "sector": "string"
+  },
+  "execution_timestamp": "20250917141520"
+}
