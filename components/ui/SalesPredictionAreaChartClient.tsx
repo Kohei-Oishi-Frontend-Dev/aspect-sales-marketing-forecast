@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
@@ -59,7 +59,7 @@ export default function SalesPredictionAreaChartClient({
       : timeRange === "30d"
       ? 30
       : 90;
-      
+
   const filteredData = (() => {
     if (!data || data.length === 0) return [];
     const end = new Date();
