@@ -1,8 +1,11 @@
 "use client";
 
 import MonthOnMonthCard from "./MonthOnMonthCard";
-import KpiCard from "./KpiCard";
 import { ChartType } from "./SalesChartContainer";
+import { monthlyPredictionData } from "./SalesActualPredMonthlyAreaChart";
+import { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
+import NextMonthSalesPredictionCard from "./NextMonthSalesPredictionCard";
+import DailyPredictionCard from "./DailyPredictionCard";
 
 export type SalesMonthOnMonth = {
   success?: boolean;
@@ -33,12 +36,16 @@ export type SalesMonthOnMonth = {
 
 type KpiListProps = {
   salesData: SalesMonthOnMonth;
+  nextMonthForecastData?: monthlyPredictionData[];
+  dailyForecastData?: dailyPredictionData[];
   selectedChart: ChartType;
   onChartSelect: (chart: ChartType) => void;
 };
 
 export default function KpiList({
   salesData,
+  nextMonthForecastData,
+  dailyForecastData,
   selectedChart,
   onChartSelect,
 }: KpiListProps) {
@@ -46,40 +53,36 @@ export default function KpiList({
     <div className="flex flex-row justify-between gap-4 flex-wrap">
       <div
         className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
-          selectedChart === "monthly"
+          selectedChart === "lastMonth"
             ? "ring-2 ring-blue-500 ring-offset-2"
             : "hover:shadow-lg"
         }`}
-        onClick={() => onChartSelect("monthly")}
+        onClick={() => onChartSelect("lastMonth")}
       >
         <MonthOnMonthCard salesData={salesData} />
       </div>
       <div
         className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
-          selectedChart === "daily"
+          selectedChart === "nextMonth"
             ? "ring-2 ring-blue-500 ring-offset-2"
             : "hover:shadow-lg"
         }`}
-        onClick={() => onChartSelect("daily")}
+        onClick={() => onChartSelect("nextMonth")}
       >
-        <KpiCard
-          title="New Customers"
-          description="last 30 days"
-          value="1,234"
+        <NextMonthSalesPredictionCard
+          nextMonthForecastData={nextMonthForecastData}
         />
       </div>
       <div
         className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
-          selectedChart === "daily"
+          selectedChart === "dailyForecast"
             ? "ring-2 ring-blue-500 ring-offset-2"
             : "hover:shadow-lg"
         }`}
-        onClick={() => onChartSelect("daily")}
+        onClick={() => onChartSelect("dailyForecast")}
       >
-        <KpiCard
-          title="Conversion Rate"
-          description="trial → paid"
-          value="4.3%"
+        <DailyPredictionCard
+          dailyForecastData={dailyForecastData}
         />
       </div>
     </div>

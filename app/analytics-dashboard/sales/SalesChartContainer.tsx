@@ -1,11 +1,10 @@
 "use client";
-
-import SalesPredictionAreaChartClient from "@/components/ui/SalesPredictionAreaChartClient";
 import SalesActualPredDailyAreaChartClient from "@/components/ui/SalesActualPredDailyAreaChartClient";
 import SalesActualPredMonthlyAreaChartClient from "@/components/ui/SalesActualPredMonthlyAreaChartClient";
+import SalesPredictionMonthlyClient from "@/components/ui/SalesPredictionMonthlyClient";
 import type { AllChartsData } from "./page";
 
-export type ChartType = "prediction" | "daily" | "monthly";
+export type ChartType = "lastMonth" | "nextMonth" | "dailyForecast";
 
 type SalesChartContainerProps = {
   selectedChart: ChartType;
@@ -18,26 +17,26 @@ export default function SalesChartContainer({
 }: SalesChartContainerProps) {
   const renderChart = () => {
     switch (selectedChart) {
-      case "monthly":
+      case "lastMonth":
         return (
           <SalesActualPredMonthlyAreaChartClient
             data={allChartsData.salesActualsPredMonthComparison}
             initialTimeRange="12m"
           />
         );
-      case "daily":
+      case "nextMonth":
+        return (
+          <SalesPredictionMonthlyClient
+            data={allChartsData.salesActualsPredMonthComparison}
+            initialTimeRange="3m"
+          />
+        );
+      case "dailyForecast":
+      default:
         return (
           <SalesActualPredDailyAreaChartClient
             data={allChartsData.salesActualsPredDailyComparison}
-            initialTimeRange="180d"
-          />
-        );
-      case "prediction":
-      default:
-        return (
-          <SalesPredictionAreaChartClient
-            data={allChartsData.salesPredictionData}
-            initialTimeRange="90d"
+            initialTimeRange="7d"
           />
         );
     }

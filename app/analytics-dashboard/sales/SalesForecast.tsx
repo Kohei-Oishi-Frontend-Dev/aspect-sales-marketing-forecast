@@ -1,6 +1,4 @@
-// app/analytics-dashboard/sales/SalesForecast.tsx
 "use client";
-
 import { useState } from "react";
 import SalesForecastNarrative from "./SalesForecastNarrative";
 import KpiList from "./KpiList";
@@ -12,12 +10,14 @@ type SalesForecastProps = {
 };
 
 export default function SalesForecast({ allChartsData }: SalesForecastProps) {
-  const [selectedChart, setSelectedChart] = useState<ChartType>("prediction");
+  const [selectedChart, setSelectedChart] = useState<ChartType>("lastMonth");
 
   return (
     <div className="flex flex-col gap-4">
       <KpiList
         salesData={allChartsData.salesMonthOnMonthData}
+        nextMonthForecastData={allChartsData.salesActualsPredMonthComparison}
+        dailyForecastData={allChartsData.salesActualsPredDailyComparison}
         selectedChart={selectedChart}
         onChartSelect={setSelectedChart}
       />

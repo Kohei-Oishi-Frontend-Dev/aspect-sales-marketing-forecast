@@ -35,3 +35,18 @@ export function abbreviateNumber(value: number, maxDecimals = 1): string {
   const small = trimFloat(abs, maxDecimals)
   return `${sign}${Number.isInteger(small) ? small.toFixed(0) : String(small)}`
 }
+
+export function getCurrentMonth(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+}
+
+export function getCurrentDay(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+}
+
+export function isDateBeforeCurrentMonth(dateStr: string): boolean {
+  const currentMonth = getCurrentMonth();
+  return dateStr < currentMonth;
+}

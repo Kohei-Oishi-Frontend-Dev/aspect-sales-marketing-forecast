@@ -24,19 +24,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getCurrentMonth, isDateBeforeCurrentMonth } from "@/lib/utils";
+import { getCurrentMonth } from "@/lib/utils";
 
 // Import the type with a type-only alias to avoid the value/type collision
 import type { monthlyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredMonthlyAreaChart";
 // Use months instead of days
 type TimeRange = "3m" | "6m" | "12m";
 
-// Only show actual sales (no predictions)
+// Show predicted sales with bounds (no actual sales)
 const chartConfig = {
-  actual_sales: { label: "Actual Sales", color: "var(--chart-1)" },
+  predicted_sales: { label: "Predicted Sales", color: "var(--chart-1)" },
+  upper_bound: { label: "Upper Bound", color: "var(--chart-2)" },
+  lower_bound: { label: "Lower Bound", color: "var(--chart-3)" },
 } satisfies ChartConfig;
 
-type SalesActualPredMonthlyAreaChartClientProps = {
+type SalesPredictionMonthlyProps = {
   data: monthlyPredictionData[];
   initialTimeRange?: TimeRange;
 };
@@ -55,44 +57,45 @@ function endOfMonth(d: Date) {
   return x;
 }
 
-// Type guard for actual sales data only
-function hasActualSalesBeforeCurrentMonth(
+// Type guard for prediction data from current month onwards
+function hasPredictionFromCurrentMonth(
   d: monthlyPredictionData
 ): d is monthlyPredictionData & {
   date: string;
-  actual_sales: number;
+  predicted_sales: number;
 } {
+  const currentMonth = getCurrentMonth();
   return (
     typeof d.date === "string" &&
     d.date.length > 0 &&
-    isDateBeforeCurrentMonth(d.date) &&
-    typeof d.actual_sales === "number" &&
-    d.actual_sales !== null
+    d.date >= currentMonth &&
+    typeof d.predicted_sales === "number" &&
+    d.predicted_sales !== null
   );
 }
 
-export default function SalesActualPredMonthlyAreaChartClient({
+export default function SalesPredictionMonthlyClient({
   data,
   initialTimeRange = "12m",
-}: SalesActualPredMonthlyAreaChartClientProps) {
+}: SalesPredictionMonthlyProps) {
   const [timeRange, setTimeRange] = useState<TimeRange>(initialTimeRange);
   const handleTimeRangeChange = (value: string) =>
     setTimeRange(value as TimeRange);
 
   const months = timeRange === "3m" ? 3 : timeRange === "6m" ? 6 : 12;
 
-  // Filter for actual sales data before current month only
+  // Filter for prediction data from current month onwards
   const filteredData = (() => {
     const safe = Array.isArray(data) ? data : [];
 
-    // Keep only items with actual sales before current month
-    const actualSalesData = safe.filter(hasActualSalesBeforeCurrentMonth);
+    // Keep only items with predictions from current month onwards
+    const predictionData = safe.filter(hasPredictionFromCurrentMonth);
 
-    if (!actualSalesData.length) return [];
+    if (!predictionData.length) return [];
 
-    // Get the latest actual sales month as the anchor
-    const maxTs = Math.max(
-      ...actualSalesData
+    // Get the earliest prediction month as the anchor (current month)
+    const minTs = Math.min(
+      ...predictionData
         .map((d) => {
           const t = new Date(d.date + "-01").getTime(); // Add day to make valid date
           return Number.isFinite(t) ? t : NaN;
@@ -100,21 +103,22 @@ export default function SalesActualPredMonthlyAreaChartClient({
         .filter(Number.isFinite)
     );
 
-    const end = endOfMonth(
-      Number.isFinite(maxTs) ? new Date(maxTs) : new Date()
+    const start = startOfMonth(
+      Number.isFinite(minTs) ? new Date(minTs) : new Date()
     );
-    // Include the end month and go back (months - 1)
-    const start = startOfMonth(new Date(end));
-    start.setMonth(start.getMonth() - (months - 1));
+    // Include months going forward
+    const end = endOfMonth(new Date(start));
+    end.setMonth(end.getMonth() + (months - 1));
 
-    return actualSalesData
+    return predictionData
       .filter((d) => {
         const dt = new Date(d.date + "-01"); // Add day to make valid date
         return dt >= start && dt <= end;
       })
       .sort(
         (a, b) =>
-          new Date(a.date + "-01").getTime() - new Date(b.date + "-01").getTime()
+          new Date(a.date + "-01").getTime() -
+          new Date(b.date + "-01").getTime()
       );
   })();
 
@@ -122,9 +126,9 @@ export default function SalesActualPredMonthlyAreaChartClient({
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Monthly Sales</CardTitle>
+          <CardTitle>Monthly Sales Prediction</CardTitle>
           <CardDescription>
-            Actual monthly sales up to {getCurrentMonth()}
+            Predicted monthly sales from {getCurrentMonth()} onwards
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={handleTimeRangeChange}>
@@ -132,12 +136,12 @@ export default function SalesActualPredMonthlyAreaChartClient({
             className="hidden w-[200px] rounded-lg sm:ml-auto sm:flex"
             aria-label="Select time range"
           >
-            <SelectValue placeholder="Last 12 months" />
+            <SelectValue placeholder="Next 12 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
-            <SelectItem value="3m">Last 3 months</SelectItem>
-            <SelectItem value="6m">Last 6 months</SelectItem>
-            <SelectItem value="12m">Last 12 months</SelectItem>
+            <SelectItem value="3m">Next 3 months</SelectItem>
+            <SelectItem value="6m">Next 6 months</SelectItem>
+            <SelectItem value="12m">Next 12 months</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>
@@ -153,15 +157,39 @@ export default function SalesActualPredMonthlyAreaChartClient({
             margin={{ top: 12, right: 20, left: 12, bottom: 8 }}
           >
             <defs>
-              <linearGradient id="fillActual" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillPredicted" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-actual_sales)"
+                  stopColor="var(--color-predicted_sales)"
                   stopOpacity={0.25}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-actual_sales)"
+                  stopColor="var(--color-predicted_sales)"
+                  stopOpacity={0.04}
+                />
+              </linearGradient>
+              <linearGradient id="fillUpper" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-upper_bound)"
+                  stopOpacity={0.2}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-upper_bound)"
+                  stopOpacity={0.04}
+                />
+              </linearGradient>
+              <linearGradient id="fillLower" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-lower_bound)"
+                  stopOpacity={0.2}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-lower_bound)"
                   stopOpacity={0.04}
                 />
               </linearGradient>
@@ -198,24 +226,48 @@ export default function SalesActualPredMonthlyAreaChartClient({
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) =>
-                    new Date(String(value) + "-01").toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "numeric",
-                    })
+                    new Date(String(value) + "-01").toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )
                   }
                   indicator="dot"
                 />
               }
             />
+            {/* Render bounds first, then prediction on top */}
             <Area
-              dataKey="actual_sales"
+              dataKey="upper_bound"
               type="monotone"
-              fill="url(#fillActual)"
-              stroke="var(--color-actual_sales)"
+              fill="url(#fillUpper)"
+              stroke="var(--color-upper_bound)"
+              strokeWidth={1}
+              dot={false}
+              isAnimationActive
+              animationDuration={480}
+            />
+            <Area
+              dataKey="predicted_sales"
+              type="monotone"
+              fill="url(#fillPredicted)"
+              stroke="var(--color-predicted_sales)"
               strokeWidth={2}
               dot={false}
               isAnimationActive
               animationDuration={520}
+            />
+            <Area
+              dataKey="lower_bound"
+              type="monotone"
+              fill="url(#fillLower)"
+              stroke="var(--color-lower_bound)"
+              strokeWidth={1}
+              dot={false}
+              isAnimationActive
+              animationDuration={480}
             />
 
             <ChartLegend content={<ChartLegendContent />} />
@@ -225,7 +277,7 @@ export default function SalesActualPredMonthlyAreaChartClient({
 
       <CardFooter>
         <p className="text-sm text-gray-500">
-          Source: monthly data (actual sales only, up to current month)
+          Source: monthly data (predictions only, from current month onwards)
         </p>
       </CardFooter>
     </Card>

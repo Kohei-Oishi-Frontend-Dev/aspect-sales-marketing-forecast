@@ -2,7 +2,16 @@ import { join } from "path";
 import { readFileSync } from "fs";
 import SalesForecast from "./SalesForecast";
 import type { SalesMonthOnMonth } from "./KpiList";
-import type { PredPoint } from "./SalesPredictionAreaChart";
+import type { SalesPrediction } from "./SalesPredictionAreaChart";
+import type { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
+import type { monthlyPredictionData } from "./SalesActualPredMonthlyAreaChart";
+
+export type AllChartsData = {
+  salesMonthOnMonthData: SalesMonthOnMonth;
+  salesPredictionData: SalesPrediction[];
+  salesActualsPredMonthComparison: monthlyPredictionData[];
+  salesActualsPredDailyComparison: dailyPredictionData[];
+};
 
 export default async function SalesPage() {
   // Fetch sales month-on-month data
@@ -24,7 +33,9 @@ export default async function SalesPage() {
     "predicted_sales_data.json"
   );
   const salesPredictionFileContents = readFileSync(salesPredictionFilePath, "utf8");
-  const salesPredictionData: PredPoint[] = JSON.parse(salesPredictionFileContents);
+  const salesPredictionData: SalesPrediction[] = JSON.parse(
+    salesPredictionFileContents
+  );
 
   const salesActualPredMonthComparisonFilePath = join(
     process.cwd(),
