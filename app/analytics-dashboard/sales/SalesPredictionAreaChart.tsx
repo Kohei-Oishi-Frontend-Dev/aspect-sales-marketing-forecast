@@ -2,7 +2,7 @@ import SalesPredictionAreaChartClient from "@/components/ui/SalesPredictionAreaC
 import { join } from "path";
 import { readFileSync } from "fs";
 
-export type PredPoint = {
+export type SalesPrediction = {
   date: string;
   pred_sale: number;
   upper_bound: number;
@@ -16,7 +16,6 @@ export default async function SalesPredictionAreaChart() {
     const fileContents = readFileSync(filePath, "utf8");
     const data = JSON.parse(fileContents);
   const timeRange: TimeRange = "90d";
-
   return (
     <SalesPredictionAreaChartClient data={data} initialTimeRange={timeRange} />
   );
