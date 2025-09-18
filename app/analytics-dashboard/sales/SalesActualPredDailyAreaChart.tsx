@@ -1,6 +1,6 @@
 import SalesActualPredDailyAreaChartClient from "@/components/ui/SalesActualPredDailyAreaChartClient";
 
-type TimeRange = "7d" | "14d" | "30d" | "90d";
+type TimeRange = "7d" | "14d" | "30d" | "90d" | "180d" | "360d";
 export type dailyPredictionData = {
   date: string | null;
   actual_sales?: number | null;
