@@ -1,14 +1,39 @@
 import MonthOnMonthCard from "./MonthOnMonthCard";
 import KpiCard from "./KpiCard";
 
+export type SalesMonthOnMonth = {
+  success?: boolean;
+  metric?: string;
+  current_period?: {
+    value?: number;
+    period?: string;
+    direction?: string | null;
+    date?: string | null;
+    label?: string;
+  };
+  comparison_period?: {
+    value?: number;
+    period?: string;
+    direction?: string | null;
+    date?: string | null;
+    label?: string;
+  };
+  change?: {
+    absolute?: number | null;
+    percentage?: number | null;
+    direction?: string | null;
+  };
+  trend?: unknown;
+  filters?: Record<string, unknown>;
+  execution_timestamp?: string;
+};
+
 export default async function KpiList() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const response = await fetch(`${baseUrl}/sales_month_on_month.json`, {
     cache: "no-store",
   });
   const salesData = await response.json();
-
-
   return (
     <div className="flex flex-row justify-between gap-4 flex-wrap">
       <div className="flex-1 min-w-[220px] max-w-[360px]">

@@ -1,8 +1,9 @@
 import KpiCard from "./KpiCard";
 import { trimFloat } from "@/lib/utils";
+import type SalesMonthOnMonth from "./KpiList";
 
 type Props = {
-  salesData: object | undefined;
+  salesData?: SalesMonthOnMonth;
 };
 
 export default function MonthOnMonthCard({ salesData }: Props) {
