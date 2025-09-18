@@ -1,6 +1,6 @@
 import KpiCard from "./KpiCard";
 import { trimFloat } from "@/lib/utils";
-import type SalesMonthOnMonth from "./KpiList";
+import type {SalesMonthOnMonth} from "./KpiList";
 
 type Props = {
   salesData?: SalesMonthOnMonth;
