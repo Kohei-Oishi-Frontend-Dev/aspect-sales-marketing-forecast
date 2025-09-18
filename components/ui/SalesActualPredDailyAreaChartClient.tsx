@@ -62,29 +62,41 @@ export default function SalesActualPredDailyAreaChartClient({
       ? 180
       : 360;
 
-  const filteredData = (() => {
+  const filteredData = useMemo(() => {
     const safe = Array.isArray(data) ? data : [];
-    if (!safe.length) return [];
-    // Use the latest date in the dataset as the end anchor (includes future dates)
-    const maxTs = Math.max(
-      ...safe
-        .map((d) => new Date(d.date).getTime())
-        .filter((t) => Number.isFinite(t))
+    // Narrow to entries that have a real string date so TS knows .date is string below
+    const withDate = safe.filter(
+      (d): d is dailyPredictionData & { date: string } =>
+        typeof d.date === "string" && d.date.length > 0
     );
 
-    const end = Number.isFinite(maxTs) ? new Date(maxTs) : new Date();
+    if (!withDate.length) return [];
+
+    const timestamps = withDate
+      .map((d) => {
+        const t = new Date(d.date).getTime();
+        return Number.isFinite(t) ? t : NaN;
+      })
+      .filter(Number.isFinite);
+
+    const maxTs = timestamps.length ? Math.max(...(timestamps as number[])) : Date.now();
+    const end = new Date(maxTs);
     end.setHours(23, 59, 59, 999);
 
     const start = new Date(end);
     start.setDate(end.getDate() - days + 1);
 
-    return safe
+    return withDate
       .filter((d) => {
         const dt = new Date(d.date);
         return dt >= start && dt <= end;
       })
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  })();
+      // coerce date to string to satisfy Date constructor overloads (guards against null)
+      .sort(
+        (a, b) =>
+          new Date(String(a.date)).getTime() - new Date(String(b.date)).getTime()
+      );
+  }, [data, days, timeRange]);
 
   return (
     <Card>

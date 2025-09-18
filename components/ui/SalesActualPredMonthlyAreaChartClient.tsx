@@ -25,14 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type ActualPredPoint = {
-  date: string;
-  actual_sales: number;
-  predicted_sales: number;
-  upper_bound: number;
-  lower_bound: number;
-};
-
+import type { monthlyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredMonthlyAreaChart";
 // Use months instead of days
 type TimeRange = "3m" | "6m" | "12m";
 
@@ -44,7 +37,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type SalesActualPredMonthlyAreaChartClientProps = {
-  data: ActualPredPoint[];
+  data: monthlyPredictionData[];
   initialTimeRange?: TimeRange;
 };
 
@@ -61,6 +54,13 @@ function endOfMonth(d: Date) {
   return x;
 }
 
+// New: type guard to narrow out entries without a valid date
+function hasDate(
+  d: monthlyPredictionData
+): d is monthlyPredictionData & { date: string } {
+  return typeof d.date === "string" && d.date.length > 0;
+}
+
 export default function SalesActualPredMonthlyAreaChartClient({
   data,
   initialTimeRange = "12m",
@@ -71,22 +71,30 @@ export default function SalesActualPredMonthlyAreaChartClient({
 
   const months = timeRange === "3m" ? 3 : timeRange === "6m" ? 6 : 12;
 
+  // Narrow and compute filteredData using the typed array
   const filteredData = (() => {
     const safe = Array.isArray(data) ? data : [];
-    if (!safe.length) return [];
+    // keep only items with a valid string date
+    const withDate = safe.filter(hasDate);
+
+    if (!withDate.length) return [];
 
     // Anchor to the latest data point (supports future-dated points)
     const maxTs = Math.max(
-      ...safe
-        .map((d) => new Date(d.date).getTime())
-        .filter((t) => Number.isFinite(t))
+      ...withDate
+        .map((d) => {
+          const t = new Date(d.date).getTime();
+          return Number.isFinite(t) ? t : NaN;
+        })
+        .filter(Number.isFinite)
     );
+
     const end = endOfMonth(Number.isFinite(maxTs) ? new Date(maxTs) : new Date());
     // Include the end month and go back (months - 1)
     const start = startOfMonth(new Date(end));
     start.setMonth(start.getMonth() - (months - 1));
 
-    return safe
+    return withDate
       .filter((d) => {
         const dt = new Date(d.date);
         return dt >= start && dt <= end;
