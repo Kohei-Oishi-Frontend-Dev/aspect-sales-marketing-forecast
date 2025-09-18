@@ -29,10 +29,16 @@ export type SalesMonthOnMonth = {
 };
 
 export default async function KpiList() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/sales_month_on_month.json`, {
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `${
+      process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000"
+    }/sales_month_on_month.json`,
+    {
+      cache: "no-store",
+    }
+  );
   const salesData = await response.json();
   return (
     <div className="flex flex-row justify-between gap-4 flex-wrap">

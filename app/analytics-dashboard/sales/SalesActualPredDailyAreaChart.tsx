@@ -11,7 +11,11 @@ export type dailyPredictionData = {
 
 export default async function SalesActualPredDailyAreaChart() {
   const res = await fetch(
-    "http://localhost:3000/sales_actuals_pred_daily_comparison.json",
+    `${
+      process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000"
+    }/sales_actuals_pred_daily_comparison.json`,
     {
       cache: "no-store",
     }

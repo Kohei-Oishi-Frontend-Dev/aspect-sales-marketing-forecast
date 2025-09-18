@@ -11,7 +11,11 @@ export type monthlyPredictionData = {
 
 export default async function SalesActualPredMonthlyAreaChart() {
   const res = await fetch(
-    "http://localhost:3000/sales_actuals_pred_month_comparison.json",
+    `${
+      process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000"
+    }/sales_actuals_pred_month_comparison.json`,
     {
       cache: "no-store",
     }
