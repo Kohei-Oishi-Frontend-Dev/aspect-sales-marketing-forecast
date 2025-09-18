@@ -26,12 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type PredPoint = {
-  date: string;
-  pred_sale: number;
-  upper_bound: number;
-  lower_bound: number;
-};
+import type monthlyPredictionData from "@/app/analytics-dashboard/sales/SalesActualPredMonthlyAreaChart";
 
 type TimeRange = "7d" | "14d" | "30d" | "90d";
 
@@ -42,7 +37,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type SalesPredictionAreaChartClientProps = {
-  data: PredPoint[];
+  data: monthlyPredictionData[];
   initialTimeRange?: TimeRange;
 };
 
@@ -64,8 +59,7 @@ export default function SalesPredictionAreaChartClient({
       : timeRange === "30d"
       ? 30
       : 90;
-
-  const filteredData = useMemo(() => {
+  const filteredData = (() => {
     if (!data || data.length === 0) return [];
     const end = new Date();
     end.setHours(23, 59, 59, 999);
@@ -78,7 +72,7 @@ export default function SalesPredictionAreaChartClient({
         return dt >= start && dt <= end;
       })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [data, days, timeRange]);
+  })();
 
   return (
     <Card>

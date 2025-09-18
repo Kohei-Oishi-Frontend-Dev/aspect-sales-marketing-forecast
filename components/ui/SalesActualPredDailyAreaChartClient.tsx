@@ -25,13 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type ActualPredPoint = {
-  date: string;
-  actual_sales: number;
-  predicted_sales: number;
-  upper_bound: number;
-  lower_bound: number;
-};
+import type { dailyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredDailyAreaChart";
 
 type TimeRange = "7d" | "14d" | "30d" | "90d" | "180d" | "360d";
 
@@ -43,7 +37,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type SalesActualPredDailyAreaChartClientProps = {
-  data: ActualPredPoint[];
+  data: dailyPredictionData[];
   initialTimeRange?: TimeRange;
 };
 
@@ -68,16 +62,16 @@ export default function SalesActualPredDailyAreaChartClient({
       ? 180
       : 360;
 
-  const filteredData = useMemo(() => {
+  const filteredData = (() => {
     const safe = Array.isArray(data) ? data : [];
     if (!safe.length) return [];
-
     // Use the latest date in the dataset as the end anchor (includes future dates)
     const maxTs = Math.max(
       ...safe
         .map((d) => new Date(d.date).getTime())
         .filter((t) => Number.isFinite(t))
     );
+
     const end = Number.isFinite(maxTs) ? new Date(maxTs) : new Date();
     end.setHours(23, 59, 59, 999);
 
@@ -90,7 +84,7 @@ export default function SalesActualPredDailyAreaChartClient({
         return dt >= start && dt <= end;
       })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [data, days, timeRange]);
+  })();
 
   return (
     <Card>

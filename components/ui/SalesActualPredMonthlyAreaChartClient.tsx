@@ -71,7 +71,7 @@ export default function SalesActualPredMonthlyAreaChartClient({
 
   const months = timeRange === "3m" ? 3 : timeRange === "6m" ? 6 : 12;
 
-  const filteredData = useMemo(() => {
+  const filteredData = (() => {
     const safe = Array.isArray(data) ? data : [];
     if (!safe.length) return [];
 
@@ -92,7 +92,7 @@ export default function SalesActualPredMonthlyAreaChartClient({
         return dt >= start && dt <= end;
       })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [data, months, timeRange]);
+  })();
 
   return (
     <Card>
