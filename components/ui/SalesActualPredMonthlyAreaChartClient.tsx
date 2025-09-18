@@ -25,7 +25,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import type { monthlyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredMonthlyAreaChart";
+// Import the type with a type-only alias to avoid the value/type collision
+import type { monthlyPredictionData  } from "@/app/analytics-dashboard/sales/SalesActualPredMonthlyAreaChart";
 // Use months instead of days
 type TimeRange = "3m" | "6m" | "12m";
 

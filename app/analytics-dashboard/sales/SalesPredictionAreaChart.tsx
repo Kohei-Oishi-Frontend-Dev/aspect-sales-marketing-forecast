@@ -1,6 +1,6 @@
 import SalesPredictionAreaChartClient from "@/components/ui/SalesPredictionAreaChartClient";
 
-type PredPoint = {
+export type PredPoint = {
   date: string;
   pred_sale: number;
   upper_bound: number;
