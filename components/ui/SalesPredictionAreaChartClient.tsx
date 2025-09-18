@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type {PredPoint} from "@/app/analytics-dashboard/sales/SalesPredictionAreaChart";
+import type { SalesPrediction } from "@/app/analytics-dashboard/sales/SalesPredictionAreaChart";
 // Use months instead of days
 type TimeRange = "7d" | "14d" | "30d" | "90d";
 
@@ -36,7 +36,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type SalesPredictionAreaChartClientProps = {
-  data: PredPoint[];
+  data: SalesPrediction[];
   initialTimeRange?: TimeRange;
 };
 

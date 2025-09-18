@@ -1,5 +1,5 @@
 import KpiCard from "./KpiCard";
-import { trimFloat, abbreviateNumber } from "@/lib/utils";
+import { abbreviateNumber } from "@/lib/utils";
 import type {SalesMonthOnMonth} from "./KpiList";
 
 type Props = {
@@ -26,7 +26,7 @@ export default function MonthOnMonthCard({ salesData }: Props) {
 
   return (
     <KpiCard
-      title="Monthly Revenue"
+      title="Last Month Revenue"
       description={description}
       value={monthlyRevenue}
     />

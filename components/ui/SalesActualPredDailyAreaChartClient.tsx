@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getCurrentDay } from "@/lib/utils";
 
 import type { dailyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredDailyAreaChart";
 
@@ -64,34 +65,38 @@ export default function SalesActualPredDailyAreaChartClient({
 
   const filteredData = useMemo(() => {
     const safe = Array.isArray(data) ? data : [];
-    // Narrow to entries that have a real string date so TS knows .date is string below
-    const withDate = safe.filter(
+    const currentDay = getCurrentDay();
+
+    // Filter for dates from current day onwards only
+    const fromCurrentDay = safe.filter(
       (d): d is dailyPredictionData & { date: string } =>
-        typeof d.date === "string" && d.date.length > 0
+        typeof d.date === "string" &&
+        d.date.length > 0 &&
+        d.date >= currentDay
     );
 
-    if (!withDate.length) return [];
+    if (!fromCurrentDay.length) return [];
 
-    const timestamps = withDate
+    const timestamps = fromCurrentDay
       .map((d) => {
         const t = new Date(d.date).getTime();
         return Number.isFinite(t) ? t : NaN;
       })
       .filter(Number.isFinite);
 
-    const maxTs = timestamps.length ? Math.max(...(timestamps as number[])) : Date.now();
-    const end = new Date(maxTs);
+    // Use current day as the start anchor and show forward
+    const start = new Date(currentDay);
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date(start);
+    end.setDate(end.getDate() + days - 1);
     end.setHours(23, 59, 59, 999);
 
-    const start = new Date(end);
-    start.setDate(end.getDate() - days + 1);
-
-    return withDate
+    return fromCurrentDay
       .filter((d) => {
         const dt = new Date(d.date);
         return dt >= start && dt <= end;
       })
-      // coerce date to string to satisfy Date constructor overloads (guards against null)
       .sort(
         (a, b) =>
           new Date(String(a.date)).getTime() - new Date(String(b.date)).getTime()
@@ -102,9 +107,9 @@ export default function SalesActualPredDailyAreaChartClient({
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Actual vs Predicted Sales (Daily)</CardTitle>
+          <CardTitle>Daily Sales Forecast</CardTitle>
           <CardDescription>
-            Daily comparison of actual and predicted sales
+            Daily sales predictions from {getCurrentDay()} onwards
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={handleTimeRangeChange}>
@@ -115,12 +120,12 @@ export default function SalesActualPredDailyAreaChartClient({
             <SelectValue placeholder="Select range" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
-            <SelectItem value="7d">Last 7 days</SelectItem>
-            <SelectItem value="14d">Last 14 days</SelectItem>
-            <SelectItem value="30d">Last 30 days</SelectItem>
-            <SelectItem value="90d">Last 90 days</SelectItem>
-            <SelectItem value="180d">Last 6 months</SelectItem>
-            <SelectItem value="360d">Last 12 months</SelectItem>
+            <SelectItem value="7d">Next 7 days</SelectItem>
+            <SelectItem value="14d">Next 14 days</SelectItem>
+            <SelectItem value="30d">Next 30 days</SelectItem>
+            <SelectItem value="90d">Next 90 days</SelectItem>
+            <SelectItem value="180d">Next 6 months</SelectItem>
+            <SelectItem value="360d">Next 12 months</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>
@@ -250,7 +255,7 @@ export default function SalesActualPredDailyAreaChartClient({
 
       <CardFooter>
         <p className="text-sm text-gray-500">
-          Source: sales_actuals_pred_daily_comparison.json
+          Source: daily forecast data (from current day onwards)
         </p>
       </CardFooter>
     </Card>
