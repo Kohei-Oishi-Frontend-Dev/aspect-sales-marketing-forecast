@@ -1,5 +1,5 @@
 import KpiCard from "./KpiCard";
-import { trimFloat } from "@/lib/utils";
+import { trimFloat, abbreviateNumber } from "@/lib/utils";
 import type {SalesMonthOnMonth} from "./KpiList";
 
 type Props = {
@@ -10,7 +10,7 @@ export default function MonthOnMonthCard({ salesData }: Props) {
   const monthlyRevenue =
     salesData?.current_period?.value != null &&
     !Number.isNaN(Number(salesData.current_period.value))
-      ? `£${trimFloat(Number(salesData.current_period.value), 2)}`
+      ? `£${abbreviateNumber(Number(salesData.current_period.value), 2)}`
       : "N/A";
   const revenueTrend = salesData?.change?.direction;
   const change = salesData?.change?.absolute;
@@ -19,7 +19,7 @@ export default function MonthOnMonthCard({ salesData }: Props) {
     const trendText = revenueTrend === "decrease" ? "up by" : "down by";
     const changeValue =
       change != null && !Number.isNaN(Number(change))
-        ? trimFloat(Math.abs(Number(change)), 2)
+        ? abbreviateNumber(Math.abs(Number(change)), 2)
         : "N/A";
     return `${trendText} £${changeValue}`;
   })();

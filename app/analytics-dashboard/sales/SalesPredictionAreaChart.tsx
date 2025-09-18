@@ -1,4 +1,6 @@
 import SalesPredictionAreaChartClient from "@/components/ui/SalesPredictionAreaChartClient";
+import { join } from "path";
+import { readFileSync } from "fs";
 
 export type PredPoint = {
   date: string;
@@ -10,13 +12,9 @@ export type PredPoint = {
 type TimeRange = "7d" | "14d" | "30d" | "90d";
 
 export default async function SalesPredictionAreaChart() {
-  const res = await fetch(
-    `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/predicted_sales_data.json`,
-    {
-      cache: "no-store",
-    }
-  );
-  const data: PredPoint[] = await res.json();
+    const filePath = join(process.cwd(), "public", "predicted_sales_data.json");
+    const fileContents = readFileSync(filePath, "utf8");
+    const data = JSON.parse(fileContents);
   const timeRange: TimeRange = "90d";
 
   return (

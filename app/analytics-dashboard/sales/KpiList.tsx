@@ -1,5 +1,7 @@
 import MonthOnMonthCard from "./MonthOnMonthCard";
 import KpiCard from "./KpiCard";
+import { join } from "path";
+import { readFileSync } from "fs";
 
 export type SalesMonthOnMonth = {
   success?: boolean;
@@ -29,17 +31,9 @@ export type SalesMonthOnMonth = {
 };
 
 export default async function KpiList() {
-  const response = await fetch(
-    `${
-      process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000"
-    }/sales_month_on_month.json`,
-    {
-      cache: "no-store",
-    }
-  );
-  const salesData = await response.json();
+  const filePath = join(process.cwd(), "public", "sales_month_on_month.json");
+  const fileContents = readFileSync(filePath, "utf8");
+  const salesData = JSON.parse(fileContents);
   return (
     <div className="flex flex-row justify-between gap-4 flex-wrap">
       <div className="flex-1 min-w-[220px] max-w-[360px]">

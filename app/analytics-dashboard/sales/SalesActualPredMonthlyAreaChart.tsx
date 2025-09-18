@@ -1,4 +1,6 @@
 import SalesActualPredMonthlyAreaChartClient from "@/components/ui/SalesActualPredMonthlyAreaChartClient";
+import { join } from "path";
+import { readFileSync } from "fs";
 
 type TimeRange = "3m" | "6m" | "12m";
 export type monthlyPredictionData = {
@@ -10,19 +12,13 @@ export type monthlyPredictionData = {
 };
 
 export default async function SalesActualPredMonthlyAreaChart() {
-  const res = await fetch(
-    `${
-      process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000"
-    }/sales_actuals_pred_month_comparison.json`,
-    {
-      cache: "no-store",
-    }
+  const filePath = join(
+    process.cwd(),
+    "public",
+    "sales_actuals_pred_month_comparison.json"
   );
-
-
-  const json = res.ok ? await res.json() : [];
+  const fileContents = readFileSync(filePath, "utf8");
+  const json = JSON.parse(fileContents);
   const items = json.data;
   const timeRange: TimeRange = "6m";
   return (

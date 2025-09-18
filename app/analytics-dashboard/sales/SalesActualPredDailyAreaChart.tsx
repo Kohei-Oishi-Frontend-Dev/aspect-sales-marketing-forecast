@@ -1,4 +1,6 @@
 import SalesActualPredDailyAreaChartClient from "@/components/ui/SalesActualPredDailyAreaChartClient";
+import { join } from "path";
+import { readFileSync } from "fs";
 
 type TimeRange = "7d" | "14d" | "30d" | "90d" | "180d" | "360d";
 export type dailyPredictionData = {
@@ -10,18 +12,13 @@ export type dailyPredictionData = {
 };
 
 export default async function SalesActualPredDailyAreaChart() {
-  const res = await fetch(
-    `${
-      process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000"
-    }/sales_actuals_pred_daily_comparison.json`,
-    {
-      cache: "no-store",
-    }
+  const filePath = join(
+    process.cwd(),
+    "public",
+    "sales_actuals_pred_daily_comparison.json"
   );
-
-  const json = res.ok ? await res.json() : null;
+  const fileContents = readFileSync(filePath, "utf8");
+  const json = JSON.parse(fileContents);
   const items = json?.data ?? [];
   const timeRange: TimeRange = "180d";
   
