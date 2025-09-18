@@ -12,7 +12,7 @@ export default function MonthOnMonthCard({ salesData }: Props) {
     !Number.isNaN(Number(salesData.current_period.value))
       ? `£${trimFloat(Number(salesData.current_period.value), 2)}`
       : "N/A";
-  const revenueTrend = salesData?.direction;
+  const revenueTrend = salesData?.change.direction;
   const change = salesData?.change.absolute;
 
   const description = (() => {

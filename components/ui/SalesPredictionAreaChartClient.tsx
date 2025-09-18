@@ -59,6 +59,7 @@ export default function SalesPredictionAreaChartClient({
       : timeRange === "30d"
       ? 30
       : 90;
+      
   const filteredData = (() => {
     if (!data || data.length === 0) return [];
     const end = new Date();
