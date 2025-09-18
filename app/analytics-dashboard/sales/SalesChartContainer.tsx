@@ -21,7 +21,7 @@ export default function SalesChartContainer({
         return (
           <SalesActualPredMonthlyAreaChartClient
             data={allChartsData.salesActualsPredMonthComparison}
-            initialTimeRange="12m"
+            initialTimeRange="3m"
           />
         );
       case "nextMonth":
