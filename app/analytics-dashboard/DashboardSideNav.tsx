@@ -11,12 +11,11 @@ import {
   ArrowExpandIcon,
   LogoutSquare01Icon,
 } from "@hugeicons/core-free-icons";
-import { logout } from "@/app/login/action";
+import { logoutAction } from "@/lib/actions/auth-actions";
 
 export default function DashboardSideNav() {
   const pathname = usePathname() || "/analytics-dashboard";
   const [collapsed, setCollapsed] = useState(false);
-
   const linkClass = (path: string) =>
     pathname === path
       ? "block font-semibold text-blue-600"
@@ -81,7 +80,7 @@ export default function DashboardSideNav() {
 
       {/* logout button pinned to bottom */}
       <div className="mt-auto px-2 py-2">
-        <form action={logout}>
+        <form action={logoutAction}>
           <button
             type="submit"
             aria-label="Logout"
