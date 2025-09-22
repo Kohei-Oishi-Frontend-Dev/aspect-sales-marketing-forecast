@@ -3,13 +3,14 @@ import { useState } from "react";
 import SalesForecastNarrative from "./SalesForecastNarrative";
 import KpiList from "./KpiList";
 import SalesChartContainer, { ChartType } from "./SalesChartContainer";
-import type { AllChartsData } from "./page";
+import type { AllChartsData, salesNarrativeData } from "./page";
 
 type SalesForecastProps = {
   allChartsData: AllChartsData;
+  salesNarrativeData: salesNarrativeData;
 };
 
-export default function SalesForecast({ allChartsData }: SalesForecastProps) {
+export default function SalesForecast({ allChartsData, salesNarrativeData }: SalesForecastProps) {
   const [selectedChart, setSelectedChart] = useState<ChartType>("lastMonth");
 
   return (
@@ -21,7 +22,7 @@ export default function SalesForecast({ allChartsData }: SalesForecastProps) {
         selectedChart={selectedChart}
         onChartSelect={setSelectedChart}
       />
-      <SalesForecastNarrative />
+      <SalesForecastNarrative salesNarrativeData={salesNarrativeData}/>
       <SalesChartContainer
         selectedChart={selectedChart}
         allChartsData={allChartsData}
