@@ -1,27 +1,22 @@
 "use client";
 import React, { useActionState, JSX } from "react";
-import { useRouter } from "next/navigation";
 import { signInSocial } from "@/lib/actions/auth-actions"; 
 
 type State = { ok: boolean; message?: string } | null;
 
 export default function LoginForm(): JSX.Element {
-  const router = useRouter();
   
   const [state, formAction, isPending] = useActionState<State, FormData>(
     async (_prev, formData) => {
       const provider = formData.get("provider") as "github" | "microsoft";
       try {
-        const result = await signInSocial(provider);
-        if (!result) {
-          return { ok: false, message: "Sign in failed" };
-        }
-        
-        // Navigate to dashboard on successful sign in
-        router.push("/analytics-dashboard");
+        // signInSocial returns void; if it doesn't throw, consider it a success
+        await signInSocial(provider);
         return { ok: true, message: "Redirecting..." };
-      } catch (err: any) {
-        return { ok: false, message: err?.message ?? "Sign in failed" };
+      } catch (err: unknown) {
+        const message =
+          err instanceof Error ? err.message : String(err ?? "Sign in failed");
+        return { ok: false, message };
       }
     },
     null

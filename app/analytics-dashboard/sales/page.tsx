@@ -5,6 +5,9 @@ import type { SalesMonthOnMonth } from "./KpiList";
 import type { SalesPrediction } from "./SalesPredictionAreaChart";
 import type { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
 import type { monthlyPredictionData } from "./SalesActualPredMonthlyAreaChart";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 export type AllChartsData = {
   salesMonthOnMonthData: SalesMonthOnMonth;
@@ -14,6 +17,12 @@ export type AllChartsData = {
 };
 
 export default async function SalesPage() {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      redirect("/login");
+    }
   // Fetch sales month-on-month data
   const salesMonthOnMonthFilePath = join(
     process.cwd(),
