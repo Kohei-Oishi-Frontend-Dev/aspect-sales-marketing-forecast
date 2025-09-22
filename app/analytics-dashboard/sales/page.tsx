@@ -1,6 +1,6 @@
 import { join } from "path";
 import { readFileSync } from "fs";
-import SalesForecast from "./SalesForecast";
+import SalesDashboardClient from "./SalesDashboardClient";
 import type { SalesMonthOnMonth } from "./KpiList";
 import type { SalesPrediction } from "./SalesPredictionAreaChart";
 import type { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
@@ -86,9 +86,9 @@ export default async function SalesPage() {
   };
 
   return (
-    <SalesForecast
-      allChartsData={allChartsData}
-      salesNarrativeData={salesNarrativeData}
+    <SalesDashboardClient
+      initialAllChartsData={allChartsData}
+      initialNarrativeData={salesNarrativeData}
     />
   );
 }
