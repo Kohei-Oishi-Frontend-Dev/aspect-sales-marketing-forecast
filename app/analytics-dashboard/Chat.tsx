@@ -74,7 +74,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (open) scrollToBottom(true);
-  }, [messages]);
+  }, [messages, open]);
 
   const send = () => {
     if (!text.trim()) return;
