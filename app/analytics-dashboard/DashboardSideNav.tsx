@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -11,8 +10,7 @@ import {
   ArrowExpandIcon,
   LogoutSquare01Icon,
 } from "@hugeicons/core-free-icons";
-import { logout } from "@/app/login/action";
-
+import { logoutAction } from "@/lib/actions/auth-actions";
 export default function DashboardSideNav() {
   const pathname = usePathname() || "/analytics-dashboard";
   const [collapsed, setCollapsed] = useState(false);
@@ -81,7 +79,11 @@ export default function DashboardSideNav() {
 
       {/* logout button pinned to bottom */}
       <div className="mt-auto px-2 py-2">
-        <form action={logout}>
+        <form
+          action={async () => {
+            await logoutAction();
+          }}
+        >
           <button
             type="submit"
             aria-label="Logout"

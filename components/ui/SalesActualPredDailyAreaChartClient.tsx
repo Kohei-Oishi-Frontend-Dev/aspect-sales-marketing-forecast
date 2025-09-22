@@ -77,13 +77,6 @@ export default function SalesActualPredDailyAreaChartClient({
 
     if (!fromCurrentDay.length) return [];
 
-    const timestamps = fromCurrentDay
-      .map((d) => {
-        const t = new Date(d.date).getTime();
-        return Number.isFinite(t) ? t : NaN;
-      })
-      .filter(Number.isFinite);
-
     // Use current day as the start anchor and show forward
     const start = new Date(currentDay);
     start.setHours(0, 0, 0, 0);
@@ -101,7 +94,7 @@ export default function SalesActualPredDailyAreaChartClient({
         (a, b) =>
           new Date(String(a.date)).getTime() - new Date(String(b.date)).getTime()
       );
-  }, [data, days, timeRange]);
+  }, [data, days]);
 
   return (
     <Card>
