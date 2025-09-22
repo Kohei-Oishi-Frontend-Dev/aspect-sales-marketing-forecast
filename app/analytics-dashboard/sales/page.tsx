@@ -16,6 +16,12 @@ export type AllChartsData = {
   salesActualsPredDailyComparison: dailyPredictionData[];
 };
 
+  export type salesNarrativeData = {
+    narrative: string;
+    generated_at: string;
+    execution_id: string;
+  };
+
 export default async function SalesPage() {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -62,6 +68,16 @@ export default async function SalesPage() {
   const salesActualPredDailyComparisonFileContents = readFileSync(salesActualPredDailyComparisonFilePath, "utf8");
   const salesActualsPredDailyComparison: monthlyPredictionData[] = JSON.parse(salesActualPredDailyComparisonFileContents).data;
 
+  // read sales_narrative.json
+  const salesNarrativePath = join(
+      process.cwd(),
+      "public",
+      "sales_narrative.json"
+  );
+  
+  const salesNarrativeContents = readFileSync(salesNarrativePath, "utf8");
+  const salesNarrativeData: salesNarrativeData = JSON.parse(salesNarrativeContents);
+
   const allChartsData: AllChartsData = {
     salesMonthOnMonthData: salesMonthOnMonthData,
     salesPredictionData: salesPredictionData,
@@ -70,6 +86,9 @@ export default async function SalesPage() {
   };
 
   return (
-    <SalesForecast allChartsData={allChartsData} />
+    <SalesForecast
+      allChartsData={allChartsData}
+      salesNarrativeData={salesNarrativeData}
+    />
   );
 }
