@@ -10,7 +10,7 @@ export default function QueryProvider({children} : Props){
 const [queryClient] = useState(() => {
   const qc = new QueryClient();
   // set default options including cacheTime — cast to any because your installed @tanstack/react-query types may not include cacheTime
-  (qc as any).setDefaultOptions?.({
+  (qc as unknown).setDefaultOptions?.({
     queries: { staleTime: Infinity, cacheTime: 1000 * 60 * 60 }, // 1 hour cache by default
   });
   return qc;
