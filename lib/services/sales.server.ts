@@ -7,10 +7,6 @@ import type {
 } from "@/lib/types/sales";
 
 const baseURL = process.env.API_BASE_URL ?? "";
-if (!baseURL) {
-  throw new Error("API_BASE_URL must be set to call external analytics endpoints");
-}
-
 async function postJson<T = unknown>(path: string, body: unknown): Promise<T> {
   const url = new URL(path, baseURL).toString();
   const res = await fetch(url, {
