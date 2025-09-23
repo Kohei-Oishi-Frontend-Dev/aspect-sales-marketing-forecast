@@ -5,6 +5,33 @@ export type SalesPrediction = {
   lower_bound: number;
 };
 
+export type SalesMonthOnMonth = {
+  success?: boolean;
+  metric?: string;
+  current_period?: {
+    value?: number;
+    period?: string;
+    direction?: string | null;
+    date?: string | null;
+    label?: string;
+  };
+  comparison_period?: {
+    value?: number;
+    period?: string;
+    direction?: string | null;
+    date?: string | null;
+    label?: string;
+  };
+  change?: {
+    absolute?: number | null;
+    percentage?: number | null;
+    direction?: string | null;
+  };
+  trend?: unknown;
+  filters?: Record<string, unknown>;
+  execution_timestamp?: string;
+};
+
 export type monthlyPredictionData = {
   date: string | null;
   actual_sales?: number | null;
