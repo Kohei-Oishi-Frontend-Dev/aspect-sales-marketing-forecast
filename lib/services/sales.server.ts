@@ -1,50 +1,160 @@
-import { join } from "path";
-import { readFileSync } from "fs";
 import type {
   AllChartsData,
   salesNarrativeData,
   monthlyPredictionData,
   dailyPredictionData,
-  SalesPrediction,
   SalesMonthOnMonth,
 } from "@/lib/types/sales";
 
 const baseURL = process.env.API_BASE_URL ?? "";
 
-export async function getInitialAllChartsData(): Promise<{
+export async function getInitialAllChartsData(
+  filters?: { sector?: string | null; region?: string | null; service?: string | null }
+): Promise<{
   allChartsData: AllChartsData;
   narrative: salesNarrativeData;
 }> {
-  const base = process.cwd();
+  let salesMonthOnMonth: SalesMonthOnMonth | null = null;
+  let fetchedNarrative: salesNarrativeData | undefined;
+  // prepare placeholders for actual-vs-predicted results
+  let salesActualsPredMonthComparison: monthlyPredictionData[] | undefined;
+  let salesActualsPredDailyComparison: dailyPredictionData[] | undefined;
 
-  const salesMonthOnMonth = JSON.parse(
-    readFileSync(join(base, "public", "sales_month_on_month.json"), "utf8")
-  ) as SalesMonthOnMonth;
+  try {
+    const url = new URL("/api/v1/analysis/kpi", baseURL).toString();
+    const payload = {
+      metric: "sales",
+      period: "month",
+      comparison_type: "sequential",
+      current_date: new Date().toISOString().slice(0, 10),
+      sector: filters?.sector ?? "",
+      region: filters?.region ?? "",
+      service: filters?.service ?? "",
+      include_trend: false,
+    };
 
-  const salesPredictionData = JSON.parse(
-    readFileSync(join(base, "public", "predicted_sales_data.json"), "utf8")
-  ) as SalesPrediction[];
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+    });
 
-  const salesActualsPredMonthComparison = JSON.parse(
-    readFileSync(join(base, "public", "sales_actuals_pred_month_comparison.json"), "utf8")
-  ).data as monthlyPredictionData[];
+    if (res.ok) {
+      salesMonthOnMonth = await res.json();
 
-  const salesActualsPredDailyComparison = JSON.parse(
-    readFileSync(join(base, "public", "sales_actuals_pred_daily_comparison.json"), "utf8")
-  ).data as dailyPredictionData[];
+      // request narrative from backend analytics endpoint
+      try {
+        const narrativeUrl = new URL("/api/v1/analytics/narative", baseURL).toString();
+        const narPayload = {
+          current_date: payload.current_date,
+          sector: payload.sector,
+          region: payload.region,
+          service: payload.service,
+        };
+        const narRes = await fetch(narrativeUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(narPayload),
+          cache: "no-store",
+        });
+        if (narRes.ok) {
+          fetchedNarrative = (await narRes.json()) as salesNarrativeData;
+        } else {
+          const txt = await narRes.text().catch(() => "");
+          console.error("Narrative API returned non-ok:", narRes.status, txt);
+        }
+      } catch (err) {
+        console.error("Error calling Narrative API:", err);
+      }
 
-  const narrative = JSON.parse(
-    readFileSync(join(base, "public", "sales_narrative.json"), "utf8")
-  ) as salesNarrativeData;
+      // call actual-vs-predicted endpoint twice: monthly and daily
+      try {
+        const now = new Date();
+        const startDate = new Date(now);
+        startDate.setFullYear(startDate.getFullYear() - 1);
+        const endDate = new Date(now);
+        endDate.setMonth(endDate.getMonth() + 2);
+
+        const format = (d: Date) => d.toISOString().slice(0, 10);
+
+        const avpUrl = new URL("/api/v1/analytics/actual-vs-predicted", baseURL).toString();
+
+        // monthly aggregation
+        const monthlyPayload = {
+          start_date: format(startDate),
+          end_date: format(endDate),
+          aggregation: "monthly",
+          sector: payload.sector,
+          region: payload.region,
+        };
+        const monthlyRes = await fetch(avpUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(monthlyPayload),
+          cache: "no-store",
+        });
+        if (monthlyRes.ok) {
+          salesActualsPredMonthComparison = (await monthlyRes.json().data) as monthlyPredictionData[];
+        } else {
+          const txt = await monthlyRes.text().catch(() => "");
+          console.error("Monthly actual-vs-predicted returned non-ok:", monthlyRes.status, txt);
+        }
+
+        // daily aggregation
+        const dailyPayload = {
+          start_date: format(startDate),
+          end_date: format(endDate),
+          aggregation: "daily",
+          sector: payload.sector,
+          region: payload.region,
+        };
+        const dailyRes = await fetch(avpUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dailyPayload),
+          cache: "no-store",
+        });
+        if (dailyRes.ok) {
+          salesActualsPredDailyComparison = (await dailyRes.json().data) as dailyPredictionData[];
+        } else {
+          const txt = await dailyRes.text().catch(() => "");
+          console.error("Daily actual-vs-predicted returned non-ok:", dailyRes.status, txt);
+        }
+      } catch (err) {
+        console.error("Error calling actual-vs-predicted APIs:", err);
+      }
+    } else {
+      const text = await res.text();
+      console.error("KPI API error:", res.status, text);
+    }
+  } catch (err) {
+    console.error("Error calling KPI API:", err);
+  }
+
+  // ensure we always return a complete shape with sensible defaults
+  const defaultMonthOnMonth: SalesMonthOnMonth = {
+    success: false,
+    metric: "sales",
+    current_period: { value: 0, period: "", direction: null, date: null, label: "" },
+    comparison_period: { value: 0, period: "", direction: null, date: null, label: "" },
+    change: { absolute: 0, percentage: 0, direction: null },
+    trend: null,
+    filters: {},
+    execution_timestamp: new Date().toISOString(),
+  };
 
   return {
     allChartsData: {
-      salesMonthOnMonthData: salesMonthOnMonth,
-      salesPredictionData,
-      salesActualsPredMonthComparison,
-      salesActualsPredDailyComparison,
+      salesMonthOnMonthData: salesMonthOnMonth ?? defaultMonthOnMonth,
+      salesActualsPredMonthComparison: salesActualsPredMonthComparison ?? [],
+      salesActualsPredDailyComparison: salesActualsPredDailyComparison ?? [],
     },
-    narrative,
+    narrative:
+      fetchedNarrative ??
+      (typeof fetchedNarrative === "undefined"
+        ? { narrative: "", generated_at: new Date().toISOString(), execution_id: "" }
+        : fetchedNarrative),
   };
 }
 

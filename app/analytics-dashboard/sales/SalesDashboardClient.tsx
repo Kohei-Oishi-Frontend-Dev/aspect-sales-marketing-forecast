@@ -7,6 +7,11 @@ import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 import FilterSelect from "@/components/FilterSelect";
 import { Button } from "@/components/ui/Button"; 
 
+// use the global lookup hooks (prefetched by QueryProvider)
+import { useSectors } from "@/lib/hooks/useSectors";
+import { useServices } from "@/lib/hooks/useServices";
+import { useRegions } from "@/lib/hooks/useRegions";
+
 type Filters = {
   sector?: string | null;
   region?: string | null;
@@ -22,10 +27,21 @@ export default function SalesDashboardClient({
   initialNarrativeData: salesNarrativeData;
   initialFilters?: Filters;
 }) {
+  console.log("client initialAllChartsData:", initialAllChartsData);
   // initialize filters from server-provided user preference (may be null)
   const [filters, setFilters] = useState<Filters>(
     initialFilters ?? { sector: null, region: null, service: null }
   );
+
+  // read globally-cached lookup lists via hooks (these are cached in QueryProvider)
+  const { data: sectorList = [] } = useSectors();
+  const { data: regionList = [] } = useRegions();
+  const { data: serviceList = [] } = useServices();
+
+  // adapt hook Option shape { id,label } -> FilterSelect expects { value,label }
+  const sectorOptions = sectorList.map((s) => ({ value: s.id, label: s.label }));
+  const regionOptions = regionList.map((r) => ({ value: r.id, label: r.label }));
+  const serviceOptions = serviceList.map((s) => ({ value: s.id, label: s.label }));
 
   // only trigger fetch when user manually changes a filter
   const [userTriggered, setUserTriggered] = useState(false);
@@ -51,21 +67,6 @@ export default function SalesDashboardClient({
 
   const allChartsData = query.data?.allChartsData ?? initialAllChartsData;
   const narrative = query.data?.narrative ?? initialNarrativeData;
-
-  // options could be moved to a constants file
-  const sectorOptions = [
-    { value: "food-and-beverage", label: "Food and Beverage" },
-    { value: "home-owner", label: "Home Owner" },
-    { value: "office", label: "Office" },
-  ];
-  const regionOptions = [
-    { value: "chessington", label: "Chessington" },
-    { value: "south-west", label: "South West" },
-  ];
-  const serviceOptions = [
-    { value: "heating-hot-water", label: "Heating & Hot Water" },
-    { value: "plastering", label: "Plastering" },
-  ];
 
   const handleChange = (k: keyof Filters, v: string | null) => {
     // mark that user explicitly changed a filter, so query will run

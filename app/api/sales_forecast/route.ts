@@ -5,7 +5,6 @@ export async function POST(request: NextRequest) {
     //actual fetching happens
     console.log(request);
     //currently just console.log statement
-
     const allChartsData = {
       salesMonthOnMonthData: null,
       salesPredictionData: null,

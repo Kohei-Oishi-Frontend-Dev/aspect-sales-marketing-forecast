@@ -49,6 +49,7 @@ export default function KpiList({
   selectedChart,
   onChartSelect,
 }: KpiListProps) {
+  console.log("props received were ", nextMonthForecastData, dailyForecastData);
   return (
     <div className="flex flex-row justify-between gap-4 flex-wrap">
       <div
