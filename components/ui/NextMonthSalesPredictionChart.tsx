@@ -27,7 +27,7 @@ import {
 import { getCurrentMonth } from "@/lib/utils";
 
 // Import the type with a type-only alias to avoid the value/type collision
-import type { monthlyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredMonthlyAreaChart";
+import type { monthlyPredictionData } from "@/lib/types/sales";
 // Use months instead of days
 type TimeRange = "3m" | "6m" | "12m";
 
@@ -69,10 +69,15 @@ function hasPredictionFromCurrentMonth(
   );
 }
 
+interface NextMonthSalesPredictionChartProps {
+  data?: monthlyPredictionData[];
+  initialTimeRange?: TimeRange;
+}
+
 export default function NextMonthSalesPredictionChart({
   data,
   initialTimeRange = "12m",
-}: SalesPredictionMonthlyProps) {
+}: NextMonthSalesPredictionChartProps) {
   const [timeRange, setTimeRange] = useState<TimeRange>(initialTimeRange);
   const handleTimeRangeChange = (value: string) =>
     setTimeRange(value as TimeRange);

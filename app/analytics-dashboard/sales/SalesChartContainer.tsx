@@ -2,7 +2,7 @@
 import SalesPredictionDailyChart from "@/components/ui/SalesPredictionDailyChart";
 import LastMonthSalesChart from "@/components/ui/LastMonthSalesChart";
 import NextMonthSalesPredictionChart from "@/components/ui/NextMonthSalesPredictionChart";
-import type { AllChartsData } from "./page";
+import type { AllChartsData } from "@/lib/types/sales";
 
 export type ChartType = "lastMonth" | "nextMonth" | "dailyForecast";
 

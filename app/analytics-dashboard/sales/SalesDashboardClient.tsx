@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation"; // { added }
+import { useRouter } from "next/navigation"; 
 import SalesForecast from "./SalesForecast";
-import type { AllChartsData, salesNarrativeData } from "./page";
+import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 import FilterSelect from "@/components/FilterSelect";
-import { Button } from "@/components/ui/Button"; // { added }
+import { Button } from "@/components/ui/Button"; 
 
 type Filters = {
   sector?: string | null;

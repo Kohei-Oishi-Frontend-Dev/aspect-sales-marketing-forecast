@@ -42,23 +42,6 @@ export type monthlyPredictionData = {
 
 export type dailyPredictionData = monthlyPredictionData;
 
-export type SalesMonthOnMonth = {
-  months: { month: string; value: number }[];
-};
-
-export type AllChartsData = {
-  salesMonthOnMonthData: SalesMonthOnMonth;
-  salesPredictionData: SalesPrediction[];
-  salesActualsPredMonthComparison: monthlyPredictionData[];
-  salesActualsPredDailyComparison: dailyPredictionData[];
-};
-
-export type salesNarrativeData = {
-  narrative: string;
-  generated_at: string;
-  execution_id: string;
-};
-
 export type AllChartsData = {
   salesMonthOnMonthData: SalesMonthOnMonth;
   salesPredictionData: SalesPrediction[];

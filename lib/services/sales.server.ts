@@ -7,7 +7,7 @@ import type {
   dailyPredictionData,
   SalesPrediction,
   SalesMonthOnMonth,
-} from "./types/sales";
+} from "@/lib/types/sales";
 
 const baseURL = process.env.API_BASE_URL ?? "";
 
@@ -69,25 +69,12 @@ export async function getFilteredChartsData(
           allChartsData: AllChartsData;
           narrative?: salesNarrativeData;
         };
-        // ensure narrative exists in response shape
         return {
           allChartsData: payload.allChartsData,
           narrative: payload.narrative ?? (baseData?.narrative ?? (await getInitialAllChartsData()).narrative),
         };
       }
-
-      // log and fall through to local filtering
-      const txt = await extRes.text().catch(() => "");
-      console.error("External sales API returned non-ok:", extRes.status, txt);
     } catch (err) {
       console.error("Error calling external sales API:", err);
-      // fall back to local filtering below
     }
-  return {
-    allChartsData: {
-      ...allChartsData,
-      salesActualsPredMonthComparison: filteredMonthComparison,
-    },
-    narrative,
-  };
 }

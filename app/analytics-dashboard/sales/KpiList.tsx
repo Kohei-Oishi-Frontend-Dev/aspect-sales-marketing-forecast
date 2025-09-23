@@ -2,8 +2,8 @@
 
 import MonthOnMonthCard from "./MonthOnMonthCard";
 import { ChartType } from "./SalesChartContainer";
-import { monthlyPredictionData } from "./SalesActualPredMonthlyAreaChart";
-import { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
+import { monthlyPredictionData } from "@/lib/types/sales";
+import { dailyPredictionData } from "@/lib/types/sales";
 import NextMonthSalesPredictionCard from "./NextMonthSalesPredictionCard";
 import DailyPredictionCard from "./DailyPredictionCard";
 

@@ -5,10 +5,17 @@ export async function POST(request: Request) {
     const body = await request.json();
     const filters = body.filters ?? {};
     const result = await getFilteredChartsData(filters);
-    return NextResponse.json(result);
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err: unknown) {
     console.error("sales forecast API error:", err);
-    return NextResponse.json({ error: err?.message ?? "Server error" }, { status: 500 });
+    const message = err instanceof Error ? err.message : String(err ?? "Server error");
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
 

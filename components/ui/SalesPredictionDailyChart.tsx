@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { getCurrentDay } from "@/lib/utils";
 
-import type { dailyPredictionData } from "@/app/analytics-dashboard/sales/SalesActualPredDailyAreaChart";
+import type { dailyPredictionData } from "@/lib/types/sales";
 
 type TimeRange = "7d" | "14d" | "30d" | "90d" | "180d" | "360d";
 

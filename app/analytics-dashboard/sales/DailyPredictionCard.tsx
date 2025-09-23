@@ -1,6 +1,6 @@
 import KpiCard from "./KpiCard";
 import { abbreviateNumber, getCurrentDay } from "@/lib/utils";
-import { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
+import type { dailyPredictionData } from "@/lib/types/sales";
 
 type Props = {
   dailyForecastData?: dailyPredictionData[];
