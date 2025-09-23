@@ -16,7 +16,6 @@ export default function SalesForecast({ allChartsData, salesNarrativeData }: Sal
   // Defensive: if essential pieces are missing or empty, render a loading skeleton
   const isMissing =
     !allChartsData ||
-    !Array.isArray(allChartsData.salesPredictionData) ||
     !Array.isArray(allChartsData.salesActualsPredMonthComparison) ||
     !Array.isArray(allChartsData.salesActualsPredDailyComparison);
 

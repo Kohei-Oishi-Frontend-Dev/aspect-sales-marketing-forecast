@@ -27,7 +27,6 @@ export default function SalesDashboardClient({
   initialNarrativeData: salesNarrativeData;
   initialFilters?: Filters;
 }) {
-  console.log("client initialAllChartsData:", initialAllChartsData);
   // initialize filters from server-provided user preference (may be null)
   const [filters, setFilters] = useState<Filters>(
     initialFilters ?? { sector: null, region: null, service: null }
@@ -48,7 +47,7 @@ export default function SalesDashboardClient({
   const shouldFetch = userTriggered && Boolean(filters.sector || filters.region || filters.service);
 
   const query = useQuery({
-    queryKey: ["sales", filters],
+    queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
       const res = await fetch("/api/sales_forecast/update", {
         method: "POST",
@@ -88,6 +87,30 @@ export default function SalesDashboardClient({
           <Button variant="outline" onClick={() => router.push("/setting/user-preference")}>
             Edit preferences
           </Button>
+
+          {/* status area: show fetching indicator when refetching */}
+          <div className="ml-4 flex items-center gap-3">
+            {query.isFetching ? (
+              <div className="flex items-center gap-2 text-sm text-blue-600" aria-live="polite">
+                {/* simple inline spinner */}
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>Refreshing…</span>
+              </div>
+            ) : (
+              <div className="text-sm text-gray-600">
+                {!userTriggered
+                  ? "Using saved preferences"
+                  : !shouldFetch
+                  ? "Select filters to load"
+                  : query.isError
+                  ? "Failed to load"
+                  : "Up to date"}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

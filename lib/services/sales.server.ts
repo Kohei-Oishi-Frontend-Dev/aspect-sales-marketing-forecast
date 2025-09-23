@@ -7,6 +7,24 @@ import type {
 } from "@/lib/types/sales";
 
 const baseURL = process.env.API_BASE_URL ?? "";
+if (!baseURL) {
+  throw new Error("API_BASE_URL must be set to call external analytics endpoints");
+}
+
+async function postJson<T = any>(path: string, body: unknown): Promise<T> {
+  const url = new URL(path, baseURL).toString();
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`POST ${path} failed ${res.status}: ${txt}`);
+  }
+  return (await res.json()) as T;
+}
 
 export async function getInitialAllChartsData(
   filters?: { sector?: string | null; region?: string | null; service?: string | null }
@@ -14,147 +32,70 @@ export async function getInitialAllChartsData(
   allChartsData: AllChartsData;
   narrative: salesNarrativeData;
 }> {
-  let salesMonthOnMonth: SalesMonthOnMonth | null = null;
-  let fetchedNarrative: salesNarrativeData | undefined;
-  // prepare placeholders for actual-vs-predicted results
-  let salesActualsPredMonthComparison: monthlyPredictionData[] | undefined;
-  let salesActualsPredDailyComparison: dailyPredictionData[] | undefined;
-
-  try {
-    const url = new URL("/api/v1/analysis/kpi", baseURL).toString();
-    const payload = {
-      metric: "sales",
-      period: "month",
-      comparison_type: "sequential",
-      current_date: new Date().toISOString().slice(0, 10),
-      sector: filters?.sector ?? "",
-      region: filters?.region ?? "",
-      service: filters?.service ?? "",
-      include_trend: false,
-    };
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      cache: "no-store",
-    });
-
-    if (res.ok) {
-      salesMonthOnMonth = await res.json();
-
-      // request narrative from backend analytics endpoint
-      try {
-        const narrativeUrl = new URL("/api/v1/analytics/narative", baseURL).toString();
-        const narPayload = {
-          current_date: payload.current_date,
-          sector: payload.sector,
-          region: payload.region,
-          service: payload.service,
-        };
-        const narRes = await fetch(narrativeUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(narPayload),
-          cache: "no-store",
-        });
-        if (narRes.ok) {
-          fetchedNarrative = (await narRes.json()) as salesNarrativeData;
-        } else {
-          const txt = await narRes.text().catch(() => "");
-          console.error("Narrative API returned non-ok:", narRes.status, txt);
-        }
-      } catch (err) {
-        console.error("Error calling Narrative API:", err);
-      }
-
-      // call actual-vs-predicted endpoint twice: monthly and daily
-      try {
-        const now = new Date();
-        const startDate = new Date(now);
-        startDate.setFullYear(startDate.getFullYear() - 1);
-        const endDate = new Date(now);
-        endDate.setMonth(endDate.getMonth() + 2);
-
-        const format = (d: Date) => d.toISOString().slice(0, 10);
-
-        const avpUrl = new URL("/api/v1/analytics/actual-vs-predicted", baseURL).toString();
-
-        // monthly aggregation
-        const monthlyPayload = {
-          start_date: format(startDate),
-          end_date: format(endDate),
-          aggregation: "monthly",
-          sector: payload.sector,
-          region: payload.region,
-        };
-        const monthlyRes = await fetch(avpUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(monthlyPayload),
-          cache: "no-store",
-        });
-        if (monthlyRes.ok) {
-          salesActualsPredMonthComparison = (await monthlyRes.json().data) as monthlyPredictionData[];
-        } else {
-          const txt = await monthlyRes.text().catch(() => "");
-          console.error("Monthly actual-vs-predicted returned non-ok:", monthlyRes.status, txt);
-        }
-
-        // daily aggregation
-        const dailyPayload = {
-          start_date: format(startDate),
-          end_date: format(endDate),
-          aggregation: "daily",
-          sector: payload.sector,
-          region: payload.region,
-        };
-        const dailyRes = await fetch(avpUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dailyPayload),
-          cache: "no-store",
-        });
-        if (dailyRes.ok) {
-          salesActualsPredDailyComparison = (await dailyRes.json().data) as dailyPredictionData[];
-        } else {
-          const txt = await dailyRes.text().catch(() => "");
-          console.error("Daily actual-vs-predicted returned non-ok:", dailyRes.status, txt);
-        }
-      } catch (err) {
-        console.error("Error calling actual-vs-predicted APIs:", err);
-      }
-    } else {
-      const text = await res.text();
-      console.error("KPI API error:", res.status, text);
-    }
-  } catch (err) {
-    console.error("Error calling KPI API:", err);
-  }
-
-  // ensure we always return a complete shape with sensible defaults
-  const defaultMonthOnMonth: SalesMonthOnMonth = {
-    success: false,
+  // prepare KPI payload
+  const payload = {
     metric: "sales",
-    current_period: { value: 0, period: "", direction: null, date: null, label: "" },
-    comparison_period: { value: 0, period: "", direction: null, date: null, label: "" },
-    change: { absolute: 0, percentage: 0, direction: null },
-    trend: null,
-    filters: {},
-    execution_timestamp: new Date().toISOString(),
+    period: "month",
+    comparison_type: "sequential",
+    current_date: new Date().toISOString().slice(0, 10),
+    sector: filters?.sector ?? "",
+    region: filters?.region ?? "",
+    service: filters?.service ?? "",
+    include_trend: false,
   };
 
+  // 1) KPI (month-on-month)
+  const salesMonthOnMonth = await postJson<SalesMonthOnMonth>("/api/v1/analysis/kpi", payload);
+
+  // 2) Narrative
+  const narrative = await postJson<salesNarrativeData>("/api/v1/analytics/narative", {
+    current_date: payload.current_date,
+    sector: payload.sector,
+    region: payload.region,
+    service: payload.service,
+  });
+
+  // 3) Actual vs Predicted (monthly)
+  const now = new Date();
+  const startDate = new Date(now);
+  startDate.setFullYear(startDate.getFullYear() - 1);
+  const endDate = new Date(now);
+  endDate.setMonth(endDate.getMonth() + 2);
+  const format = (d: Date) => d.toISOString().slice(0, 10);
+
+  const monthlyRes = await postJson<{ data: monthlyPredictionData[] }>(
+    "/api/v1/analytics/actual-vs-predicted",
+    {
+      start_date: format(startDate),
+      end_date: format(endDate),
+      aggregation: "monthly",
+      sector: payload.sector,
+      region: payload.region,
+    }
+  );
+  const salesActualsPredMonthComparison = monthlyRes.data;
+
+  // 4) Actual vs Predicted (daily)
+  const dailyRes = await postJson<{ data: dailyPredictionData[] }>(
+    "/api/v1/analytics/actual-vs-predicted",
+    {
+      start_date: format(startDate),
+      end_date: format(endDate),
+      aggregation: "daily",
+      sector: payload.sector,
+      region: payload.region,
+    }
+  );
+  const salesActualsPredDailyComparison = dailyRes.data;
+
+  // return the strict shape (no local fallback)
   return {
     allChartsData: {
-      salesMonthOnMonthData: salesMonthOnMonth ?? defaultMonthOnMonth,
-      salesActualsPredMonthComparison: salesActualsPredMonthComparison ?? [],
-      salesActualsPredDailyComparison: salesActualsPredDailyComparison ?? [],
+      salesMonthOnMonthData: salesMonthOnMonth,
+      salesActualsPredMonthComparison : salesActualsPredMonthComparison,
+      salesActualsPredDailyComparison : salesActualsPredDailyComparison,
     },
-    narrative:
-      fetchedNarrative ??
-      (typeof fetchedNarrative === "undefined"
-        ? { narrative: "", generated_at: new Date().toISOString(), execution_id: "" }
-        : fetchedNarrative),
+    narrative,
   };
 }
 

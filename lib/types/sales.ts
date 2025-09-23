@@ -44,7 +44,6 @@ export type dailyPredictionData = monthlyPredictionData;
 
 export type AllChartsData = {
   salesMonthOnMonthData: SalesMonthOnMonth;
-  salesPredictionData: SalesPrediction[];
   salesActualsPredMonthComparison: monthlyPredictionData[];
   salesActualsPredDailyComparison: dailyPredictionData[];
 };
