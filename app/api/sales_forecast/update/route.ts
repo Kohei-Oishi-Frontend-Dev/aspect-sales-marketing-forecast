@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const filters = body?.filters ?? {};
     // call server service with current filters
+    console.log(filters);
     const norm = (v?: string) => (v === "all" ? "" : (v ?? ""));
     const result = await getInitialAllChartsData({
       sector: norm(filters.sector),
