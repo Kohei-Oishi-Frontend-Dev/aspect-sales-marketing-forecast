@@ -38,11 +38,6 @@ const chartConfig = {
   lower_bound: { label: "Lower Bound", color: "var(--chart-3)" },
 } satisfies ChartConfig;
 
-type SalesPredictionMonthlyProps = {
-  data: monthlyPredictionData[];
-  initialTimeRange?: TimeRange;
-};
-
 function startOfMonth(d: Date) {
   const x = new Date(d);
   x.setDate(1);
@@ -74,7 +69,7 @@ function hasPredictionFromCurrentMonth(
   );
 }
 
-export default function SalesPredictionMonthlyClient({
+export default function NextMonthSalesPredictionChart({
   data,
   initialTimeRange = "12m",
 }: SalesPredictionMonthlyProps) {

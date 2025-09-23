@@ -11,7 +11,7 @@ type SalesForecastProps = {
 };
 
 export default function SalesForecast({ allChartsData, salesNarrativeData }: SalesForecastProps) {
-  const [selectedChart, setSelectedChart] = useState<ChartType>("lastMonth");
+  const [selectedChart, setSelectedChart] = useState<ChartType>("dailyForecast");
 
   return (
     <div className="flex flex-col gap-4">

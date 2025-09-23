@@ -53,13 +53,13 @@ export default function KpiList({
     <div className="flex flex-row justify-between gap-4 flex-wrap">
       <div
         className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
-          selectedChart === "lastMonth"
+          selectedChart === "dailyForecast"
             ? "ring-2 ring-blue-500 ring-offset-2"
             : "hover:shadow-lg"
         }`}
-        onClick={() => onChartSelect("lastMonth")}
+        onClick={() => onChartSelect("dailyForecast")}
       >
-        <MonthOnMonthCard salesData={salesData} />
+        <DailyPredictionCard dailyForecastData={dailyForecastData} />
       </div>
       <div
         className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
@@ -75,15 +75,13 @@ export default function KpiList({
       </div>
       <div
         className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
-          selectedChart === "dailyForecast"
+          selectedChart === "lastMonth"
             ? "ring-2 ring-blue-500 ring-offset-2"
             : "hover:shadow-lg"
         }`}
-        onClick={() => onChartSelect("dailyForecast")}
+        onClick={() => onChartSelect("lastMonth")}
       >
-        <DailyPredictionCard
-          dailyForecastData={dailyForecastData}
-        />
+        <MonthOnMonthCard salesData={salesData} />
       </div>
     </div>
   );

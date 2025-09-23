@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { toast } from "sonner";
+import { useUserPreference } from "@/lib/hooks/useUserPreference";
 
 // Static data - you can move this to a separate file or fetch from API
 const SECTORS = [
@@ -129,12 +130,33 @@ type UserPreferences = {
 };
 
 export default function UserPreference() {
+    const {
+      data: prefFromServer,
+      savePreference,
+      isLoading: isPrefLoading,
+    } = useUserPreference();
+    
   const router = useRouter();
   const [preferences, setPreferences] = useState<UserPreferences>({
     sectors: [],
     regions: [],
     services: [],
   });
+  
+  useEffect(() => {
+    // only initialize from server if server data exists and user hasn't interacted yet
+    const isEmpty = (obj: UserPreferences) =>
+      obj.sectors.length === 0 && obj.regions.length === 0 && obj.services.length === 0;
+
+    if (prefFromServer && isEmpty(preferences)) {
+      setPreferences({
+        sectors: Array.isArray(prefFromServer.sectors) ? prefFromServer.sectors : [],
+        regions: Array.isArray(prefFromServer.regions) ? prefFromServer.regions : [],
+        services: Array.isArray(prefFromServer.services) ? prefFromServer.services : [],
+      });
+    }
+  }, [prefFromServer]); // do not depend on preferences to avoid overwriting user edits
+
   const [isLoading, setIsLoading] = useState(false);
 
   // track whether user has interacted with each section (for showing validation)

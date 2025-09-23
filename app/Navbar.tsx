@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
         </div>
         {/* center: heading */}
         <h1 className="text-center text-xl font-bold">
-          aspect Business Management
+          Aspect Business Management
         </h1>
       </div>
     </nav>
