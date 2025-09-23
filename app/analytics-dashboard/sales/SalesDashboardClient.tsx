@@ -7,6 +7,11 @@ import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 import FilterSelect from "@/components/FilterSelect";
 import { Button } from "@/components/ui/Button"; 
 
+// use the global lookup hooks (prefetched by QueryProvider)
+import { useSectors } from "@/lib/hooks/useSectors";
+import { useServices } from "@/lib/hooks/useServices";
+import { useRegions } from "@/lib/hooks/useRegions";
+
 type Filters = {
   sector?: string | null;
   region?: string | null;
@@ -27,12 +32,22 @@ export default function SalesDashboardClient({
     initialFilters ?? { sector: null, region: null, service: null }
   );
 
+  // read globally-cached lookup lists via hooks (these are cached in QueryProvider)
+  const { data: sectorList = [] } = useSectors();
+  const { data: regionList = [] } = useRegions();
+  const { data: serviceList = [] } = useServices();
+
+  // adapt hook Option shape { id,label } -> FilterSelect expects { value,label }
+  const sectorOptions = sectorList.map((s) => ({ value: s.id, label: s.label }));
+  const regionOptions = regionList.map((r) => ({ value: r.id, label: r.label }));
+  const serviceOptions = serviceList.map((s) => ({ value: s.id, label: s.label }));
+
   // only trigger fetch when user manually changes a filter
   const [userTriggered, setUserTriggered] = useState(false);
   const shouldFetch = userTriggered && Boolean(filters.sector || filters.region || filters.service);
 
   const query = useQuery({
-    queryKey: ["sales", filters],
+    queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
       const res = await fetch("/api/sales_forecast/update", {
         method: "POST",
@@ -51,21 +66,6 @@ export default function SalesDashboardClient({
 
   const allChartsData = query.data?.allChartsData ?? initialAllChartsData;
   const narrative = query.data?.narrative ?? initialNarrativeData;
-
-  // options could be moved to a constants file
-  const sectorOptions = [
-    { value: "food-and-beverage", label: "Food and Beverage" },
-    { value: "home-owner", label: "Home Owner" },
-    { value: "office", label: "Office" },
-  ];
-  const regionOptions = [
-    { value: "chessington", label: "Chessington" },
-    { value: "south-west", label: "South West" },
-  ];
-  const serviceOptions = [
-    { value: "heating-hot-water", label: "Heating & Hot Water" },
-    { value: "plastering", label: "Plastering" },
-  ];
 
   const handleChange = (k: keyof Filters, v: string | null) => {
     // mark that user explicitly changed a filter, so query will run
@@ -87,6 +87,30 @@ export default function SalesDashboardClient({
           <Button variant="outline" onClick={() => router.push("/setting/user-preference")}>
             Edit preferences
           </Button>
+
+          {/* status area: show fetching indicator when refetching */}
+          <div className="ml-4 flex items-center gap-3">
+            {query.isFetching ? (
+              <div className="flex items-center gap-2 text-sm text-blue-600" aria-live="polite">
+                {/* simple inline spinner */}
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>Refreshing…</span>
+              </div>
+            ) : (
+              <div className="text-sm text-gray-600">
+                {!userTriggered
+                  ? "Using saved preferences"
+                  : !shouldFetch
+                  ? "Select filters to load"
+                  : query.isError
+                  ? "Failed to load"
+                  : "Up to date"}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

@@ -13,115 +13,9 @@ import {
 import { Checkbox } from "@/components/ui/Checkbox";
 import { toast } from "sonner";
 import { useUserPreference } from "@/lib/hooks/useUserPreference";
-
-// Static data - you can move this to a separate file or fetch from API
-const SECTORS = [
-  "Food and Beverage",
-  "Home Owner",
-  "Healthcare",
-  "Office",
-  "Property",
-  "Retail",
-  "Sports and Fitness",
-  "Education",
-  "Hotels",
-  "Charity",
-  "Foreign government",
-  "Private Landlord",
-  "Entertainment",
-  "Religious Buildings",
-  "Manufacturing",
-  "Agriculture",
-  "Council offices",
-  "Housing",
-  "Services",
-  "NHS",
-].map((s) => ({
-  id: s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, ""),
-  label: s,
-}));
-
-const SERVICES = [
-  "Heating & Hot Water (Domestic)",
-  "Plastering",
-  "Bathroom Refurbishment",
-  "Access",
-  "Brickwork & Paving",
-  "Leak Detection",
-  "Pest Control",
-  "Project Management Refurbishment",
-  "Air Con, Ventilation & Refrigeration",
-  "Wallpapering",
-  "Drainage (Soil Water)",
-  "Windows & Doors",
-  "Locksmithing",
-  "Insurance - Waste Services (Excluding waste disposal charges)",
-  "Leak Detection Commercial Gas & Heating",
-  "Roofing",
-  "Plumbing & Cold Water",
-  "Pest Proofing",
-  "Insurance - Leak Detection",
-  "Drainage (Tanker)",
-  "Drainage (Wastewater)",
-  "Fire Safety",
-  "Electrical",
-  "Heating & Hot Water (Commercial)",
-  "Gardening",
-  "Glazing",
-  "Roofing/Leak Detection",
-  "Decorating",
-  "Carpentry",
-  "Handyman",
-  "Drainage (Septic Tanks)",
-  "Drainage Restoration",
-  "Roof Window & Gutter Cleaning",
-  "Damp & Mould",
-  "Leak Detection Restoration",
-  "Flooring Trade",
-  "Tiling",
-  "Leak Detection Restoration Plumbing",
-  "Fencing",
-  "Rubbish Removal",
-  "Utilities - Blended - Heating & Hot Water (Domestic)",
-  "Vent Hygiene and Safety",
-  "Leak Detection Restoration Drainage",
-  "Partition Walls & Ceilings",
-  "Leak Detection Restoration Central Heating",
-  "Sanitisation & specialist cleaning",
-  "Commercial Pumps",
-  "Fire Safety Consultation",
-  "Leak Detection Building Fabric",
-  "Leak Detection Domestic Plumbing",
-  "Leak Detection Industrial Plumbing",
-  "Leak Detection Domestic Gas & Heating",
-  "Damp Proofing",
-  "Drainage Leak Detection",
-  "Damp Survey",
-  "LD Damp Restoration",
-  "Mould Survey",
-].map((s) => ({
-  id: s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, ""),
-  label: s,
-}));
-
-const REGIONS = [
-  { id: "chessington", label: "Chessington" },
-  { id: "south-west", label: "South West" },
-  { id: "london", label: "London" },
-  { id: "south-east", label: "South East" },
-  { id: "north-west", label: "North West" },
-  { id: "north-east", label: "North East" },
-  { id: "midlands", label: "Midlands" },
-  { id: "wales", label: "Wales" },
-  { id: "scotland", label: "Scotland" },
-  { id: "northern-ireland", label: "Northern Ireland" },
-];
+import { useSectors } from "@/lib/hooks/useSectors";
+import { useServices } from "@/lib/hooks/useServices";
+import { useRegions } from "@/lib/hooks/useRegions";
 
 type UserPreferences = {
   sectors: string[];
@@ -130,19 +24,23 @@ type UserPreferences = {
 };
 
 export default function UserPreference() {
-    const {
-      data: prefFromServer,
-      savePreference,
-      isLoading: isPrefLoading,
-    } = useUserPreference();
-    
+  // fetch static lists from the API (cached globally)
+  const { data: sectorOptions = [], isLoading: sectorsLoading } = useSectors();
+  const { data: serviceOptions = [], isLoading: servicesLoading } = useServices();
+  const { data: regionOptions = [], isLoading: regionsLoading } = useRegions();
+
+  const {
+    data: prefFromServer,
+    savePreference,
+    isLoading: isPrefLoading,
+  } = useUserPreference();
   const router = useRouter();
   const [preferences, setPreferences] = useState<UserPreferences>({
     sectors: [],
     regions: [],
     services: [],
   });
-  
+
   useEffect(() => {
     // only initialize from server if server data exists and user hasn't interacted yet
     const isEmpty = (obj: UserPreferences) =>
@@ -295,21 +193,21 @@ export default function UserPreference() {
           {renderSection(
             "Sectors",
             "Select the sectors you're interested in or work with",
-            SECTORS,
+            sectorOptions,
             "sectors"
           )}
 
           {renderSection(
             "Services",
             "Choose the services you provide or need",
-            SERVICES,
+            serviceOptions,
             "services"
           )}
 
           {renderSection(
             "Regions",
             "Select the regions where you operate or are interested in",
-            REGIONS,
+            regionOptions,
             "regions"
           )}
         </div>
