@@ -1,6 +1,6 @@
 import KpiCard from "./KpiCard";
 import { abbreviateNumber, getCurrentMonth } from "@/lib/utils";
-import { monthlyPredictionData } from "./SalesActualPredMonthlyAreaChart";
+import { monthlyPredictionData } from "@/lib/types/sales";
 
 type Props = {
   nextMonthForecastData?: monthlyPredictionData[];

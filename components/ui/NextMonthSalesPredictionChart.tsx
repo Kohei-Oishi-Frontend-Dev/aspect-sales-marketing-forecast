@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
@@ -25,85 +24,124 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SalesPrediction } from "@/app/analytics-dashboard/sales/SalesPredictionAreaChart";
-// Use months instead of days
-type TimeRange = "7d" | "14d" | "30d" | "90d";
+import { getCurrentMonth } from "@/lib/utils";
 
+// Import the type with a type-only alias to avoid the value/type collision
+import type { monthlyPredictionData } from "@/lib/types/sales";
+// Use months instead of days
+type TimeRange = "3m" | "6m" | "12m";
+
+// Show predicted sales with bounds (no actual sales)
 const chartConfig = {
-  pred_sale: { label: "Predicted Sales", color: "var(--chart-1)" },
+  predicted_sales: { label: "Predicted Sales", color: "var(--chart-1)" },
   upper_bound: { label: "Upper Bound", color: "var(--chart-2)" },
   lower_bound: { label: "Lower Bound", color: "var(--chart-3)" },
 } satisfies ChartConfig;
 
-type SalesPredictionAreaChartClientProps = {
-  data: SalesPrediction[];
+function startOfMonth(d: Date) {
+  const x = new Date(d);
+  x.setDate(1);
+  x.setHours(0, 0, 0, 0);
+  return x;
+}
+
+function endOfMonth(d: Date) {
+  const x = new Date(d);
+  x.setMonth(x.getMonth() + 1, 0);
+  x.setHours(23, 59, 59, 999);
+  return x;
+}
+
+// Type guard for prediction data from current month onwards
+function hasPredictionFromCurrentMonth(
+  d: monthlyPredictionData
+): d is monthlyPredictionData & {
+  date: string;
+  predicted_sales: number;
+} {
+  const currentMonth = getCurrentMonth();
+  return (
+    typeof d.date === "string" &&
+    d.date.length > 0 &&
+    d.date >= currentMonth &&
+    typeof d.predicted_sales === "number" &&
+    d.predicted_sales !== null
+  );
+}
+
+interface NextMonthSalesPredictionChartProps {
+  data?: monthlyPredictionData[];
   initialTimeRange?: TimeRange;
-};
+}
 
-export default function SalesPredictionAreaChartClient({
+export default function NextMonthSalesPredictionChart({
   data,
-  initialTimeRange = "90d",
-}: SalesPredictionAreaChartClientProps) {
+  initialTimeRange = "12m",
+}: NextMonthSalesPredictionChartProps) {
   const [timeRange, setTimeRange] = useState<TimeRange>(initialTimeRange);
-
-  const handleTimeRangeChange = (value: string) => {
+  const handleTimeRangeChange = (value: string) =>
     setTimeRange(value as TimeRange);
-  };
 
-  const days =
-    timeRange === "7d"
-      ? 7
-      : timeRange === "14d"
-      ? 14
-      : timeRange === "30d"
-      ? 30
-      : 90;
+  const months = timeRange === "3m" ? 3 : timeRange === "6m" ? 6 : 12;
 
+  // Filter for prediction data from current month onwards
   const filteredData = (() => {
-    if (!data || data.length === 0) return [];
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
-    const start = new Date(end);
-    start.setDate(end.getDate() - days + 1);
+    const safe = Array.isArray(data) ? data : [];
 
-    return data
+    // Keep only items with predictions from current month onwards
+    const predictionData = safe.filter(hasPredictionFromCurrentMonth);
+
+    if (!predictionData.length) return [];
+
+    // Get the earliest prediction month as the anchor (current month)
+    const minTs = Math.min(
+      ...predictionData
+        .map((d) => {
+          const t = new Date(d.date + "-01").getTime(); // Add day to make valid date
+          return Number.isFinite(t) ? t : NaN;
+        })
+        .filter(Number.isFinite)
+    );
+
+    const start = startOfMonth(
+      Number.isFinite(minTs) ? new Date(minTs) : new Date()
+    );
+    // Include months going forward
+    const end = endOfMonth(new Date(start));
+    end.setMonth(end.getMonth() + (months - 1));
+
+    return predictionData
       .filter((d) => {
-        const dt = new Date(d.date);
+        const dt = new Date(d.date + "-01"); // Add day to make valid date
         return dt >= start && dt <= end;
       })
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      .sort(
+        (a, b) =>
+          new Date(a.date + "-01").getTime() -
+          new Date(b.date + "-01").getTime()
+      );
   })();
 
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Sales Prediction</CardTitle>
+          <CardTitle>Monthly Sales Prediction</CardTitle>
           <CardDescription>
-            Predicted sales with confidence bounds
+            Predicted monthly sales from {getCurrentMonth()} onwards
           </CardDescription>
         </div>
-
         <Select value={timeRange} onValueChange={handleTimeRangeChange}>
           <SelectTrigger
-            className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+            className="hidden w-[200px] rounded-lg sm:ml-auto sm:flex"
             aria-label="Select time range"
           >
-            <SelectValue placeholder="Last 3 months" />
+            <SelectValue placeholder="Next 12 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
-            <SelectItem value="90d" className="rounded-lg">
-              Last 3 months
-            </SelectItem>
-            <SelectItem value="30d" className="rounded-lg">
-              Last 1 month
-            </SelectItem>
-            <SelectItem value="14d" className="rounded-lg">
-              Last 14 days
-            </SelectItem>
-            <SelectItem value="7d" className="rounded-lg">
-              Last 7 days
-            </SelectItem>
+            <SelectItem value="3m">Next 3 months</SelectItem>
+            <SelectItem value="6m">Next 6 months</SelectItem>
+            <SelectItem value="12m">Next 12 months</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>
@@ -119,15 +157,15 @@ export default function SalesPredictionAreaChartClient({
             margin={{ top: 12, right: 20, left: 12, bottom: 8 }}
           >
             <defs>
-              <linearGradient id="fillPred" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillPredicted" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-pred_sale)"
+                  stopColor="var(--color-predicted_sales)"
                   stopOpacity={0.25}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-pred_sale)"
+                  stopColor="var(--color-predicted_sales)"
                   stopOpacity={0.04}
                 />
               </linearGradient>
@@ -177,9 +215,9 @@ export default function SalesPredictionAreaChartClient({
               tickMargin={8}
               minTickGap={24}
               tickFormatter={(value) =>
-                new Date(String(value)).toLocaleDateString("en-US", {
+                new Date(String(value) + "-01").toLocaleDateString("en-US", {
                   month: "short",
-                  day: "numeric",
+                  year: "2-digit",
                 })
               }
             />
@@ -188,34 +226,37 @@ export default function SalesPredictionAreaChartClient({
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) =>
-                    new Date(String(value)).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })
+                    new Date(String(value) + "-01").toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )
                   }
                   indicator="dot"
                 />
               }
             />
-            {/* render lower -> pred -> upper to place prediction visually on top */}
+            {/* Render bounds first, then prediction on top */}
             <Area
               dataKey="upper_bound"
               type="monotone"
               fill="url(#fillUpper)"
               stroke="var(--color-upper_bound)"
-              strokeWidth={0.5}
+              strokeWidth={1}
               dot={false}
-              isAnimationActive={true}
+              isAnimationActive
               animationDuration={480}
             />
             <Area
-              dataKey="pred_sale"
+              dataKey="predicted_sales"
               type="monotone"
-              fill="url(#fillPred)"
-              stroke="var(--color-pred_sale)"
+              fill="url(#fillPredicted)"
+              stroke="var(--color-predicted_sales)"
               strokeWidth={2}
               dot={false}
-              isAnimationActive={true}
+              isAnimationActive
               animationDuration={520}
             />
             <Area
@@ -223,9 +264,9 @@ export default function SalesPredictionAreaChartClient({
               type="monotone"
               fill="url(#fillLower)"
               stroke="var(--color-lower_bound)"
-              strokeWidth={0.5}
+              strokeWidth={1}
               dot={false}
-              isAnimationActive={true}
+              isAnimationActive
               animationDuration={480}
             />
 
@@ -236,7 +277,7 @@ export default function SalesPredictionAreaChartClient({
 
       <CardFooter>
         <p className="text-sm text-gray-500">
-          Source: predicted_sales_data.json
+          Source: monthly data (predictions only, from current month onwards)
         </p>
       </CardFooter>
     </Card>

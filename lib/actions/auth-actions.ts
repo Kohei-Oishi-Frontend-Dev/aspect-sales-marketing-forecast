@@ -8,7 +8,7 @@ export const signInSocial = async (provider: "github" | "microsoft") => {
   const { url } = await auth.api.signInSocial({
     body: {
       provider,
-      callbackURL: "/analytics-dashboard",
+      callbackURL: "/onboarding",
     },
   });
   if (url) {

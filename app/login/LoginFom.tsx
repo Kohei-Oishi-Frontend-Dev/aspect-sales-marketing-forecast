@@ -7,7 +7,6 @@ import {MicrosoftIcon} from "./MicrosoftIcon"
 type State = { ok: boolean; message?: string } | null;
 
 export default function LoginForm(): JSX.Element {
-  
   const [state, formAction, isPending] = useActionState<State, FormData>(
     async (_prev, formData) => {
       const provider = formData.get("provider") as "github" | "microsoft";
@@ -28,9 +27,9 @@ export default function LoginForm(): JSX.Element {
     <div className="max-w-md w-full flex flex-col justify-center gap-4 shadow-md rounded-lg p-6">
       <div className="text-center mb-4">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Welcome to Aspect
+          Welcome to Aspect Sales & Marketing Dashboard
         </h1>
-        <p className="text-gray-600">Sign in with your preferred provider</p>
+        <p className="text-gray-600">Sign in with your aspect microsoft account</p>
       </div>
 
       {/* Microsoft Sign In */}
@@ -42,21 +41,21 @@ export default function LoginForm(): JSX.Element {
           className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <MicrosoftIcon/>
-          {isPending ? "Signing in..." : "Continue with Microsoft"}
+          {isPending ? "Signing in..." : "Continue with Aspect account"}
         </button>
       </form>
 
-      <div className="relative">
+      {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-gray-300" />
         </div>
         <div className="relative flex justify-center text-sm">
           <span className="px-2 bg-white text-gray-500">or</span>
         </div>
-      </div>
+      </div> */}
 
       {/* GitHub Sign In */}
-      <form action={formAction}>
+      {/* <form action={formAction}>
         <input type="hidden" name="provider" value="github" />
         <button
           type="submit"
@@ -66,7 +65,7 @@ export default function LoginForm(): JSX.Element {
           <GithubIcon />
           {isPending ? "Signing in..." : "Continue with GitHub"}
         </button>
-      </form>
+      </form> */}
 
       {state?.message && (
         <div

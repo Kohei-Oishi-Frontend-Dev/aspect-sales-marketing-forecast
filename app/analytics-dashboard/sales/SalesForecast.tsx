@@ -3,7 +3,7 @@ import { useState } from "react";
 import SalesForecastNarrative from "./SalesForecastNarrative";
 import KpiList from "./KpiList";
 import SalesChartContainer, { ChartType } from "./SalesChartContainer";
-import type { AllChartsData, salesNarrativeData } from "./page";
+import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 
 type SalesForecastProps = {
   allChartsData: AllChartsData;
@@ -11,7 +11,7 @@ type SalesForecastProps = {
 };
 
 export default function SalesForecast({ allChartsData, salesNarrativeData }: SalesForecastProps) {
-  const [selectedChart, setSelectedChart] = useState<ChartType>("lastMonth");
+  const [selectedChart, setSelectedChart] = useState<ChartType>("dailyForecast");
 
   return (
     <div className="flex flex-col gap-4">

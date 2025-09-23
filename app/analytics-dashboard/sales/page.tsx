@@ -1,94 +1,35 @@
-import { join } from "path";
-import { readFileSync } from "fs";
-import SalesForecast from "./SalesForecast";
-import type { SalesMonthOnMonth } from "./KpiList";
-import type { SalesPrediction } from "./SalesPredictionAreaChart";
-import type { dailyPredictionData } from "./SalesActualPredDailyAreaChart";
-import type { monthlyPredictionData } from "./SalesActualPredMonthlyAreaChart";
+import SalesDashboardClient from "./SalesDashboardClient";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import { getInitialAllChartsData } from "@/lib/services/sales.server";
+import { PrismaClient } from "@/lib/generated/prisma";
 
-export type AllChartsData = {
-  salesMonthOnMonthData: SalesMonthOnMonth;
-  salesPredictionData: SalesPrediction[];
-  salesActualsPredMonthComparison: monthlyPredictionData[];
-  salesActualsPredDailyComparison: dailyPredictionData[];
-};
-
-  export type salesNarrativeData = {
-    narrative: string;
-    generated_at: string;
-    execution_id: string;
-  };
+const prisma = new PrismaClient();
 
 export default async function SalesPage() {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-    if (!session) {
-      redirect("/login");
-    }
-  // Fetch sales month-on-month data
-  const salesMonthOnMonthFilePath = join(
-    process.cwd(),
-    "public",
-    "sales_month_on_month.json"
-  );
-  const salesMonthOnMonthFileContents = readFileSync(
-    salesMonthOnMonthFilePath,
-    "utf8"
-  );
-  const salesMonthOnMonthData: SalesMonthOnMonth = JSON.parse(salesMonthOnMonthFileContents);
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) redirect("/login");
 
-  // Fetch prediction data
-  const salesPredictionFilePath = join(
-    process.cwd(),
-    "public",
-    "predicted_sales_data.json"
-  );
-  const salesPredictionFileContents = readFileSync(salesPredictionFilePath, "utf8");
-  const salesPredictionData: SalesPrediction[] = JSON.parse(
-    salesPredictionFileContents
-  );
+  // server service returns both initial charts and narrative
+  const { allChartsData, narrative } = await getInitialAllChartsData();
 
-  const salesActualPredMonthComparisonFilePath = join(
-    process.cwd(),
-    "public",
-    "sales_actuals_pred_month_comparison.json"
-  );
-  const salesActualPredMonthComparisonFileContents = readFileSync(salesActualPredMonthComparisonFilePath, "utf8");
-  const salesActualsPredMonthComparison: dailyPredictionData[] = JSON.parse(salesActualPredMonthComparisonFileContents).data;
+  // load user's saved preferences (if any) and derive initial filter values
+  const pref = await prisma.userPreference.findUnique({
+    where: { userId: session.user.id },
+  });
 
-  const salesActualPredDailyComparisonFilePath = join(
-    process.cwd(),
-    "public",
-    "sales_actuals_pred_daily_comparison.json"
-  );
-  const salesActualPredDailyComparisonFileContents = readFileSync(salesActualPredDailyComparisonFilePath, "utf8");
-  const salesActualsPredDailyComparison: monthlyPredictionData[] = JSON.parse(salesActualPredDailyComparisonFileContents).data;
-
-  // read sales_narrative.json
-  const salesNarrativePath = join(
-      process.cwd(),
-      "public",
-      "sales_narrative.json"
-  );
-  
-  const salesNarrativeContents = readFileSync(salesNarrativePath, "utf8");
-  const salesNarrativeData: salesNarrativeData = JSON.parse(salesNarrativeContents);
-
-  const allChartsData: AllChartsData = {
-    salesMonthOnMonthData: salesMonthOnMonthData,
-    salesPredictionData: salesPredictionData,
-    salesActualsPredMonthComparison: salesActualsPredMonthComparison,
-    salesActualsPredDailyComparison: salesActualsPredDailyComparison,
+  const initialFilters = {
+    sector: pref?.sectors?.[0] ?? null,
+    region: pref?.regions?.[0] ?? null,
+    service: pref?.services?.[0] ?? null,
   };
 
   return (
-    <SalesForecast
-      allChartsData={allChartsData}
-      salesNarrativeData={salesNarrativeData}
+    <SalesDashboardClient
+      initialAllChartsData={allChartsData}
+      initialNarrativeData={narrative}
+      initialFilters={initialFilters}
     />
   );
 }

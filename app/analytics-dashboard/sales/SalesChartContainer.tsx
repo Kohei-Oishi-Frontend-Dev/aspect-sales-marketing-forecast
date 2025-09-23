@@ -1,8 +1,8 @@
 "use client";
-import SalesActualPredDailyAreaChartClient from "@/components/ui/SalesActualPredDailyAreaChartClient";
-import SalesActualPredMonthlyAreaChartClient from "@/components/ui/SalesActualPredMonthlyAreaChartClient";
-import SalesPredictionMonthlyClient from "@/components/ui/SalesPredictionMonthlyClient";
-import type { AllChartsData } from "./page";
+import SalesPredictionDailyChart from "@/components/ui/SalesPredictionDailyChart";
+import LastMonthSalesChart from "@/components/ui/LastMonthSalesChart";
+import NextMonthSalesPredictionChart from "@/components/ui/NextMonthSalesPredictionChart";
+import type { AllChartsData } from "@/lib/types/sales";
 
 export type ChartType = "lastMonth" | "nextMonth" | "dailyForecast";
 
@@ -19,14 +19,14 @@ export default function SalesChartContainer({
     switch (selectedChart) {
       case "lastMonth":
         return (
-          <SalesActualPredMonthlyAreaChartClient
+          <LastMonthSalesChart
             data={allChartsData.salesActualsPredMonthComparison}
             initialTimeRange="3m"
           />
         );
       case "nextMonth":
         return (
-          <SalesPredictionMonthlyClient
+          <NextMonthSalesPredictionChart
             data={allChartsData.salesActualsPredMonthComparison}
             initialTimeRange="3m"
           />
@@ -34,7 +34,7 @@ export default function SalesChartContainer({
       case "dailyForecast":
       default:
         return (
-          <SalesActualPredDailyAreaChartClient
+          <SalesPredictionDailyChart
             data={allChartsData.salesActualsPredDailyComparison}
             initialTimeRange="7d"
           />
