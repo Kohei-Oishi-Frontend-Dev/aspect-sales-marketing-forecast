@@ -48,17 +48,21 @@ export default async function SalesPage() {
     ),
   ]);
 
-  const sectors = (await sectorsRes.json()).map((d: any) => ({
-    id: d.sector,
-    label: d.sector,
+  type SectorRow = { sector: string };
+  type ServiceRow = { service: string };
+  type RegionRow = { region: string };
+
+  const sectors = (await sectorsRes.json() as SectorRow[]).map(({ sector }) => ({
+    id: sector,
+    label: sector,
   }));
-  const services = (await servicesRes.json()).map((d: any) => ({
-    id: d.service,
-    label: d.service,
+  const services = (await servicesRes.json() as ServiceRow[]).map(({ service }) => ({
+    id: service,
+    label: service,
   }));
-  const regions = (await regionsRes.json()).map((d: any) => ({
-    id: d.region,
-    label: d.region,
+  const regions = (await regionsRes.json() as RegionRow[]).map(({ region }) => ({
+    id: region,
+    label: region,
   }));
 
   // pass initialFilters into the initial-data loader so the server can request KPI data

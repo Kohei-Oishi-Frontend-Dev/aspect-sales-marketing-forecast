@@ -13,9 +13,6 @@ import {
 import { Checkbox } from "@/components/ui/Checkbox";
 import { toast } from "sonner";
 import { useUserPreference } from "@/lib/hooks/useUserPreference";
-import { useSectors } from "@/lib/hooks/useSectors";
-import { useServices } from "@/lib/hooks/useServices";
-import { useRegions } from "@/lib/hooks/useRegions";
 
 type UserPreferences = {
   sectors: string[];
@@ -23,17 +20,30 @@ type UserPreferences = {
   services: string[];
 };
 
-export default function UserPreference() {
-  // fetch static lists from the API (cached globally)
-  const { data: sectorOptions = [], isLoading: sectorsLoading } = useSectors();
-  const { data: serviceOptions = [], isLoading: servicesLoading } = useServices();
-  const { data: regionOptions = [], isLoading: regionsLoading } = useRegions();
+type Option = { id: string; label: string };
 
-  const {
-    data: prefFromServer,
-    savePreference,
-    isLoading: isPrefLoading,
-  } = useUserPreference();
+interface InitialLookups {
+  sectors?: Option[];
+  services?: Option[];
+  regions?: Option[];
+}
+
+export default function UserPreference({
+  initialLookups,
+  initialPreferences,
+}: {
+  initialLookups?: InitialLookups;
+  initialPreferences?: UserPreferences | null;
+}) {
+  // Prefer server-provided lists; don't call client hooks that fetch on mount.
+  const sectorOptions = initialLookups?.sectors ?? [];
+  const serviceOptions = initialLookups?.services ?? [];
+  const regionOptions = initialLookups?.regions ?? [];
+
+  // seed user preference hook with server-provided preferences to avoid client roundtrip
+  const { data: prefFromServer, savePreference, isLoading: isPrefLoading } =
+    useUserPreference(initialPreferences ?? null);
+
   const router = useRouter();
 
   const [preferences, setPreferences] = useState<UserPreferences>({
@@ -54,6 +64,7 @@ export default function UserPreference() {
     const isEmpty = (obj: UserPreferences) =>
       obj.sectors.length === 0 && obj.regions.length === 0 && obj.services.length === 0;
 
+    // initialize when prefFromServer becomes available (seeded from server page)
     if (prefFromServer && isEmpty(preferences)) {
       setPreferences({
         sectors: Array.isArray(prefFromServer.sectors) ? prefFromServer.sectors : [],
@@ -68,7 +79,7 @@ export default function UserPreference() {
         services: Array.isArray(prefFromServer.services) && prefFromServer.services.includes(""),
       });
     }
-  }, [prefFromServer]); // do not depend on preferences to avoid overwriting user edits
+  }, [prefFromServer]); // only re-run when server-provided pref changes
 
   const [isLoading, setIsLoading] = useState(false);
 

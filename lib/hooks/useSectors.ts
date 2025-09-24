@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-
-
 export type Option = { id: string; label: string };
 
 export function useSectors() {
