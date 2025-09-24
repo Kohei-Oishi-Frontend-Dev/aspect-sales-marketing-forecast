@@ -42,7 +42,7 @@ export async function getInitialAllChartsData(
     comparison_type: "sequential",
     current_date: new Date().toISOString().slice(0, 10),
     sector: filters?.sector ?? "",
-    region: filters?.region ?? "",
+    region: "",
     service: "",
     // service: filters?.service ?? "",
     include_trend: false,
@@ -50,7 +50,7 @@ export async function getInitialAllChartsData(
 
   // 1) KPI (month-on-month)
   const salesMonthOnMonth = await postJson<SalesMonthOnMonth>("/api/v1/analysis/kpi", payload);
-
+  console.log("salesMonth data kpi ", salesMonthOnMonth);
   // 2) Narrative
   const narrative = await postJson<salesNarrativeData>("/api/v1/analytics/narative", {
     current_date: payload.current_date,
