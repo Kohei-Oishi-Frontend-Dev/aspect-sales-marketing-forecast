@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import UserPreference from "../components/UserPreference";
 import { PrismaClient } from "@/lib/generated/prisma";
 import type { UserPreference as UserPreferenceType } from "@/lib/types/userPreference";
+import { getServerBaseUrl } from "@/lib/utils";
+
 
 export default async function OnboardingPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -26,12 +28,13 @@ export default async function OnboardingPage() {
       : null;
 
   // fetch lookup lists server-side (call internal API routes)
-  const base = process.env.API_BASE_URL ?? "http://localhost:3000";
+  const base = getServerBaseUrl(); // throws if not configured
   const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
     fetch(new URL("/api/sector", base).toString(), { cache: "no-store" }),
     fetch(new URL("/api/service", base).toString(), { cache: "no-store" }),
     fetch(new URL("/api/region", base).toString(), { cache: "no-store" }),
   ]);
+
   type SectorRow = { sector: string };
   type ServiceRow = { service: string };
   type RegionRow = { region: string };
