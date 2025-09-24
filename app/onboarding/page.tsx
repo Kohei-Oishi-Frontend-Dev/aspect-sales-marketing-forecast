@@ -26,7 +26,7 @@ export default async function OnboardingPage() {
       : null;
 
   // fetch lookup lists server-side (call internal API routes)
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  const base = process.env.API_BASE_URL ?? "http://localhost:3000";
   const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
     fetch(new URL("/api/sector", base).toString(), { cache: "no-store" }),
     fetch(new URL("/api/service", base).toString(), { cache: "no-store" }),
