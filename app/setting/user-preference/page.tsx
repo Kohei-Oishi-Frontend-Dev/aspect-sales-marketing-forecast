@@ -1,7 +1,8 @@
 import UserPreference from "../../components/UserPreference";
+import { getServerBaseUrl } from "@/lib/utils";
 
 export default async function UserPreferencePage() {
-  const base = process.env.API_BASE_URL ?? "http://localhost:3000";
+  const base = getServerBaseUrl(); // throws if not configured
 
   // fetch lookup lists server-side
   const [sectorsRes, servicesRes, regionsRes, prefRes] = await Promise.all([
@@ -16,19 +17,24 @@ export default async function UserPreferencePage() {
   type SectorRow = { sector: string };
   type ServiceRow = { service: string };
   type RegionRow = { region: string };
-  const sectors = (await sectorsRes.json() as SectorRow[]).map(({ sector }) => ({
-    id: sector,
-    label: sector,
-  }));
-  const services = (await servicesRes.json() as ServiceRow[]).map(({ service }) => ({
-    id: service,
-    label: service,
-  }));
-  const regions = (await regionsRes.json() as RegionRow[]).map(({ region }) => ({
-    id: region,
-    label: region,
-  }));
-
+  const sectors = ((await sectorsRes.json()) as SectorRow[]).map(
+    ({ sector }) => ({
+      id: sector,
+      label: sector,
+    })
+  );
+  const services = ((await servicesRes.json()) as ServiceRow[]).map(
+    ({ service }) => ({
+      id: service,
+      label: service,
+    })
+  );
+  const regions = ((await regionsRes.json()) as RegionRow[]).map(
+    ({ region }) => ({
+      id: region,
+      label: region,
+    })
+  );
 
   // API may return { preferences } or preferences directly
   const prefJson = await prefRes.json().catch(() => null);

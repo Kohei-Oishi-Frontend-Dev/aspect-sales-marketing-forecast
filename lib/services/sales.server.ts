@@ -7,7 +7,14 @@ import type {
 } from "@/lib/types/sales";
 
 const baseURL = process.env.API_BASE_URL ?? "";
+
+// validate base at call time so module import never throws and we fail fast when missing
 async function postJson<T = unknown>(path: string, body: unknown): Promise<T> {
+  if (!baseURL) {
+    throw new Error(
+      "API_BASE_URL is not configured. Set API_BASE_URL in environment before calling external analytics endpoints."
+    );
+  }
   const url = new URL(path, baseURL).toString();
   const res = await fetch(url, {
     method: "POST",
@@ -100,31 +107,23 @@ export async function getInitialAllChartsData(
 
 // minimal filter function — adapt to real data shape or DB queries
 export async function getFilteredChartsData(
-  filters: { sector?: string | null; region?: string | null; service?: string | null },
-  baseData?: { allChartsData: AllChartsData; narrative: salesNarrativeData }
-) {
+   filters: { sector?: string | null; region?: string | null; service?: string | null },
+   baseData?: { allChartsData: AllChartsData; narrative: salesNarrativeData }
+ ) {
   // Prefer calling external API for filtered results.
-  // The external service is expected to return the same shape:
-  // { allChartsData: AllChartsData, narrative?: salesNarrativeData }  
-    try {
-      const extRes = await fetch(baseURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filters }),
-        cache: "no-store",
-      });
+  // Use the validated helper so we never call an empty base that resolves to localhost.
+  try {
+    const payload = await postJson<{
+      allChartsData: AllChartsData;
+      narrative?: salesNarrativeData;
+    }>("/api/v1/analysis/filtered-charts", { filters });
 
-      if (extRes.ok) {
-        const payload = (await extRes.json()) as {
-          allChartsData: AllChartsData;
-          narrative?: salesNarrativeData;
-        };
-        return {
-          allChartsData: payload.allChartsData,
-          narrative: payload.narrative ?? (baseData?.narrative ?? (await getInitialAllChartsData()).narrative),
-        };
-      }
-    } catch (err) {
-      console.error("Error calling external sales API:", err);
-    }
-}
+    return {
+      allChartsData: payload.allChartsData,
+      narrative: payload.narrative ?? (baseData?.narrative ?? (await getInitialAllChartsData()).narrative),
+    };
+  } catch (err) {
+    console.error("Error calling external sales API:", err);
+    throw err; // bubble so caller handles the failure explicitly
+  }
+ }
