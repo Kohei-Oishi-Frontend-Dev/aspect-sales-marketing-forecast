@@ -6,9 +6,15 @@ export default async function UserPreferencePage() {
 
   // fetch lookup lists server-side
   const [sectorsRes, servicesRes, regionsRes, prefRes] = await Promise.all([
-    fetch(new URL("/api/sector", base).toString(), { cache: "no-store" }),
-    fetch(new URL("/api/service", base).toString(), { cache: "no-store" }),
-    fetch(new URL("/api/region", base).toString(), { cache: "no-store" }),
+    fetch(new URL("/api/v1/analysis/sector", base).toString(), {
+      cache: "no-store",
+    }),
+    fetch(new URL("/api/v1/analysis/service", base).toString(), {
+      cache: "no-store",
+    }),
+    fetch(new URL("/api/v1/analysis/region", base).toString(), {
+      cache: "no-store",
+    }),
     fetch(new URL("/api/user/preferences", base).toString(), {
       cache: "no-store",
     }),

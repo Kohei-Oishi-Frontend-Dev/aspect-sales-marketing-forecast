@@ -26,32 +26,31 @@ export default async function SalesPage() {
   // fetch lookup lists server-side (call your internal API routes)
   const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
     fetch(
-      new URL(
-        "/api/sector",
-        process.env.API_BASE_URL
-      ).toString(),
+      new URL("/api/v1/analysis/sector", process.env.API_BASE_URL).toString(),
       { cache: "no-store" }
     ),
     fetch(
       new URL(
-        "/api/service",
+        "/api/v1/analysis/service",
         process.env.API_BASE_URL
       ).toString(),
-      { cache: "no-store" }
+      {
+        cache: "no-store",
+      }
     ),
-    fetch(
-      new URL(
-        "/api/region",
-        process.env.API_BASE_URL
-      ).toString(),
-      { cache: "no-store" }
-    ),
+    fetch(new URL("/api/v1/analysis/region", process.env.API_BASE_URL).toString(), {
+      cache: "no-store",
+    }),
   ]);
+
+  console.log(sectorsRes);
+  console.log(typeof servicesRes);
+  console.log(typeof regionsRes);
 
   type SectorRow = { sector: string };
   type ServiceRow = { service: string };
   type RegionRow = { region: string };
-
+  
   const sectors = (await sectorsRes.json() as SectorRow[]).map(({ sector }) => ({
     id: sector,
     label: sector,
