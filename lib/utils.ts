@@ -53,7 +53,7 @@ export function isDateBeforeCurrentMonth(dateStr: string): boolean {
 
 export function getServerBaseUrl(): string {
   // prefer an explicit server API host
-  const base = process.env.API_BASE_URL ?? process.env.NEXT_PUBLIC_BASE_URL;
+  const base = process.env.API_BASE_URL;
   if (!base) {
     throw new Error(
       "API base URL is not configured. Set API_BASE_URL (or NEXT_PUBLIC_BASE_URL) in environment."

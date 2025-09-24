@@ -6,7 +6,7 @@ import type {
   SalesMonthOnMonth,
 } from "@/lib/types/sales";
 
-const baseURL = process.env.API_BASE_URL ?? "";
+const baseURL = process.env.API_BASE_URL;
 
 // validate base at call time so module import never throws and we fail fast when missing
 async function postJson<T = unknown>(path: string, body: unknown): Promise<T> {
