@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import QueryProvider from "@/app/components/QueryProvider";
 import SalesDashboardClient from "./SalesDashboardClient";
 import { PrismaClient } from "@/lib/generated/prisma";
 import { getInitialAllChartsData } from "@/lib/services/sales.server";
@@ -22,6 +23,48 @@ export default async function SalesPage() {
     service: pref?.services?.[0] ?? null,
   };
 
+  // fetch lookup lists server-side (call your internal API routes)
+  const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
+    fetch(
+      new URL(
+        "/api/sector",
+        process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+      ).toString(),
+      { cache: "no-store" }
+    ),
+    fetch(
+      new URL(
+        "/api/service",
+        process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+      ).toString(),
+      { cache: "no-store" }
+    ),
+    fetch(
+      new URL(
+        "/api/region",
+        process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+      ).toString(),
+      { cache: "no-store" }
+    ),
+  ]);
+
+  type SectorRow = { sector: string };
+  type ServiceRow = { service: string };
+  type RegionRow = { region: string };
+
+  const sectors = (await sectorsRes.json() as SectorRow[]).map(({ sector }) => ({
+    id: sector,
+    label: sector,
+  }));
+  const services = (await servicesRes.json() as ServiceRow[]).map(({ service }) => ({
+    id: service,
+    label: service,
+  }));
+  const regions = (await regionsRes.json() as RegionRow[]).map(({ region }) => ({
+    id: region,
+    label: region,
+  }));
+
   // pass initialFilters into the initial-data loader so the server can request KPI data
   const { allChartsData, narrative } = await getInitialAllChartsData({
     sector: initialFilters.sector,
@@ -30,10 +73,12 @@ export default async function SalesPage() {
   });
 
   return (
-    <SalesDashboardClient
-      initialAllChartsData={allChartsData}
-      initialNarrativeData={narrative}
-      initialFilters={initialFilters}
-    />
+    <QueryProvider initialLookups={{ sectors, services, regions }}>
+      <SalesDashboardClient
+        initialAllChartsData={allChartsData}
+        initialNarrativeData={narrative}
+        initialFilters={initialFilters}
+      />
+    </QueryProvider>
   );
 }

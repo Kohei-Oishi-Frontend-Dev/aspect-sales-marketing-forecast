@@ -36,6 +36,7 @@ export default function SalesDashboardClient({
   const { data: sectorList = [] } = useSectors();
   const { data: regionList = [] } = useRegions();
   const { data: serviceList = [] } = useServices();
+  console.log("SalesDashboardClient: sectorList,regionList,serviceList ->", { sectorList, regionList, serviceList });
 
   // adapt hook Option shape { id,label } -> FilterSelect expects { value,label }
   const sectorOptions = sectorList.map((s) => ({ value: s.id, label: s.label }));
@@ -49,6 +50,7 @@ export default function SalesDashboardClient({
   const query = useQuery({
     queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
+      console.log("useQuery.fetch: queryKey values ->", { filters });
       const res = await fetch("/api/sales_forecast/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,11 +79,12 @@ export default function SalesDashboardClient({
 
   return (
     <div>
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center py-2">
-        <FilterSelect label="Sector" value={filters.sector} onChange={(v) => handleChange("sector", v)} options={sectorOptions} />
-        <FilterSelect label="Region" value={filters.region} onChange={(v) => handleChange("region", v)} options={regionOptions} />
-        <FilterSelect label="Service" value={filters.service} onChange={(v) => handleChange("service", v)} options={serviceOptions} />
-
+      <div className="w-full mb-4 flex flex-col gap-3 sm:flex-row sm:items-center py-2">
+        <div className="w-full flex flex-col md:flex-row md:items-center gap-2 flex-wrap">
+          <FilterSelect label="Sector" value={filters.sector} onChange={(v) => handleChange("sector", v)} options={sectorOptions} />
+          <FilterSelect label="Region" value={filters.region} onChange={(v) => handleChange("region", v)} options={regionOptions} />
+          <FilterSelect label="Service" value={filters.service} onChange={(v) => handleChange("service", v)} options={serviceOptions} />
+        </div>
         <div className="ml-4 flex items-center gap-3">
           {/* navigate to settings to edit saved preferences */}
           <Button variant="outline" onClick={() => router.push("/setting/user-preference")}>
