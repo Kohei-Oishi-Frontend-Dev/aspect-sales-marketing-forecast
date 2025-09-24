@@ -1,7 +1,7 @@
 import MarketingForecast from "./MarketingForecast";
 
 // async function makePostRequest(){
-//   const res = await fetch(`${process.env.NEXT_URL}/api/todos`,{
+//   const res = await fetch(`${process.env.API_BASE_URL}/api/todos`,{
 //     method: "POST",
 //     headers : {
 //       "Content-Type" : "application/json",
