@@ -1,11 +1,32 @@
 import UserPreference from "../../components/UserPreference";
 import { getServerBaseUrl } from "@/lib/utils";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { PrismaClient } from "@/lib/generated/prisma";
 
 export default async function UserPreferencePage() {
-  const base = getServerBaseUrl(); // throws if not configured
+  const session = await auth.api.getSession({ headers: await headers() });
+  const prisma = new PrismaClient();
 
-  // fetch lookup lists server-side
-  const [sectorsRes, servicesRes, regionsRes, prefRes] = await Promise.all([
+  // Get preferences directly from DB instead of HTTP call
+  const userPref = session
+    ? await prisma.userPreference.findUnique({
+        where: { userId: session.user.id },
+      })
+    : null;
+
+  const initialPreferences = userPref
+    ? {
+        sectors: userPref.sectors ?? [],
+        regions: userPref.regions ?? [],
+        services: userPref.services ?? [],
+      }
+    : null;
+
+  const base = getServerBaseUrl();
+
+  // fetch lookup lists server-side (no preferences fetch needed)
+  const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
     fetch(new URL("/api/v1/analysis/sector", base).toString(), {
       cache: "no-store",
     }),
@@ -13,9 +34,6 @@ export default async function UserPreferencePage() {
       cache: "no-store",
     }),
     fetch(new URL("/api/v1/analysis/region", base).toString(), {
-      cache: "no-store",
-    }),
-    fetch(new URL("/api/user/preferences", base).toString(), {
       cache: "no-store",
     }),
   ]);
@@ -41,10 +59,6 @@ export default async function UserPreferencePage() {
       label: region,
     })
   );
-
-  // API may return { preferences } or preferences directly
-  const prefJson = await prefRes.json().catch(() => null);
-  const initialPreferences = prefJson ? prefJson.preferences ?? prefJson : null;
 
   return (
     <UserPreference
