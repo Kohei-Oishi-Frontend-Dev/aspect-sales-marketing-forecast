@@ -35,10 +35,18 @@ export default function UserPreference() {
     isLoading: isPrefLoading,
   } = useUserPreference();
   const router = useRouter();
+
   const [preferences, setPreferences] = useState<UserPreferences>({
     sectors: [],
     regions: [],
     services: [],
+  });
+
+  // selectAll flags per category; true -> send [""] for that category
+  const [selectAll, setSelectAll] = useState<Record<keyof UserPreferences, boolean>>({
+    sectors: false,
+    regions: false,
+    services: false,
   });
 
   useEffect(() => {
@@ -51,6 +59,13 @@ export default function UserPreference() {
         sectors: Array.isArray(prefFromServer.sectors) ? prefFromServer.sectors : [],
         regions: Array.isArray(prefFromServer.regions) ? prefFromServer.regions : [],
         services: Array.isArray(prefFromServer.services) ? prefFromServer.services : [],
+      });
+
+      // if server pref includes "" treat that as select-all for UI
+      setSelectAll({
+        sectors: Array.isArray(prefFromServer.sectors) && prefFromServer.sectors.includes(""),
+        regions: Array.isArray(prefFromServer.regions) && prefFromServer.regions.includes(""),
+        services: Array.isArray(prefFromServer.services) && prefFromServer.services.includes(""),
       });
     }
   }, [prefFromServer]); // do not depend on preferences to avoid overwriting user edits
@@ -73,6 +88,9 @@ export default function UserPreference() {
     // mark section as touched
     setTouched((t) => ({ ...t, [category]: true }));
 
+    // if user interacts with an individual checkbox, turn off select-all for that category
+    setSelectAll((s) => ({ ...s, [category]: false }));
+
     setPreferences((prev) => {
       if (checked) {
         // enforce max 1 selection now: replace array with single selected value
@@ -85,6 +103,18 @@ export default function UserPreference() {
         } as UserPreferences;
       }
     });
+  };
+
+  const handleSelectAllChange = (category: keyof UserPreferences, checked: boolean) => {
+    setTouched((t) => ({ ...t, [category]: true }));
+    setSelectAll((s) => ({ ...s, [category]: checked }));
+    if (checked) {
+      // marker for "all" per your request: store empty string in array
+      setPreferences((prev) => ({ ...prev, [category]: ["" as string] }));
+    } else {
+      // clear selection when unchecking select-all
+      setPreferences((prev) => ({ ...prev, [category]: [] }));
+    }
   };
 
   // simple validation helper
@@ -145,6 +175,17 @@ export default function UserPreference() {
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
+          {/* Select All checkbox placed right after description */}
+          <div className="mt-2 flex items-center gap-2">
+            <Checkbox
+              id={`${category}-select-all`}
+              checked={selectAll[category]}
+              onCheckedChange={(c) => handleSelectAllChange(category, c as boolean)}
+            />
+            <label htmlFor={`${category}-select-all`} className="text-sm cursor-pointer">
+              Select all
+            </label>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -152,10 +193,12 @@ export default function UserPreference() {
               <div key={item.id} className="flex items-center space-x-2">
                 <Checkbox
                   id={`${category}-${item.id}`}
-                  checked={preferences[category].includes(item.id)}
+                  // disable individual item when select-all is active
+                  checked={!selectAll[category] && preferences[category].includes(item.id)}
                   onCheckedChange={(checked) =>
                     handleCheckboxChange(category, item.id, checked as boolean)
                   }
+                  disabled={selectAll[category]}
                 />
                 <label
                   htmlFor={`${category}-${item.id}`}

@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getCurrentDay } from "@/lib/utils";
+import { abbreviateNumber } from "@/lib/utils";
 
 import type { dailyPredictionData } from "@/lib/types/sales";
 
@@ -161,11 +162,7 @@ export default function SalesPredictionDailyChart({
 
             <CartesianGrid vertical={false} />
             <YAxis
-              tickFormatter={(v: number) =>
-                typeof v === "number"
-                  ? Intl.NumberFormat().format(Math.round(v))
-                  : v
-              }
+              tickFormatter={(v: number) => abbreviateNumber(Number(v))}
               axisLine={false}
               tickLine={false}
               width={72}
@@ -196,6 +193,9 @@ export default function SalesPredictionDailyChart({
                     })
                   }
                   indicator="dot"
+                  formatter={(val) =>
+                    typeof val === "number" ? abbreviateNumber(Number(val)) : String(val)
+                  }
                 />
               }
             />

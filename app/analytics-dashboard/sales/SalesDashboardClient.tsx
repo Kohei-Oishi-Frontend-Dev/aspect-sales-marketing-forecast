@@ -36,6 +36,7 @@ export default function SalesDashboardClient({
   const { data: sectorList = [] } = useSectors();
   const { data: regionList = [] } = useRegions();
   const { data: serviceList = [] } = useServices();
+  console.log("SalesDashboardClient: sectorList,regionList,serviceList ->", { sectorList, regionList, serviceList });
 
   // adapt hook Option shape { id,label } -> FilterSelect expects { value,label }
   const sectorOptions = sectorList.map((s) => ({ value: s.id, label: s.label }));
@@ -49,6 +50,7 @@ export default function SalesDashboardClient({
   const query = useQuery({
     queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
+      console.log("useQuery.fetch: queryKey values ->", { filters });
       const res = await fetch("/api/sales_forecast/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

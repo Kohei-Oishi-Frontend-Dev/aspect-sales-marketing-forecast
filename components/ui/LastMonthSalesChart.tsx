@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getCurrentMonth, isDateBeforeCurrentMonth } from "@/lib/utils";
+import { abbreviateNumber } from "@/lib/utils";
 
 // Import the type with a type-only alias to avoid the value/type collision
 import type { monthlyPredictionData } from "@/lib/types/sales";
@@ -170,11 +171,7 @@ export default function LastMonthSalesChart({
 
             <CartesianGrid vertical={false} />
             <YAxis
-              tickFormatter={(v: number) =>
-                typeof v === "number"
-                  ? Intl.NumberFormat().format(Math.round(v))
-                  : v
-              }
+              tickFormatter={(v: number) => abbreviateNumber(Number(v))}
               axisLine={false}
               tickLine={false}
               width={72}
@@ -199,15 +196,15 @@ export default function LastMonthSalesChart({
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) =>
-                    new Date(String(value) + "-01").toLocaleDateString(
-                      "en-US",
-                      {
-                        month: "short",
-                        year: "numeric",
-                      }
-                    )
+                    new Date(String(value) + "-01").toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })
                   }
                   indicator="dot"
+                  formatter={(val) =>
+                    typeof val === "number" ? abbreviateNumber(Number(val)) : String(val)
+                  }
                 />
               }
             />

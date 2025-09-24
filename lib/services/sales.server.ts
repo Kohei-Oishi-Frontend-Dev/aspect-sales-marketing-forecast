@@ -36,7 +36,8 @@ export async function getInitialAllChartsData(
     current_date: new Date().toISOString().slice(0, 10),
     sector: filters?.sector ?? "",
     region: filters?.region ?? "",
-    service: filters?.service ?? "",
+    service: "",
+    // service: filters?.service ?? "",
     include_trend: false,
   };
 
@@ -67,6 +68,7 @@ export async function getInitialAllChartsData(
       aggregation: "monthly",
       sector: payload.sector,
       region: payload.region,
+      service: payload.service,
     }
   );
   const salesActualsPredMonthComparison = monthlyRes.data;
@@ -80,6 +82,7 @@ export async function getInitialAllChartsData(
       aggregation: "daily",
       sector: payload.sector,
       region: payload.region,
+      service: payload.sevice,
     }
   );
   const salesActualsPredDailyComparison = dailyRes.data;
