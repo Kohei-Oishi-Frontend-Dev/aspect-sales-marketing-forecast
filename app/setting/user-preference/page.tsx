@@ -1,7 +1,7 @@
 import UserPreference from "../../components/UserPreference";
 
 export default async function UserPreferencePage() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  const base = process.env.API_BASE_URL ?? "http://localhost:3000";
 
   // fetch lookup lists server-side
   const [sectorsRes, servicesRes, regionsRes, prefRes] = await Promise.all([
