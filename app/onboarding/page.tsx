@@ -30,9 +30,15 @@ export default async function OnboardingPage() {
   // fetch lookup lists server-side (call internal API routes)
   const base = getServerBaseUrl(); // throws if not configured
   const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
-    fetch(new URL("/api/sector", base).toString(), { cache: "no-store" }),
-    fetch(new URL("/api/service", base).toString(), { cache: "no-store" }),
-    fetch(new URL("/api/region", base).toString(), { cache: "no-store" }),
+    fetch(new URL("/api/v1/analysis/sector", base).toString(), {
+      cache: "no-store",
+    }),
+    fetch(new URL("/api/v1/analysis/service", base).toString(), {
+      cache: "no-store",
+    }),
+    fetch(new URL("/api/v1/analysis/region", base).toString(), {
+      cache: "no-store",
+    }),
   ]);
 
   type SectorRow = { sector: string };
