@@ -50,11 +50,11 @@ export default function KpiList({
   onChartSelect,
 }: KpiListProps) {
   return (
-    <div className="flex flex-row justify-between gap-4 flex-wrap">
+    <div className="flex flex-1 flex-row justify-between gap-4 flex-wrap">
       <div
-        className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
+        className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 rounded-lg ${
           selectedChart === "dailyForecast"
-            ? "ring-2 ring-blue-500 ring-offset-2"
+            ? "ring-2 ring-aspect-blue ring-offset-2"
             : "hover:shadow-lg"
         }`}
         onClick={() => onChartSelect("dailyForecast")}
@@ -62,9 +62,9 @@ export default function KpiList({
         <DailyPredictionCard dailyForecastData={dailyForecastData} />
       </div>
       <div
-        className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
+        className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 rounded-lg ${
           selectedChart === "nextMonth"
-            ? "ring-2 ring-blue-500 ring-offset-2"
+            ? "ring-2 ring-aspect-blue ring-offset-2"
             : "hover:shadow-lg"
         }`}
         onClick={() => onChartSelect("nextMonth")}
@@ -74,9 +74,9 @@ export default function KpiList({
         />
       </div>
       <div
-        className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 ${
+        className={`flex-1 min-w-[220px] max-w-[360px] cursor-pointer transition-all duration-200 rounded-lg ${
           selectedChart === "lastMonth"
-            ? "ring-2 ring-blue-500 ring-offset-2"
+            ? "ring-2 ring-aspect-blue ring-offset-2"
             : "hover:shadow-lg"
         }`}
         onClick={() => onChartSelect("lastMonth")}

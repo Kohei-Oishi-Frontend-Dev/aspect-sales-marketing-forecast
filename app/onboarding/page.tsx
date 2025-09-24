@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import UserPreference from "../components/UserPreference";
 import { PrismaClient } from "@/lib/generated/prisma";
+import type { UserPreference as UserPreferenceType } from "@/lib/types/userPreference";
 
 export default async function OnboardingPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -10,19 +11,19 @@ export default async function OnboardingPage() {
 
   // fetch user's saved preferences server-side to avoid client flash
   const prisma = new PrismaClient();
-  const userPref = await prisma.userPreference.findUnique({
+  const userPref = (await prisma.userPreference.findUnique({
     where: { userId: session.user.id },
-  });
-  if (userPref) {
-    redirect("/analytics-dashboard");
-  }
-  const initialPreferences = userPref
-    ? {
-        sectors: userPref.sectors ?? [],
-        regions: userPref.regions ?? [],
-        services: userPref.services ?? [],
-      }
-    : null;
+  })) as UserPreferenceType | null;
+
+  // ensure all fields are concrete string[] so the client component's required shape is satisfied
+  const initialPreferences =
+    userPref !== null && userPref !== undefined
+      ? {
+          sectors: userPref.sectors ?? [],
+          regions: userPref.regions ?? [],
+          services: userPref.services ?? [],
+        }
+      : null;
 
   // fetch lookup lists server-side (call internal API routes)
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";

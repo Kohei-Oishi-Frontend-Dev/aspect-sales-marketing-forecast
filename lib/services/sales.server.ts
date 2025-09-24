@@ -82,7 +82,7 @@ export async function getInitialAllChartsData(
       aggregation: "daily",
       sector: payload.sector,
       region: payload.region,
-      service: payload.sevice,
+      service: payload.service,
     }
   );
   const salesActualsPredDailyComparison = dailyRes.data;
