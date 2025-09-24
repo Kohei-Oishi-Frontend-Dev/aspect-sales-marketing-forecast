@@ -28,21 +28,21 @@ export default async function SalesPage() {
     fetch(
       new URL(
         "/api/sector",
-        process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+        process.env.API_BASE_URL
       ).toString(),
       { cache: "no-store" }
     ),
     fetch(
       new URL(
         "/api/service",
-        process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+        process.env.API_BASE_URL
       ).toString(),
       { cache: "no-store" }
     ),
     fetch(
       new URL(
         "/api/region",
-        process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+        process.env.API_BASE_URL
       ).toString(),
       { cache: "no-store" }
     ),
