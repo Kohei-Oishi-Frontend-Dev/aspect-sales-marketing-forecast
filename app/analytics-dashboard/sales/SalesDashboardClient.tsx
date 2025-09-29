@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import SalesForecast from "./SalesForecast";
 import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 import FilterSelect from "@/components/FilterSelect";
-import { Button } from "@/components/ui/Button"; 
+import { Button } from "@/components/ui/Button";
+import { updateSalesData } from "@/lib/actions/sales.actions";
 
 type Filters = {
   sector?: string | null;
@@ -47,15 +48,14 @@ export default function SalesDashboardClient({
   const query = useQuery({
     queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
-      console.log("useQuery.fetch: queryKey values ->", { filters });
-      const res = await fetch("/api/sales_forecast/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filters }),
-        cache: "no-store",
+      console.log("useQuery.serverAction: queryKey values ->", { filters });
+
+      // Call server action directly instead of HTTP request
+      return await updateSalesData({
+        sector: filters.sector,
+        region: filters.region,
+        service: filters.service,
       });
-      if (!res.ok) throw new Error(await res.text());
-      return (await res.json()) as { allChartsData: AllChartsData; narrative?: salesNarrativeData };
     },
     // disabled until user interacts
     enabled: shouldFetch,
