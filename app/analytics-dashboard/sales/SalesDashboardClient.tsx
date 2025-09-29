@@ -7,41 +7,38 @@ import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 import FilterSelect from "@/components/FilterSelect";
 import { Button } from "@/components/ui/Button"; 
 
-// use the global lookup hooks (prefetched by QueryProvider)
-import { useSectors } from "@/lib/hooks/useSectors";
-import { useServices } from "@/lib/hooks/useServices";
-import { useRegions } from "@/lib/hooks/useRegions";
-
 type Filters = {
   sector?: string | null;
   region?: string | null;
   service?: string | null;
 };
 
+type Option = { id: string; label: string };
+
 export default function SalesDashboardClient({
   initialAllChartsData,
   initialNarrativeData,
   initialFilters,
+  sectorOptions = [],
+  regionOptions = [],
+  serviceOptions = [],
 }: {
   initialAllChartsData: AllChartsData;
   initialNarrativeData: salesNarrativeData;
   initialFilters?: Filters;
+  sectorOptions?: Option[];
+  regionOptions?: Option[];
+  serviceOptions?: Option[];
 }) {
   // initialize filters from server-provided user preference (may be null)
   const [filters, setFilters] = useState<Filters>(
     initialFilters ?? { sector: null, region: null, service: null }
   );
 
-  // read globally-cached lookup lists via hooks (these are cached in QueryProvider)
-  const { data: sectorList = [] } = useSectors();
-  const { data: regionList = [] } = useRegions();
-  const { data: serviceList = [] } = useServices();
-  console.log("SalesDashboardClient: sectorList,regionList,serviceList ->", { sectorList, regionList, serviceList });
-
-  // adapt hook Option shape { id,label } -> FilterSelect expects { value,label }
-  const sectorOptions = sectorList.map((s) => ({ value: s.id, label: s.label }));
-  const regionOptions = regionList.map((r) => ({ value: r.id, label: r.label }));
-  const serviceOptions = serviceList.map((s) => ({ value: s.id, label: s.label }));
+  // adapt Option shape { id,label } -> FilterSelect expects { value,label }
+  const sectorSelectOptions = sectorOptions.map((s) => ({ value: s.id, label: s.label }));
+  const regionSelectOptions = regionOptions.map((r) => ({ value: r.id, label: r.label }));
+  const serviceSelectOptions = serviceOptions.map((s) => ({ value: s.id, label: s.label }));
 
   // only trigger fetch when user manually changes a filter
   const [userTriggered, setUserTriggered] = useState(false);
@@ -82,9 +79,9 @@ export default function SalesDashboardClient({
     <div>
       <div className="w-full mb-4 flex flex-col gap-3 sm:flex-row sm:items-center py-2">
         <div className="w-full flex flex-col md:flex-row md:items-center gap-2 flex-wrap">
-          <FilterSelect label="Sector" value={filters.sector} onChange={(v) => handleChange("sector", v)} options={sectorOptions} />
-          <FilterSelect label="Region" value={filters.region} onChange={(v) => handleChange("region", v)} options={regionOptions} />
-          <FilterSelect label="Service" value={filters.service} onChange={(v) => handleChange("service", v)} options={serviceOptions} />
+          <FilterSelect label="Sector" value={filters.sector} onChange={(v) => handleChange("sector", v)} options={sectorSelectOptions} />
+          <FilterSelect label="Region" value={filters.region} onChange={(v) => handleChange("region", v)} options={regionSelectOptions} />
+          <FilterSelect label="Service" value={filters.service} onChange={(v) => handleChange("service", v)} options={serviceSelectOptions} />
         </div>
         <div className="ml-4 flex items-center gap-3">
           {/* navigate to settings to edit saved preferences */}

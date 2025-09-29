@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import QueryProvider from "@/app/components/QueryProvider";
-import SalesDashboardClient from "./SalesDashboardClient";
+import SalesDashboardClientWrapper from "./SalesDashboardClientWrapper";
 import { PrismaClient } from "@/lib/generated/prisma";
 import {
   getInitialAllChartsData,
@@ -22,6 +21,7 @@ export default async function SalesPage() {
     where: { userId: session.user.id },
   });
 
+  //for now just get the first option, later will remove [0]
   const initialFilters = {
     sector: pref?.sectors?.[0] ?? null,
     region: pref?.regions?.[0] ?? null,
@@ -56,12 +56,13 @@ export default async function SalesPage() {
   });
 
   return (
-    <QueryProvider initialLookups={{ sectors, services, regions }}>
-      <SalesDashboardClient
-        initialAllChartsData={allChartsData}
-        initialNarrativeData={narrative}
-        initialFilters={initialFilters}
-      />
-    </QueryProvider>
+    <SalesDashboardClientWrapper
+      initialAllChartsData={allChartsData}
+      initialNarrativeData={narrative}
+      initialFilters={initialFilters}
+      sectorOptions={sectors}
+      regionOptions={regions}
+      serviceOptions={services}
+    />
   );
 }
