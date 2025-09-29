@@ -1,33 +1,8 @@
-import type {
-  AllChartsData,
-  salesNarrativeData,
-  monthlyPredictionData,
-  dailyPredictionData,
-  SalesMonthOnMonth,
-} from "@/lib/types/sales";
-
-const baseURL = process.env.API_BASE_URL;
-
-// validate base at call time so module import never throws and we fail fast when missing
-async function postJson<T = unknown>(path: string, body: unknown): Promise<T> {
-  if (!baseURL) {
-    throw new Error(
-      "API_BASE_URL is not configured. Set API_BASE_URL in environment before calling external analytics endpoints."
-    );
-  }
-  const url = new URL(path, baseURL).toString();
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`POST ${path} failed ${res.status}: ${txt}`);
-  }
-  return (await res.json()) as T;
-}
+import { fetchKpiData } from "./kpi.server";
+import { fetchNarrativeData } from "./narratives.server";
+import { fetchMonthlyPredictionData, fetchDailyPredictionData } from "./predictions.server";
+import { fetchSectors, fetchServices, fetchRegions } from "./lookups.server";
+import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 
 export async function getInitialAllChartsData(
   filters?: { sector?: string | null; region?: string | null; service?: string | null }
@@ -35,95 +10,61 @@ export async function getInitialAllChartsData(
   allChartsData: AllChartsData;
   narrative: salesNarrativeData;
 }> {
-  // prepare KPI payload
-  const payload = {
-    metric: "sales",
-    period: "month",
-    comparison_type: "sequential",
-    current_date: new Date().toISOString().slice(0, 10),
-    sector: filters?.sector ?? "",
-    region: "",
-    service: "",
-    // service: filters?.service ?? "",
-    include_trend: false,
+  const filterParams = {
+    sector: filters?.sector ?? null,
+    region: filters?.region ?? null,
+    service: filters?.service ?? null,
   };
 
-  // 1) KPI (month-on-month)
-  const salesMonthOnMonth = await postJson<SalesMonthOnMonth>("/api/v1/analysis/kpi", payload);
-  console.log("salesMonth data kpi ", salesMonthOnMonth);
-  // 2) Narrative
-  const narrative = await postJson<salesNarrativeData>("/api/v1/analytics/narative", {
-    current_date: payload.current_date,
-    sector: payload.sector,
-    region: payload.region,
-    service: payload.service,
-  });
+  console.log("filter params is ", filterParams);
+  
+  try {
+    // Fetch all data in parallel
+    const [
+      salesMonthOnMonth,
+      narrative,
+      salesActualsPredMonthComparison,
+      salesActualsPredDailyComparison,
+    ] = await Promise.all([
+      fetchKpiData(filterParams),
+      fetchNarrativeData(filterParams),
+      fetchMonthlyPredictionData(filterParams),
+      fetchDailyPredictionData(filterParams),
+    ]);
 
-  // 3) Actual vs Predicted (monthly)
-  const now = new Date();
-  const startDate = new Date(now);
-  startDate.setFullYear(startDate.getFullYear() - 1);
-  const endDate = new Date(now);
-  endDate.setMonth(endDate.getMonth() + 2);
-  const format = (d: Date) => d.toISOString().slice(0, 10);
+    console.log("fetching is complete");
+    
+    // Add detailed logging of what we got back
+    console.log("📊 KPI Data:", JSON.stringify(salesMonthOnMonth, null, 2));
+    console.log("📝 Narrative:", JSON.stringify(narrative, null, 2));
+    console.log("📈 Monthly Data:", JSON.stringify(salesActualsPredMonthComparison?.slice(0, 3), null, 2)); // first 3 items
+    console.log("📅 Daily Data:", JSON.stringify(salesActualsPredDailyComparison?.slice(0, 3), null, 2)); // first 3 items
 
-  const monthlyRes = await postJson<{ data: monthlyPredictionData[] }>(
-    "/api/v1/analytics/actual-vs-predicted",
-    {
-      start_date: format(startDate),
-      end_date: format(endDate),
-      aggregation: "monthly",
-      sector: payload.sector,
-      region: payload.region,
-      service: payload.service,
-    }
-  );
-  const salesActualsPredMonthComparison = monthlyRes.data;
+    const result = {
+      allChartsData: {
+        salesMonthOnMonthData: salesMonthOnMonth,
+        salesActualsPredMonthComparison,
+        salesActualsPredDailyComparison,
+      },
+      narrative,
+    };
 
-  // 4) Actual vs Predicted (daily)
-  const dailyRes = await postJson<{ data: dailyPredictionData[] }>(
-    "/api/v1/analytics/actual-vs-predicted",
-    {
-      start_date: format(startDate),
-      end_date: format(endDate),
-      aggregation: "daily",
-      sector: payload.sector,
-      region: payload.region,
-      service: payload.service,
-    }
-  );
-  const salesActualsPredDailyComparison = dailyRes.data;
+    console.log("🎯 Final result structure:", {
+      hasMonthOnMonth: !!result.allChartsData.salesMonthOnMonthData,
+      hasMonthlyComparison: Array.isArray(result.allChartsData.salesActualsPredMonthComparison) && result.allChartsData.salesActualsPredMonthComparison.length > 0,
+      hasDailyComparison: Array.isArray(result.allChartsData.salesActualsPredDailyComparison) && result.allChartsData.salesActualsPredDailyComparison.length > 0,
+      hasNarrative: !!result.narrative,
+    });
 
-  // return the strict shape (no local fallback)
-  return {
-    allChartsData: {
-      salesMonthOnMonthData: salesMonthOnMonth,
-      salesActualsPredMonthComparison : salesActualsPredMonthComparison,
-      salesActualsPredDailyComparison : salesActualsPredDailyComparison,
-    },
-    narrative,
-  };
+    return result;
+  } catch (error) {
+    console.error("❌ Error in getInitialAllChartsData:", error);
+    throw error;
+  }
 }
 
-// minimal filter function — adapt to real data shape or DB queries
-export async function getFilteredChartsData(
-   filters: { sector?: string | null; region?: string | null; service?: string | null },
-   baseData?: { allChartsData: AllChartsData; narrative: salesNarrativeData }
- ) {
-  // Prefer calling external API for filtered results.
-  // Use the validated helper so we never call an empty base that resolves to localhost.
-  try {
-    const payload = await postJson<{
-      allChartsData: AllChartsData;
-      narrative?: salesNarrativeData;
-    }>("/api/v1/analysis/filtered-charts", { filters });
-
-    return {
-      allChartsData: payload.allChartsData,
-      narrative: payload.narrative ?? (baseData?.narrative ?? (await getInitialAllChartsData()).narrative),
-    };
-  } catch (err) {
-    console.error("Error calling external sales API:", err);
-    throw err; // bubble so caller handles the failure explicitly
-  }
- }
+// Re-export commonly used functions
+export { fetchSectors, fetchServices, fetchRegions } from "./lookups.server";
+export { fetchKpiData } from "./kpi.server";
+export { fetchNarrativeData } from "./narratives.server";
+export { fetchMonthlyPredictionData, fetchDailyPredictionData } from "./predictions.server";

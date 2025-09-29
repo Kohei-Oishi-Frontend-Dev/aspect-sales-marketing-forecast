@@ -1,10 +1,14 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import QueryProvider from "@/app/components/QueryProvider";
-import SalesDashboardClient from "./SalesDashboardClient";
+import SalesDashboardClientWrapper from "./SalesDashboardClientWrapper";
 import { PrismaClient } from "@/lib/generated/prisma";
-import { getInitialAllChartsData } from "@/lib/services/sales.server";
+import {
+  getInitialAllChartsData,
+  fetchSectors,
+  fetchServices,
+  fetchRegions,
+} from "@/lib/services/sales.server";
 
 const prisma = new PrismaClient();
 
@@ -17,49 +21,29 @@ export default async function SalesPage() {
     where: { userId: session.user.id },
   });
 
+  //for now just get the first option, later will remove [0]
   const initialFilters = {
     sector: pref?.sectors?.[0] ?? null,
     region: pref?.regions?.[0] ?? null,
     service: pref?.services?.[0] ?? null,
   };
 
-  // fetch lookup lists server-side (call your internal API routes)
-  const [sectorsRes, servicesRes, regionsRes] = await Promise.all([
-    fetch(
-      new URL("/api/v1/analysis/sector", process.env.API_BASE_URL).toString(),
-      { cache: "no-store" }
-    ),
-    fetch(
-      new URL(
-        "/api/v1/analysis/service",
-        process.env.API_BASE_URL
-      ).toString(),
-      {
-        cache: "no-store",
-      }
-    ),
-    fetch(new URL("/api/v1/analysis/region", process.env.API_BASE_URL).toString(), {
-      cache: "no-store",
-    }),
+  // fetch lookup lists directly from external API via server functions
+  const [sectorsData, servicesData, regionsData] = await Promise.all([
+    fetchSectors(),
+    fetchServices(),
+    fetchRegions(),
   ]);
 
-  console.log(sectorsRes);
-  console.log(typeof servicesRes);
-  console.log(typeof regionsRes);
-
-  type SectorRow = { sector: string };
-  type ServiceRow = { service: string };
-  type RegionRow = { region: string };
-  
-  const sectors = (await sectorsRes.json() as SectorRow[]).map(({ sector }) => ({
+  const sectors = sectorsData.map(({ sector }) => ({
     id: sector,
     label: sector,
   }));
-  const services = (await servicesRes.json() as ServiceRow[]).map(({ service }) => ({
+  const services = servicesData.map(({ service }) => ({
     id: service,
     label: service,
   }));
-  const regions = (await regionsRes.json() as RegionRow[]).map(({ region }) => ({
+  const regions = regionsData.map(({ region }) => ({
     id: region,
     label: region,
   }));
@@ -72,12 +56,13 @@ export default async function SalesPage() {
   });
 
   return (
-    <QueryProvider initialLookups={{ sectors, services, regions }}>
-      <SalesDashboardClient
-        initialAllChartsData={allChartsData}
-        initialNarrativeData={narrative}
-        initialFilters={initialFilters}
-      />
-    </QueryProvider>
+    <SalesDashboardClientWrapper
+      initialAllChartsData={allChartsData}
+      initialNarrativeData={narrative}
+      initialFilters={initialFilters}
+      sectorOptions={sectors}
+      regionOptions={regions}
+      serviceOptions={services}
+    />
   );
 }
