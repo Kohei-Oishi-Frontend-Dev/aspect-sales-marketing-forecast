@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import {
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { toast } from "sonner";
-import { useUserPreference } from "@/lib/hooks/useUserPreference";
 
 type UserPreferences = {
   sectors: string[];
@@ -35,51 +33,34 @@ export default function UserPreference({
   initialLookups?: InitialLookups;
   initialPreferences?: UserPreferences | null;
 }) {
-  // Prefer server-provided lists; don't call client hooks that fetch on mount.
   const sectorOptions = initialLookups?.sectors ?? [];
   const serviceOptions = initialLookups?.services ?? [];
   const regionOptions = initialLookups?.regions ?? [];
 
-  // seed user preference hook with server-provided preferences to avoid client roundtrip
-  const { data: prefFromServer, savePreference, isLoading: isPrefLoading } =
-    useUserPreference(initialPreferences ?? null);
-
   const router = useRouter();
-
-  const [preferences, setPreferences] = useState<UserPreferences>({
-    sectors: [],
-    regions: [],
-    services: [],
-  });
-
-  // selectAll flags per category; true -> send [""] for that category
-  const [selectAll, setSelectAll] = useState<Record<keyof UserPreferences, boolean>>({
-    sectors: false,
-    regions: false,
-    services: false,
-  });
-
-  useEffect(() => {
-    // only initialize from server if server data exists and user hasn't interacted yet
-    const isEmpty = (obj: UserPreferences) =>
-      obj.sectors.length === 0 && obj.regions.length === 0 && obj.services.length === 0;
-
-    // initialize when prefFromServer becomes available (seeded from server page)
-    if (prefFromServer && isEmpty(preferences)) {
-      setPreferences({
-        sectors: Array.isArray(prefFromServer.sectors) ? prefFromServer.sectors : [],
-        regions: Array.isArray(prefFromServer.regions) ? prefFromServer.regions : [],
-        services: Array.isArray(prefFromServer.services) ? prefFromServer.services : [],
-      });
-
-      // if server pref includes "" treat that as select-all for UI
-      setSelectAll({
-        sectors: Array.isArray(prefFromServer.sectors) && prefFromServer.sectors.includes(""),
-        regions: Array.isArray(prefFromServer.regions) && prefFromServer.regions.includes(""),
-        services: Array.isArray(prefFromServer.services) && prefFromServer.services.includes(""),
-      });
+  // Initialize directly from server props on mount
+  const [preferences, setPreferences] = useState<UserPreferences>(() => {
+    if (initialPreferences) {
+      return {
+        sectors: initialPreferences.sectors ? initialPreferences.sectors : [],
+        regions: initialPreferences.regions ? initialPreferences.regions : [],
+        services: initialPreferences.services ? initialPreferences.services : [],
+      };
     }
-  }, [prefFromServer]); // only re-run when server-provided pref changes
+    return { sectors: [], regions: [], services: [] };
+  });
+
+  const [selectAll, setSelectAll] = useState<Record<keyof UserPreferences, boolean>>(() => {
+    // Initialize select-all state from server props
+    if (initialPreferences) {
+      return {
+        sectors: initialPreferences.sectors && initialPreferences.sectors.includes(""),
+        regions: initialPreferences.regions && initialPreferences.regions.includes(""),
+        services: initialPreferences.services && initialPreferences.services.includes(""),
+      };
+    }
+    return { sectors: false, regions: false, services: false };
+  });
 
   const [isLoading, setIsLoading] = useState(false);
 

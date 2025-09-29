@@ -29,6 +29,40 @@ async function postJson<T = unknown>(path: string, body: unknown): Promise<T> {
   return (await res.json()) as T;
 }
 
+// Helper for GET requests to external API
+async function getJson<T = unknown>(path: string): Promise<T> {
+  if (!baseURL) {
+    throw new Error(
+      "API_BASE_URL is not configured. Set API_BASE_URL in environment before calling external analytics endpoints."
+    );
+  }
+  const url = new URL(path, baseURL).toString();
+  const res = await fetch(url, {
+    method: "GET",
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`GET ${path} failed ${res.status}: ${txt}`);
+  }
+  return (await res.json()) as T;
+}
+
+// Fetch sectors directly from external API
+export async function fetchSectors(): Promise<Array<{ sector: string }>> {
+  return await getJson<Array<{ sector: string }>>("/api/v1/analysis/sector");
+}
+
+// Fetch services directly from external API
+export async function fetchServices(): Promise<Array<{ service: string }>> {
+  return await getJson<Array<{ service: string }>>("/api/v1/analysis/service");
+}
+
+// Fetch regions directly from external API
+export async function fetchRegions(): Promise<Array<{ region: string }>> {
+  return await getJson<Array<{ region: string }>>("/api/v1/analysis/region");
+}
+
 export async function getInitialAllChartsData(
   filters?: { sector?: string | null; region?: string | null; service?: string | null }
 ): Promise<{
@@ -40,7 +74,7 @@ export async function getInitialAllChartsData(
     metric: "sales",
     period: "month",
     comparison_type: "sequential",
-    current_date: new Date().toISOString().slice(0, 10),
+    current_date: new Date().toISOString().slice(0, 10), // format "2025-09-29"
     sector: filters?.sector ?? "",
     region: "",
     service: "",
@@ -50,7 +84,6 @@ export async function getInitialAllChartsData(
 
   // 1) KPI (month-on-month)
   const salesMonthOnMonth = await postJson<SalesMonthOnMonth>("/api/v1/analysis/kpi", payload);
-  console.log("salesMonth data kpi ", salesMonthOnMonth);
   // 2) Narrative
   const narrative = await postJson<salesNarrativeData>("/api/v1/analytics/narative", {
     current_date: payload.current_date,

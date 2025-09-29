@@ -63,6 +63,7 @@ export default function SalesDashboardClient({
     // disabled until user interacts
     enabled: shouldFetch,
     placeholderData: { allChartsData: initialAllChartsData, narrative: initialNarrativeData },
+    keepPreviousData: true,
     staleTime: 3000,
   });
 
