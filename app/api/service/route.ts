@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const BASE = process.env.API_BASE_URL ?? "";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     if (!BASE) {
       return NextResponse.json(

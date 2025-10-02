@@ -33,6 +33,17 @@ type ChatMessage = {
   chart?: Chart | null;
 };
 
+type ChatResponse = {
+  message?: string;
+  body?: string;
+  chart?: {
+    type?: string;
+    title?: string;
+    data?: unknown[];
+    config?: Record<string, unknown> | null;
+  } | null;
+};
+
 async function fetchChatResponse(): Promise<Post> {
   const response = await fetch("/chat.json");
   return response.json();
@@ -54,44 +65,42 @@ export default function Chat() {
     enabled: open, // fetch only when chat is open
   });
 
-  const mutation = useMutation<any, Error, void>({
+  const mutation = useMutation<unknown, Error, void>({
     mutationFn: async () => {
       //for now randomly getting the chart
       const fixtures = ["/chat.json", "/table.json", "/table2.json"];
       const path = fixtures[Math.floor(Math.random() * fixtures.length)];
       const r = await fetch(path);
-      // above code will be updated with real fetch to API
       if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
       return await r.json();
     },
     onSuccess: (data) => {
-      const botText = String(data?.message ?? data?.body ?? "No body");
+      // narrow unknown -> ChatResponse
+      const payload = (data as ChatResponse) ?? {};
+      const botText = String(payload?.message ?? payload?.body ?? "No body");
 
       // parse chart if present and split out aggregate_data (first item)
       const parsedChart: Chart | undefined =
-        data?.chart && typeof data.chart === "object"
+        payload?.chart && typeof payload.chart === "object"
           ? (() => {
-              const raw = Array.isArray(data.chart.data) ? data.chart.data : [];
+              const raw = Array.isArray(payload.chart!.data) ? payload.chart!.data! : [];
               const aggregate = raw.length > 0 ? raw[0] : null;
               const items = raw.length > 1 ? raw.slice(1) : [];
               return {
-                type: data.chart.type,
-                title: data.chart.title,
-                // only pass the rest (without the first index) to the chart renderer
+                type: payload.chart!.type,
+                title: payload.chart!.title,
                 data: items,
-                config: data.chart.config ?? null,
+                config: payload.chart!.config ?? null,
                 aggregate_data: aggregate,
               } as Chart;
             })()
           : undefined;
 
-      // append bot message with optional chart (chart.data now excludes the aggregate)
       setMessages((m) => [
         ...m,
         { role: "bot", text: botText, chart: parsedChart ?? null },
       ]);
 
-      // keep separate quick-access chart state if you need it elsewhere
       if (parsedChart) setChart(parsedChart);
     },
     onError: (err) => {
@@ -215,7 +224,7 @@ export default function Chat() {
                       }`}
                     >
                       <ChartBarDefault
-                        data={m.chart.data as any[]}
+                        data={m.chart.data as unknown[]}
                         title={m.chart.title}
                         aggregate={m.chart.aggregate_data ?? null}
                       />
