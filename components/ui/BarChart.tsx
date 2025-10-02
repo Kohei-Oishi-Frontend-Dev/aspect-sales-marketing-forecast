@@ -71,10 +71,10 @@ export function ChartBarDefault({
 
   // aggregate abbreviation
   const aggregateLabel =
-    aggregate && typeof (aggregate as any).total_sales === "number"
-      ? `£${abbreviateNumber((aggregate as any).total_sales as number, 2)}`
-      : typeof aggregate === "object" && "total_sales" in (aggregate as any)
-      ? String((aggregate as any).total_sales ?? "")
+    aggregate && typeof aggregate.total_sales === "number"
+      ? `£${abbreviateNumber(aggregate.total_sales, 2)}`
+      : typeof aggregate === "object" && "total_sales" in aggregate
+      ? String(aggregate.total_sales ?? "")
       : null;
 
   return (
@@ -86,9 +86,9 @@ export function ChartBarDefault({
             {aggregate
               ? `${
                   typeof aggregate === "object" &&
-                  "period" in (aggregate as any)
-                    ? (aggregate as any).period
-                    : String((aggregate as any) ?? "")
+                  "period" in aggregate
+                    ? aggregate.period
+                    : String(aggregate ?? "")
                 }${aggregateLabel ? ` — ${aggregateLabel}` : ""}`
               : "Bar data"}
           </CardDescription>
@@ -139,8 +139,6 @@ export function ChartBarDefault({
           </BarChart>
         </ChartContainer>
       </CardContent>
-
-      {/* Footer removed for compactness */}
     </Card>
   );
 }
