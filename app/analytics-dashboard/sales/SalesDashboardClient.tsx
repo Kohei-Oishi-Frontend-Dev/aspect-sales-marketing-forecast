@@ -61,7 +61,6 @@ export default function SalesDashboardClient({
     },
     enabled: shouldFetch,
     placeholderData: { allChartsData: initialAllChartsData, narrative: initialNarrativeData },
-    keepPreviousData: true,
     staleTime: 3000,
   });
 
