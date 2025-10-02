@@ -19,7 +19,6 @@ import { abbreviateNumber } from "@/lib/utils";
 
 export const description = "A bar chart";
 
-// shape that matches fixture
 type ChartDataItem = {
   x?: string;
   y?: number;
@@ -29,17 +28,17 @@ type ChartDataItem = {
   total_sales_abbr?: string;
 };
 
-// accept title, aggregate and incoming chart config (from chat.json)
+// accept unknown[] so callers can pass raw JSON safely
 export function ChartBarDefault({
   data = [],
   title = "Bar Chart",
   aggregate = null,
   config,
 }: {
-  data?: ChartDataItem[];
+  data?: unknown[];
   title?: string;
-  aggregate?: ChartDataItem | null;
-  config?: undefined;
+  aggregate?: unknown | null;
+  config?: unknown;
 }) {
   const chartConfig = {
     desktop: {
@@ -48,33 +47,48 @@ export function ChartBarDefault({
     },
   } satisfies ChartConfig;
 
-  const xAxisLabel = config?.xAxis?.name ?? "";
-  const yAxisLabel = config?.yAxis?.name ?? "";
+  const xAxisLabel = (config as any)?.xAxis?.name ?? "";
+  const yAxisLabel = (config as any)?.yAxis?.name ?? "";
 
-  // create processedData where each element has abbreviated strings for numeric fields
-  const processedData: ChartDataItem[] = (data ?? []).map((d) => {
-    const yNum =
-      typeof d.y === "number"
-        ? d.y
-        : typeof d.total_sales === "number"
-        ? d.total_sales
-        : undefined;
-    return {
-      ...d,
-      y_abbr: typeof yNum === "number" ? abbreviateNumber(yNum, 2) : undefined,
-      total_sales_abbr:
-        typeof d.total_sales === "number"
-          ? abbreviateNumber(d.total_sales, 2)
-          : undefined,
-    };
+  // safely map unknown -> ChartDataItem using runtime checks (no `any`)
+  const processedData: ChartDataItem[] = (data ?? []).map((raw) => {
+    if (typeof raw === "object" && raw !== null) {
+      const obj = raw as Record<string, unknown>;
+      const x =
+        typeof obj.x === "string"
+          ? obj.x
+          : typeof obj.period === "string"
+          ? obj.period
+          : String(obj.x ?? "");
+      const y =
+        typeof obj.y === "number"
+          ? obj.y
+          : typeof obj.total_sales === "number"
+          ? obj.total_sales
+          : undefined;
+      const total_sales =
+        typeof obj.total_sales === "number" ? obj.total_sales : undefined;
+
+      return {
+        x,
+        y,
+        period: typeof obj.period === "string" ? obj.period : undefined,
+        total_sales,
+        y_abbr: typeof y === "number" ? abbreviateNumber(y, 2) : undefined,
+        total_sales_abbr:
+          typeof total_sales === "number"
+            ? abbreviateNumber(total_sales, 2)
+            : undefined,
+      };
+    }
+    return {};
   });
 
-  // aggregate abbreviation
   const aggregateLabel =
-    aggregate && typeof aggregate.total_sales === "number"
-      ? `£${abbreviateNumber(aggregate.total_sales, 2)}`
-      : typeof aggregate === "object" && "total_sales" in aggregate
-      ? String(aggregate.total_sales ?? "")
+    aggregate && typeof (aggregate as any)?.total_sales === "number"
+      ? `£${abbreviateNumber((aggregate as any).total_sales as number, 2)}`
+      : typeof aggregate === "object" && aggregate && "total_sales" in (aggregate as any)
+      ? String((aggregate as any).total_sales ?? "")
       : null;
 
   return (
