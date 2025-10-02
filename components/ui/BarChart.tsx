@@ -38,8 +38,8 @@ export function ChartBarDefault({
 }: {
   data?: ChartDataItem[];
   title?: string;
-  aggregate?: any | null;
-  config?: any;
+  aggregate?: ChartDataItem | null;
+  config?: undefined;
 }) {
   const chartConfig = {
     desktop: {
@@ -85,7 +85,8 @@ export function ChartBarDefault({
           <CardDescription>
             {aggregate
               ? `${
-                  typeof aggregate === "object" && "period" in (aggregate as any)
+                  typeof aggregate === "object" &&
+                  "period" in (aggregate as any)
                     ? (aggregate as any).period
                     : String((aggregate as any) ?? "")
                 }${aggregateLabel ? ` — ${aggregateLabel}` : ""}`
@@ -105,7 +106,9 @@ export function ChartBarDefault({
               axisLine={false}
               tickFormatter={(value) => String(value)}
               label={
-                xAxisLabel ? { value: String(xAxisLabel), position: "bottom" } : undefined
+                xAxisLabel
+                  ? { value: String(xAxisLabel), position: "bottom" }
+                  : undefined
               }
             />
             <YAxis
@@ -114,7 +117,9 @@ export function ChartBarDefault({
               tickFormatter={(v) => {
                 // ensure numeric input before abbreviation
                 const n = typeof v === "number" ? v : Number(v);
-                return Number.isFinite(n) ? abbreviateNumber(n, 2) : String(v ?? "");
+                return Number.isFinite(n)
+                  ? abbreviateNumber(n, 2)
+                  : String(v ?? "");
               }}
               label={
                 yAxisLabel

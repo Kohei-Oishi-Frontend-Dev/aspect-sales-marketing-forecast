@@ -8,14 +8,14 @@ export default function DynamicTable({
   if (!payload || typeof payload !== "object") return null;
 
   // defensive path helpers
-  const chart = (payload as any).chart ?? null;
+  const chart = (payload as undefined).chart ?? null;
   const config = chart?.config ?? null;
   const columns: Array<{ title?: string; dataIndex?: string; key?: string }> =
     Array.isArray(config?.columns) ? config.columns : [];
-  const rows: any[] = Array.isArray(chart?.data) ? chart.data : [];
+  const rows: undefined[] = Array.isArray(chart?.data) ? chart.data : [];
 
   // helper to read nested keys like "a.b.c" (defensive)
-  const getValue = (obj: any, path?: string) => {
+  const getValue = (obj: undefined, path?: string) => {
     if (!path) return undefined;
     const parts = String(path).split(".");
     let cur = obj;
