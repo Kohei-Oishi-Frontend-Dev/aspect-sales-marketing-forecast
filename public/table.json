@@ -1,0 +1,105 @@
+{
+  "conversation_id": "f0d3766a-536a-437a-b60f-501531444dc6",
+  "message": "Analyzed forecast performance for 1 metrics",
+  "chart": {
+    "type": "table",
+    "title": "Data Table (12 rows total)",
+    "data": [
+      {
+        "month": 1,
+        "actual_sales": 2312254.08,
+        "forecasted_sales": 5083268.98
+      },
+      {
+        "month": 2,
+        "actual_sales": 2075455.51,
+        "forecasted_sales": 4978762.76
+      },
+      {
+        "month": 3,
+        "actual_sales": 1959281.91,
+        "forecasted_sales": ""
+      },
+      {
+        "month": 4,
+        "actual_sales": 1898649.86,
+        "forecasted_sales": ""
+      },
+      {
+        "month": 5,
+        "actual_sales": 1872121.89,
+        "forecasted_sales": ""
+      },
+      {
+        "month": 6,
+        "actual_sales": 1778135.69,
+        "forecasted_sales": ""
+      },
+      {
+        "month": 7,
+        "actual_sales": 3664097.18,
+        "forecasted_sales": ""
+      },
+      {
+        "month": 8,
+        "actual_sales": 3369320.33,
+        "forecasted_sales": ""
+      },
+      {
+        "month": 9,
+        "actual_sales": 2136616.3,
+        "forecasted_sales": 4620600.96
+      },
+      {
+        "month": 10,
+        "actual_sales": 2251082.45,
+        "forecasted_sales": 6044359.22
+      },
+      {
+        "month": 11,
+        "actual_sales": 2427262.11,
+        "forecasted_sales": 5660614.36
+      },
+      {
+        "month": 12,
+        "actual_sales": 1785087.22,
+        "forecasted_sales": 5574216.09
+      }
+    ],
+    "config": {
+      "columns": [
+        {
+          "title": "Month",
+          "dataIndex": "month",
+          "key": "month"
+        },
+        {
+          "title": "Actual_Sales",
+          "dataIndex": "actual_sales",
+          "key": "actual_sales"
+        },
+        {
+          "title": "Forecasted_Sales",
+          "dataIndex": "forecasted_sales",
+          "key": "forecasted_sales"
+        }
+      ],
+      "pagination": false,
+      "pageSize": 20,
+      "scroll": null
+    },
+    "x_axis": null,
+    "y_axis": null
+  },
+  "metrics": [],
+  "insights": [],
+  "query_info": {
+    "sql": "WITH actual_sales AS ( SELECT EXTRACT(MONTH FROM date) AS month, SUM(sale) AS actual_sales FROM `aspect-business-management.sales_data.raw_sales_data` WHERE date <= '2024-08-31' GROUP BY month ), forecasted_sales AS ( SELECT EXTRACT(MONTH FROM date) AS month, SUM(pred_sales) AS forecasted_sales FROM `aspect-business-management.sales_data.predicted_sales_data` WHERE date > '2024-08-31' GROUP BY month ) SELECT COALESCE(actual_sales.month, forecasted_sales.month) AS month, actual_sales.actual_sales, forecasted_sales.forecasted_sales FROM actual_sales FULL OUTER JOIN forecasted_sales ON actual_sales.month = forecasted_sales.month ORDER BY month LIMIT 10000",
+    "execution_time": 2.2658913135528564,
+    "rows_returned": 12,
+    "data_source": "aspect-business-management.aspect-business-management.sales_data"
+  },
+  "suggestions": [],
+  "timestamp": "2025-10-01T10:10:47.200295",
+  "processing_time": 4.921638
+}

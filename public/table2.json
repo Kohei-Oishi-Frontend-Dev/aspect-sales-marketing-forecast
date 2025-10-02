@@ -1,0 +1,152 @@
+{
+  "conversation_id": "f8f4db22-b7df-40f2-88f6-8fdb1f94668e",
+  "message": "Insufficient data for trend analysis",
+  "chart": {
+    "type": "table",
+    "title": "Data Table (11 rows total)",
+    "data": [
+      {
+        "year": 2024,
+        "month": 10,
+        "total_sales": 2459610.71,
+        "total_predicted_sales": "",
+        "mom_growth": "",
+        "yoy_growth": ""
+      },
+      {
+        "year": 2024,
+        "month": 11,
+        "total_sales": 2589796.81,
+        "total_predicted_sales": "",
+        "mom_growth": 5.29,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2024,
+        "month": 12,
+        "total_sales": 1965645.93,
+        "total_predicted_sales": "",
+        "mom_growth": -24.1,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 1,
+        "total_sales": 2114043.35,
+        "total_predicted_sales": "",
+        "mom_growth": 7.55,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 2,
+        "total_sales": 2096484.93,
+        "total_predicted_sales": "",
+        "mom_growth": -0.83,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 3,
+        "total_sales": 1971825.39,
+        "total_predicted_sales": "",
+        "mom_growth": -5.95,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 4,
+        "total_sales": 2055852.14,
+        "total_predicted_sales": "",
+        "mom_growth": 4.26,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 5,
+        "total_sales": 2259776.7,
+        "total_predicted_sales": "",
+        "mom_growth": 9.92,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 6,
+        "total_sales": 2145425.22,
+        "total_predicted_sales": "",
+        "mom_growth": -5.06,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 7,
+        "total_sales": 2255378.21,
+        "total_predicted_sales": "",
+        "mom_growth": 5.12,
+        "yoy_growth": ""
+      },
+      {
+        "year": 2025,
+        "month": 8,
+        "total_sales": 1989553.87,
+        "total_predicted_sales": "",
+        "mom_growth": -11.79,
+        "yoy_growth": ""
+      }
+    ],
+    "config": {
+      "columns": [
+        {
+          "title": "Year",
+          "dataIndex": "year",
+          "key": "year"
+        },
+        {
+          "title": "Month",
+          "dataIndex": "month",
+          "key": "month"
+        },
+        {
+          "title": "Total_Sales",
+          "dataIndex": "total_sales",
+          "key": "total_sales"
+        },
+        {
+          "title": "Total_Predicted_Sales",
+          "dataIndex": "total_predicted_sales",
+          "key": "total_predicted_sales"
+        },
+        {
+          "title": "Mom_Growth",
+          "dataIndex": "mom_growth",
+          "key": "mom_growth"
+        },
+        {
+          "title": "Yoy_Growth",
+          "dataIndex": "yoy_growth",
+          "key": "yoy_growth"
+        }
+      ],
+      "pagination": false,
+      "pageSize": 20,
+      "scroll": null
+    },
+    "x_axis": null,
+    "y_axis": null
+  },
+  "metrics": [],
+  "insights": [],
+  "query_info": {
+    "sql": "WITH monthly_sales AS ( SELECT EXTRACT(YEAR FROM date) AS year, EXTRACT(MONTH FROM date) AS month, SUM(sale) AS total_sales FROM `aspect-business-management.sales_data.raw_sales_data` WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) GROUP BY year, month ), predicted_monthly_sales AS ( SELECT EXTRACT(YEAR FROM date) AS year, EXTRACT(MONTH FROM date) AS month, SUM(pred_sales) AS total_predicted_sales FROM `aspect-business-management.sales_data.predicted_sales_data` WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) GROUP BY year, month ) SELECT ms.year, ms.month, ms.total_sales, pms.total_predicted_sales, SAFE_DIVIDE(ms.total_sales - LAG(ms.total_sales) OVER (ORDER BY ms.year, ms.month), LAG(ms.total_sales) OVER (ORDER BY ms.year, ms.month)) * 100 AS mom_growth, SAFE_DIVIDE(ms.total_sales - LAG(ms.total_sales, 12) OVER (ORDER BY ms.year, ms.month), LAG(ms.total_sales, 12) OVER (ORDER BY ms.year, ms.month)) * 100 AS yoy_growth FROM monthly_sales ms LEFT JOIN predicted_monthly_sales pms ON ms.year = pms.year AND ms.month = pms.month ORDER BY ms.year, ms.month LIMIT 10000",
+    "execution_time": 2.2584590911865234,
+    "rows_returned": 11,
+    "data_source": "aspect-business-management.aspect-business-management.sales_data"
+  },
+  "suggestions": [
+    "Show me the same data broken down by region",
+    "What drove this trend?",
+    "Compare this to last year"
+  ],
+  "timestamp": "2025-10-01T10:02:58.808114",
+  "processing_time": 5.312662
+}

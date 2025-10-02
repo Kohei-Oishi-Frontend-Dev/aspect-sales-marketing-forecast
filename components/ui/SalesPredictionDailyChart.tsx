@@ -200,16 +200,6 @@ export default function SalesPredictionDailyChart({
               }
             />
             <Area
-              dataKey="actual_sales"
-              type="monotone"
-              fill="url(#fillActual)"
-              stroke="var(--color-actual_sales)"
-              strokeWidth={2}
-              dot={false}
-              isAnimationActive
-              animationDuration={520}
-            />
-            <Area
               dataKey="predicted_sales"
               type="monotone"
               fill="url(#fillPredicted)"
