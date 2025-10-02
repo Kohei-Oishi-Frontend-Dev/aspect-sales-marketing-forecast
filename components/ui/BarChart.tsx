@@ -1,13 +1,10 @@
 "use client";
-
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -24,7 +21,7 @@ export const description = "A bar chart";
 
 // shape that matches fixture
 type ChartDataItem = {
-  x: string;
+  x?: string;
   y?: number;
   period?: string;
   total_sales?: number;
@@ -41,7 +38,7 @@ export function ChartBarDefault({
 }: {
   data?: ChartDataItem[];
   title?: string;
-  aggregate?: ChartDataItem | null;
+  aggregate?: any | null;
   config?: any;
 }) {
   const chartConfig = {

@@ -8,6 +8,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { ChartBarDefault } from "@/components/ui/BarChart";
+import DynamicTable from "@/components/ui/DynamicTable";
 
 type Post = {
   userId: number;
@@ -55,7 +56,11 @@ export default function Chat() {
 
   const mutation = useMutation<any, Error, void>({
     mutationFn: async () => {
-      const r = await fetch("/chat.json");
+      //for now randomly getting the chart
+      const fixtures = ["/chat.json", "/table.json", "/table2.json"];
+      const path = fixtures[Math.floor(Math.random() * fixtures.length)];
+      const r = await fetch(path);
+      // above code will be updated with real fetch to API
       if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
       return await r.json();
     },
@@ -145,7 +150,9 @@ export default function Chat() {
       {/* Expanded full-width panel */}
       <div
         className={`fixed z-50 left-0 right-0 bottom-0 transition-all duration-300 px-4 sm:px-8 pt-6 ${
-          open ? "h-[50vh] md:h-[60vh] opacity-100" : "h-0 opacity-0 pointer-events-none"
+          open
+            ? "h-[50vh] md:h-[60vh] opacity-100"
+            : "h-0 opacity-0 pointer-events-none"
         }`}
         aria-hidden={!open}
       >
@@ -179,7 +186,9 @@ export default function Chat() {
                 <div
                   key={`${i}-${m.role}`}
                   // use column layout so bubble stays aligned left/right but chart can expand full width
-                  className={`mb-2 flex flex-col mb-6 w-full ${m.role === "user" ? "items-end" : "items-start"}`}
+                  className={`mb-2 flex flex-col mb-6 w-full gap-4 ${
+                    m.role === "user" ? "items-end" : "items-start"
+                  }`}
                 >
                   <div
                     className={`inline-block relative px-4 py-2 rounded-lg w-fit max-w-[60%] break-words whitespace-normal overflow-hidden shadow-md ${
@@ -198,16 +207,23 @@ export default function Chat() {
                       aria-hidden="true"
                     />
                   </div>
-
                   {/* chart: occupy 50% of the chat container, align to message side */}
                   {m.chart?.type === "bar" && Array.isArray(m.chart.data) && (
-                    <div className={`mt-3 w-1/2 max-w-[50%] ${m.role === "user" ? "self-end" : "self-start"}`}>
+                    <div
+                      className={`mt-3 w-1/2 max-w-[50%] ${
+                        m.role === "user" ? "self-end" : "self-start"
+                      }`}
+                    >
                       <ChartBarDefault
                         data={m.chart.data as any[]}
                         title={m.chart.title}
                         aggregate={m.chart.aggregate_data ?? null}
                       />
                     </div>
+                  )}
+                  {/* in case of table */}
+                  {m.chart?.type === "table" && m.chart?.data && (
+                    <DynamicTable payload={m} />
                   )}
                 </div>
               ))
