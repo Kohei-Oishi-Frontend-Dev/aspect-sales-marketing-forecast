@@ -53,14 +53,12 @@ export default function SalesDashboardClient({
     queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
       console.log("useQuery.serverAction: queryKey values ->", { filters });
-      // Call server action directly instead of HTTP request
       return await updateSalesData({
         sector: filters.sector,
         region: filters.region,
         service: filters.service,
       });
     },
-    // disabled until user interacts
     enabled: shouldFetch,
     placeholderData: { allChartsData: initialAllChartsData, narrative: initialNarrativeData },
     keepPreviousData: true,
