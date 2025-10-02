@@ -7,8 +7,8 @@ import {
   fetchSectors,
   fetchServices,
   fetchRegions,
-} from "@/lib/services/lookups.server.ts";
-import {getInitialAllChartsData} from "@/lib/services/sales.server.ts";
+} from "@/lib/services/lookups.server";
+import {getInitialAllChartsData} from "@/lib/services/sales.server";
 const prisma = new PrismaClient();
 
 export default async function SalesPage() {
