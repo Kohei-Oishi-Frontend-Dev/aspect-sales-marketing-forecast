@@ -1,7 +1,6 @@
 "use client";
 import React, { useActionState, JSX } from "react";
 import { signInSocial } from "@/lib/actions/auth-actions"; 
-import {GithubIcon} from "./GithubIcon"
 import {MicrosoftIcon} from "./MicrosoftIcon"
 
 type State = { ok: boolean; message?: string } | null;
@@ -44,29 +43,6 @@ export default function LoginForm(): JSX.Element {
           {isPending ? "Signing in..." : "Continue with Aspect account"}
         </button>
       </form>
-
-      {/* <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300" />
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">or</span>
-        </div>
-      </div> */}
-
-      {/* GitHub Sign In */}
-      {/* <form action={formAction}>
-        <input type="hidden" name="provider" value="github" />
-        <button
-          type="submit"
-          disabled={isPending}
-          className="w-full flex items-center justify-center gap-3 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <GithubIcon />
-          {isPending ? "Signing in..." : "Continue with GitHub"}
-        </button>
-      </form> */}
-
       {state?.message && (
         <div
           className={`text-sm text-center p-3 rounded-md ${

@@ -49,7 +49,7 @@ export default function SalesDashboardClient({
   const [userTriggered, setUserTriggered] = useState(false);
   const shouldFetch = userTriggered && Boolean(filters.sector || filters.region || filters.service);
 
-  const queryOptions = {
+  const query = useQuery<QueryData>({
     queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
       console.log("useQuery.serverAction: queryKey values ->", { filters });
@@ -65,9 +65,7 @@ export default function SalesDashboardClient({
     placeholderData: { allChartsData: initialAllChartsData, narrative: initialNarrativeData },
     keepPreviousData: true,
     staleTime: 3000,
-  } as undefined;
-
-  const query = useQuery(queryOptions);
+  });
 
   // cast query.data to the expected shape and use that to avoid '{}' typing issues
   const queryData = (query.data ?? undefined) as QueryData | undefined;

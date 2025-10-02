@@ -55,7 +55,6 @@ export default function Chat() {
   // messages now may contain chart payloads
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   // optional separate chart state can remain, but chart is now stored on messages
-  const [chart, setChart] = useState<Chart | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
@@ -100,8 +99,6 @@ export default function Chat() {
         ...m,
         { role: "bot", text: botText, chart: parsedChart ?? null },
       ]);
-
-      if (parsedChart) setChart(parsedChart);
     },
     onError: (err) => {
       setMessages((m) => [
