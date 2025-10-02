@@ -1,7 +1,6 @@
 import { fetchKpiData } from "./kpi.server";
 import { fetchNarrativeData } from "./narratives.server";
 import { fetchMonthlyPredictionData, fetchDailyPredictionData } from "./predictions.server";
-import { fetchSectors, fetchServices, fetchRegions } from "./lookups.server";
 import type { AllChartsData, salesNarrativeData } from "@/lib/types/sales";
 
 export async function getInitialAllChartsData(
@@ -64,7 +63,6 @@ export async function getInitialAllChartsData(
 }
 
 // Re-export commonly used functions
-export { fetchSectors, fetchServices, fetchRegions } from "./lookups.server";
 export { fetchKpiData } from "./kpi.server";
 export { fetchNarrativeData } from "./narratives.server";
 export { fetchMonthlyPredictionData, fetchDailyPredictionData } from "./predictions.server";

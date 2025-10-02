@@ -28,6 +28,34 @@ type ChartDataItem = {
   total_sales_abbr?: string;
 };
 
+// runtime guard helpers (avoid `any`)
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
+
+function getConfigAxisName(
+  cfg: unknown,
+  axis: "xAxis" | "yAxis"
+): string | undefined {
+  if (!isRecord(cfg)) return undefined;
+  const axisObj = cfg[axis];
+  if (!isRecord(axisObj)) return undefined;
+  const name = axisObj["name"];
+  return typeof name === "string" ? name : undefined;
+}
+
+function getAggregatePeriod(agg: unknown): string | undefined {
+  if (!isRecord(agg)) return undefined;
+  const candidate = agg["period"] ?? agg["x"] ?? agg["label"];
+  return typeof candidate === "string" ? candidate : undefined;
+}
+
+function getAggregateTotalSales(agg: unknown): number | undefined {
+  if (!isRecord(agg)) return undefined;
+  const candidate = agg["total_sales"] ?? agg["y"] ?? agg["value"];
+  return typeof candidate === "number" ? candidate : undefined;
+}
+
 // accept unknown[] so callers can pass raw JSON safely
 export function ChartBarDefault({
   data = [],
@@ -47,32 +75,35 @@ export function ChartBarDefault({
     },
   } satisfies ChartConfig;
 
-  const xAxisLabel = (config as any)?.xAxis?.name ?? "";
-  const yAxisLabel = (config as any)?.yAxis?.name ?? "";
+  const xAxisLabel = getConfigAxisName(config, "xAxis") ?? "";
+  const yAxisLabel = getConfigAxisName(config, "yAxis") ?? "";
 
   // safely map unknown -> ChartDataItem using runtime checks (no `any`)
   const processedData: ChartDataItem[] = (data ?? []).map((raw) => {
-    if (typeof raw === "object" && raw !== null) {
-      const obj = raw as Record<string, unknown>;
+    if (isRecord(raw)) {
+      const obj = raw;
       const x =
-        typeof obj.x === "string"
-          ? obj.x
-          : typeof obj.period === "string"
-          ? obj.period
-          : String(obj.x ?? "");
+        typeof obj["x"] === "string"
+          ? (obj["x"] as string)
+          : typeof obj["period"] === "string"
+          ? (obj["period"] as string)
+          : String(obj["x"] ?? "");
       const y =
-        typeof obj.y === "number"
-          ? obj.y
-          : typeof obj.total_sales === "number"
-          ? obj.total_sales
+        typeof obj["y"] === "number"
+          ? (obj["y"] as number)
+          : typeof obj["total_sales"] === "number"
+          ? (obj["total_sales"] as number)
           : undefined;
       const total_sales =
-        typeof obj.total_sales === "number" ? obj.total_sales : undefined;
+        typeof obj["total_sales"] === "number"
+          ? (obj["total_sales"] as number)
+          : undefined;
 
       return {
         x,
         y,
-        period: typeof obj.period === "string" ? obj.period : undefined,
+        period:
+          typeof obj["period"] === "string" ? (obj["period"] as string) : undefined,
         total_sales,
         y_abbr: typeof y === "number" ? abbreviateNumber(y, 2) : undefined,
         total_sales_abbr:
@@ -81,15 +112,14 @@ export function ChartBarDefault({
             : undefined,
       };
     }
+    // keep object shape consistent (all fields optional)
     return {};
   });
 
+  const aggTotal = getAggregateTotalSales(aggregate);
   const aggregateLabel =
-    aggregate && typeof (aggregate as any)?.total_sales === "number"
-      ? `£${abbreviateNumber((aggregate as any).total_sales as number, 2)}`
-      : typeof aggregate === "object" && aggregate && "total_sales" in (aggregate as any)
-      ? String((aggregate as any).total_sales ?? "")
-      : null;
+    typeof aggTotal === "number" ? `£${abbreviateNumber(aggTotal, 2)}` : null;
+  const aggPeriod = getAggregatePeriod(aggregate);
 
   return (
     <Card className="w-full">
@@ -98,12 +128,9 @@ export function ChartBarDefault({
           <CardTitle>{title}</CardTitle>
           <CardDescription>
             {aggregate
-              ? `${
-                  typeof aggregate === "object" &&
-                  "period" in aggregate
-                    ? aggregate.period
-                    : String(aggregate ?? "")
-                }${aggregateLabel ? ` — ${aggregateLabel}` : ""}`
+              ? `${aggPeriod ?? String(aggregate ?? "")}${
+                  aggregateLabel ? ` — ${aggregateLabel}` : ""
+                }`
               : "Bar data"}
           </CardDescription>
         </div>
@@ -129,7 +156,6 @@ export function ChartBarDefault({
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => {
-                // ensure numeric input before abbreviation
                 const n = typeof v === "number" ? v : Number(v);
                 return Number.isFinite(n)
                   ? abbreviateNumber(n, 2)
