@@ -7,15 +7,15 @@ export default function DynamicTable({
 }): React.ReactElement | null {
   if (!payload || typeof payload !== "object") return null;
 
-  // defensive path helpers
-  const chart = (payload as undefined).chart ?? null;
+  // defensive path helpers - fix the casting
+  const chart = (payload as any).chart ?? null;
   const config = chart?.config ?? null;
   const columns: Array<{ title?: string; dataIndex?: string; key?: string }> =
     Array.isArray(config?.columns) ? config.columns : [];
-  const rows: undefined[] = Array.isArray(chart?.data) ? chart.data : [];
+  const rows: any[] = Array.isArray(chart?.data) ? chart.data : [];
 
   // helper to read nested keys like "a.b.c" (defensive)
-  const getValue = (obj: undefined, path?: string) => {
+  const getValue = (obj: any, path?: string) => {
     if (!path) return undefined;
     const parts = String(path).split(".");
     let cur = obj;
