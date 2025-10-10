@@ -4,12 +4,11 @@ import { auth } from "@/lib/auth";
 import SalesDashboardClientWrapper from "./SalesDashboardClientWrapper";
 import { PrismaClient } from "@/lib/generated/prisma";
 import {
-  getInitialAllChartsData,
   fetchSectors,
   fetchServices,
   fetchRegions,
-} from "@/lib/services/sales.server";
-
+} from "@/lib/services/lookups.server";
+import {getInitialAllChartsData} from "@/lib/services/sales.server";
 const prisma = new PrismaClient();
 
 export default async function SalesPage() {

@@ -1,0 +1,162 @@
+{
+  "conversation_id": "eafe0597-8dcc-4733-8b36-fcbc0d1a3190",
+  "message": "Insufficient data for trend analysis",
+  "chart": {
+    "type": "bar",
+    "title": "Total Sales Trend By Period",
+    "data": [
+      {
+        "x": "2024-08 (Month Total)",
+        "y": 1561589.74,
+        "period": "2024-08 (Month Total)",
+        "total_sales": 1561589.74
+      },
+      {
+        "x": "2024-08-22",
+        "y": 113969.6,
+        "period": "2024-08-22",
+        "total_sales": 113969.6
+      },
+      {
+        "x": "2024-08-09",
+        "y": 110656.45,
+        "period": "2024-08-09",
+        "total_sales": 110656.45
+      },
+      {
+        "x": "2024-08-19",
+        "y": 84009.1,
+        "period": "2024-08-19",
+        "total_sales": 84009.1
+      },
+      {
+        "x": "2024-08-27",
+        "y": 83704.89,
+        "period": "2024-08-27",
+        "total_sales": 83704.89
+      },
+      {
+        "x": "2024-08-08",
+        "y": 80617.2,
+        "period": "2024-08-08",
+        "total_sales": 80617.2
+      },
+      {
+        "x": "2024-08-21",
+        "y": 70135.72,
+        "period": "2024-08-21",
+        "total_sales": 70135.72
+      },
+      {
+        "x": "2024-08-12",
+        "y": 69078.01,
+        "period": "2024-08-12",
+        "total_sales": 69078.01
+      },
+      {
+        "x": "2024-08-29",
+        "y": 68191.1,
+        "period": "2024-08-29",
+        "total_sales": 68191.1
+      },
+      {
+        "x": "2024-08-30",
+        "y": 65460.91,
+        "period": "2024-08-30",
+        "total_sales": 65460.91
+      },
+      {
+        "x": "2024-08-14",
+        "y": 64491.75,
+        "period": "2024-08-14",
+        "total_sales": 64491.75
+      },
+      {
+        "x": "2024-08-02",
+        "y": 64185.44,
+        "period": "2024-08-02",
+        "total_sales": 64185.44
+      },
+      {
+        "x": "2024-08-13",
+        "y": 61787.25,
+        "period": "2024-08-13",
+        "total_sales": 61787.25
+      },
+      {
+        "x": "2024-08-16",
+        "y": 58780.26,
+        "period": "2024-08-16",
+        "total_sales": 58780.26
+      },
+      {
+        "x": "2024-08-01",
+        "y": 57378.71,
+        "period": "2024-08-01",
+        "total_sales": 57378.71
+      },
+      {
+        "x": "2024-08-23",
+        "y": 56769.29,
+        "period": "2024-08-23",
+        "total_sales": 56769.29
+      },
+      {
+        "x": "2024-08-15",
+        "y": 56729.91,
+        "period": "2024-08-15",
+        "total_sales": 56729.91
+      },
+      {
+        "x": "2024-08-07",
+        "y": 55978.73,
+        "period": "2024-08-07",
+        "total_sales": 55978.73
+      },
+      {
+        "x": "2024-08-20",
+        "y": 54159.89,
+        "period": "2024-08-20",
+        "total_sales": 54159.89
+      },
+      {
+        "x": "2024-08-06",
+        "y": 53628.43,
+        "period": "2024-08-06",
+        "total_sales": 53628.43
+      }
+    ],
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "name": "Period"
+      },
+      "yAxis": {
+        "type": "value",
+        "name": "Total_Sales"
+      },
+      "tooltip": {
+        "trigger": "axis"
+      },
+      "animation": true,
+      "dataZoom": true
+    },
+    "x_axis": "period",
+    "y_axis": "total_sales"
+  },
+  "metrics": [],
+  "insights": [],
+  "query_info": {
+    "sql": "WITH filtered AS ( SELECT date, sale FROM `aspect-business-management.sales_data.raw_sales_data` WHERE date BETWEEN DATE('2024-08-01') AND DATE('2024-08-31') ) SELECT CASE WHEN GROUPING(date) = 1 THEN '2024-08 (Month Total)' ELSE FORMAT_DATE('%Y-%m-%d', date) END AS period, SUM(sale) AS total_sales, COUNT(*) AS transaction_count, AVG(sale) AS avg_sales FROM filtered GROUP BY GROUPING SETS ((date), ()) ORDER BY period LIMIT 10000",
+    "execution_time": 2.4600534439086914,
+    "rows_returned": 32,
+    "data_source": "aspect-business-management.aspect-business-management.sales_data"
+  },
+  "suggestions": [
+    "Show me the same data broken down by region",
+    "What drove this trend?",
+    "Compare this to last year"
+  ],
+  "timestamp": "2025-09-26T09:40:12.842613",
+  "processing_time": 6.816506
+}

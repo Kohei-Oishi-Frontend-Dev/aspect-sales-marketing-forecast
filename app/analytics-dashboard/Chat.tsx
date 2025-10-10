@@ -7,6 +7,8 @@ import {
   Sent02Icon,
 } from "@hugeicons/core-free-icons";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { ChartBarDefault } from "@/components/ui/BarChart";
+import DynamicTable from "@/components/ui/DynamicTable";
 
 type Post = {
   userId: number;
@@ -15,21 +17,44 @@ type Post = {
   body: string;
 };
 
-// Add a typed message shape
+// new: chart shape returned inside chat responses
+type Chart = {
+  type?: string; // e.g. "line" | "area" | "bar"
+  title?: string;
+  data?: unknown[]; // array of datapoints, keep generic or refine to your schema
+  config?: Record<string, unknown> | null;
+  aggregate_data?: unknown | null;
+};
+
+// Add chart to message shape
 type ChatMessage = {
   role: "user" | "bot";
   text: string;
+  chart?: Chart | null;
+};
+
+type ChatResponse = {
+  message?: string;
+  body?: string;
+  chart?: {
+    type?: string;
+    title?: string;
+    data?: unknown[];
+    config?: Record<string, unknown> | null;
+  } | null;
 };
 
 async function fetchChatResponse(): Promise<Post> {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+  const response = await fetch("/chat.json");
   return response.json();
 }
 
 export default function Chat() {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  // messages now may contain chart payloads
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  // optional separate chart state can remain, but chart is now stored on messages
   const inputRef = useRef<HTMLInputElement | null>(null);
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
@@ -39,19 +64,48 @@ export default function Chat() {
     enabled: open, // fetch only when chat is open
   });
 
-  const mutation = useMutation<Post, Error, void>({
+  const mutation = useMutation<unknown, Error, void>({
     mutationFn: async () => {
-      const r = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+      //for now randomly getting the chart
+      const fixtures = ["/chat.json", "/table.json", "/table2.json"];
+      const path = fixtures[Math.floor(Math.random() * fixtures.length)];
+      const r = await fetch(path);
       if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-      return (await r.json()) as Post;
+      return await r.json();
     },
-    onSuccess: (data) =>
-      setMessages((m) => [...m, { role: "bot", text: data.body ?? "No body" }]),
-    onError: (err) =>
+    onSuccess: (data) => {
+      // narrow unknown -> ChatResponse
+      const payload = (data as ChatResponse) ?? {};
+      const botText = String(payload?.message ?? payload?.body ?? "No body");
+
+      // parse chart if present and split out aggregate_data (first item)
+      const parsedChart: Chart | undefined =
+        payload?.chart && typeof payload.chart === "object"
+          ? (() => {
+              const raw = Array.isArray(payload.chart!.data) ? payload.chart!.data! : [];
+              const aggregate = raw.length > 0 ? raw[0] : null;
+              const items = raw.length > 1 ? raw.slice(1) : [];
+              return {
+                type: payload.chart!.type,
+                title: payload.chart!.title,
+                data: items,
+                config: payload.chart!.config ?? null,
+                aggregate_data: aggregate,
+              } as Chart;
+            })()
+          : undefined;
+
       setMessages((m) => [
         ...m,
-        { role: "bot", text: `Error: ${String(err.message ?? err)}` },
-      ]),
+        { role: "bot", text: botText, chart: parsedChart ?? null },
+      ]);
+    },
+    onError: (err) => {
+      setMessages((m) => [
+        ...m,
+        { role: "bot", text: `Error: ${String(err.message ?? err)}`, chart: null },
+      ]);
+    },
   });
 
   useEffect(() => {
@@ -102,7 +156,9 @@ export default function Chat() {
       {/* Expanded full-width panel */}
       <div
         className={`fixed z-50 left-0 right-0 bottom-0 transition-all duration-300 px-4 sm:px-8 pt-6 ${
-          open ? "h-[40vh] md:h-[35vh] opacity-100" : "h-0 opacity-0 pointer-events-none"
+          open
+            ? "h-[50vh] md:h-[60vh] opacity-100"
+            : "h-0 opacity-0 pointer-events-none"
         }`}
         aria-hidden={!open}
       >
@@ -118,10 +174,10 @@ export default function Chat() {
             </button>
           </div>
 
-          {/* messages: prevent horizontal overflow, allow wrapping */}
+          {/* messages: grow to fill available space, leave bottom padding for input */}
           <div
             ref={messagesRef}
-            className="flex-1 overflow-y-auto px-6 py-6 text-sm text-gray-800 overflow-x-hidden"
+            className="flex-1 overflow-y-auto px-6 py-6 pb-28 text-sm text-gray-800 overflow-x-hidden"
           >
             {isLoading ? (
               <div className="space-y-2">
@@ -134,13 +190,14 @@ export default function Chat() {
             ) : (
               messages.map((m, i) => (
                 <div
-                  key={i}
-                  className={`mb-2 flex mb-6 w-full ${
-                    m.role === "user" ? "justify-end" : "justify-start"
+                  key={`${i}-${m.role}`}
+                  // use column layout so bubble stays aligned left/right but chart can expand full width
+                  className={`mb-2 flex flex-col mb-6 w-full gap-4 ${
+                    m.role === "user" ? "items-end" : "items-start"
                   }`}
                 >
                   <div
-                    className={`inline-block relative px-4 py-2 rounded-lg max-w-[80%] break-words whitespace-normal overflow-hidden shadow-md ${
+                    className={`inline-block relative px-4 py-2 rounded-lg w-fit max-w-[60%] break-words whitespace-normal overflow-hidden shadow-md ${
                       m.role === "user"
                         ? "bg-aspect-blue text-white rounded-br-none"
                         : "bg-aspect-yellow text-black rounded-bl-none"
@@ -156,14 +213,31 @@ export default function Chat() {
                       aria-hidden="true"
                     />
                   </div>
+                  {/* chart: occupy 50% of the chat container, align to message side */}
+                  {m.chart?.type === "bar" && Array.isArray(m.chart.data) && (
+                    <div
+                      className={`mt-3 w-1/2 max-w-[50%] ${
+                        m.role === "user" ? "self-end" : "self-start"
+                      }`}
+                    >
+                      <ChartBarDefault
+                        data={m.chart.data as unknown[]}
+                        title={m.chart.title}
+                        aggregate={m.chart.aggregate_data ?? null}
+                      />
+                    </div>
+                  )}
+                  {/* in case of table */}
+                  {m.chart?.type === "table" && m.chart?.data && (
+                    <DynamicTable payload={m} />
+                  )}
                 </div>
               ))
             )}
           </div>
 
-          {/* Bordered wrapper containing input and button:
-              ensure flex children can shrink and input won't cause horizontal scroll */}
-          <div className="px-6 py-4">
+          {/* Input fixed to bottom of panel */}
+          <div className="absolute left-0 right-0 bottom-0 px-6 py-4 bg-white shadow">
             <div className="w-full border rounded-lg flex items-center gap-2 px-3 py-2 min-w-0 border-[var(--color-secondary)]">
               <input
                 ref={inputRef}

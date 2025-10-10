@@ -15,6 +15,10 @@ type Filters = {
 };
 
 type Option = { id: string; label: string };
+type QueryData = {
+  allChartsData: AllChartsData;
+  narrative: salesNarrativeData;
+};
 
 export default function SalesDashboardClient({
   initialAllChartsData,
@@ -45,27 +49,25 @@ export default function SalesDashboardClient({
   const [userTriggered, setUserTriggered] = useState(false);
   const shouldFetch = userTriggered && Boolean(filters.sector || filters.region || filters.service);
 
-  const query = useQuery({
+  const query = useQuery<QueryData>({
     queryKey: ["sales", filters.sector ?? null, filters.region ?? null, filters.service ?? null],
     queryFn: async () => {
       console.log("useQuery.serverAction: queryKey values ->", { filters });
-
-      // Call server action directly instead of HTTP request
       return await updateSalesData({
         sector: filters.sector,
         region: filters.region,
         service: filters.service,
       });
     },
-    // disabled until user interacts
     enabled: shouldFetch,
     placeholderData: { allChartsData: initialAllChartsData, narrative: initialNarrativeData },
-    keepPreviousData: true,
     staleTime: 3000,
   });
 
-  const allChartsData = query.data?.allChartsData ?? initialAllChartsData;
-  const narrative = query.data?.narrative ?? initialNarrativeData;
+  // cast query.data to the expected shape and use that to avoid '{}' typing issues
+  const queryData = (query.data ?? undefined) as QueryData | undefined;
+  const allChartsData = queryData?.allChartsData ?? initialAllChartsData;
+  const narrative = queryData?.narrative ?? initialNarrativeData;
 
   const handleChange = (k: keyof Filters, v: string | null) => {
     // mark that user explicitly changed a filter, so query will run
