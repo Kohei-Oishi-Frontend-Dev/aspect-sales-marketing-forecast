@@ -7,24 +7,52 @@ export default function DynamicTable({
 }): React.ReactElement | null {
   if (!payload || typeof payload !== "object") return null;
 
-  // defensive path helpers - fix the casting
-  const chart = (payload as any).chart ?? null;
-  const config = chart?.config ?? null;
-  const columns: Array<{ title?: string; dataIndex?: string; key?: string }> =
-    Array.isArray(config?.columns) ? config.columns : [];
-  const rows: any[] = Array.isArray(chart?.data) ? chart.data : [];
+  // small runtime type-helpers to avoid `any`
+  function isRecord(v: unknown): v is Record<string, unknown> {
+    return v !== null && typeof v === "object" && !Array.isArray(v);
+  }
+
+  // extract chart/config defensively
+  const chartRaw = isRecord(payload)
+    ? (payload as Record<string, unknown>)["chart"]
+    : undefined;
+  const chart = isRecord(chartRaw) ? chartRaw : undefined;
+  const configRaw = chart ? chart["config"] : undefined;
+  const config = isRecord(configRaw) ? configRaw : undefined;
+
+  type Column = { title?: string; dataIndex?: string; key?: string };
+  const columns: Column[] = Array.isArray(config?.["columns"])
+    ? (config!["columns"] as unknown[]).filter(isRecord).map((c) => ({
+        title: String((c as Record<string, unknown>)["title"] ?? undefined),
+        dataIndex: (c as Record<string, unknown>)["dataIndex"] as
+          | string
+          | undefined,
+        key: (c as Record<string, unknown>)["key"] as string | undefined,
+      }))
+    : [];
+
+  const rows: unknown[] = Array.isArray(chart?.["data"])
+    ? (chart!["data"] as unknown[])
+    : [];
 
   // helper to read nested keys like "a.b.c" (defensive)
-  const getValue = (obj: any, path?: string) => {
+  const getValue = (obj: unknown, path?: string) => {
     if (!path) return undefined;
-    const parts = String(path).split(".");
-    let cur = obj;
-    for (const p of parts) {
+    let cur: unknown = obj;
+    for (const p of String(path).split(".")) {
       if (cur == null) return undefined;
-      cur = cur[p];
+      if (isRecord(cur)) {
+        cur = cur[p];
+      } else if (Array.isArray(cur)) {
+        const idx = Number(p);
+        cur = Number.isFinite(idx) ? cur[idx] : undefined;
+      } else {
+        return undefined;
+      }
     }
     return cur;
   };
+  // end of defensive parsing
 
   if (!columns.length) {
     return (
